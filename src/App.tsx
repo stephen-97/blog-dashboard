@@ -14,6 +14,10 @@ const router = createBrowserRouter([
         path: "*",
         element: <Home/>
     },
+    {
+        path: "/create",
+        element: <Home/>
+    },
 ])
 const App = () => {
 
