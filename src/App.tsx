@@ -3,6 +3,8 @@ import {routesItem} from "./utils/config";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Home from "./pages/Home";
 import GlobalStyle from "./styles/GlobalStyle";
+import CreateArticle from "./pages/CreateArticle";
+import {ThemeProvider} from "styled-components";
 
 
 const router = createBrowserRouter([
@@ -16,17 +18,25 @@ const router = createBrowserRouter([
     },
     {
         path: "/create",
-        element: <Home/>
+        element: <CreateArticle/>
     },
 ])
+
+
 const App = () => {
 
+  const styleTheming = {
+      responsiveValue: '700px',
+      bgColor: 'black'
+  }
 
   return (
     <>
         <GlobalStyle />
         <div>
-            <RouterProvider router={router} />
+            <ThemeProvider theme={styleTheming}>
+                <RouterProvider router={router} />
+            </ThemeProvider>
         </div>
     </>
   );

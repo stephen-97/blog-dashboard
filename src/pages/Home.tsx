@@ -5,9 +5,10 @@ import Header from "../components/Header";
 const StyledHome: IStyledComponent<any>  = styled.div`
   height: 100vh;
   width: 100vw;
-  display: grid;
   
-  
+  >div {
+    background-color: red;
+  }
   @media (max-width: 480px) {
     font-size: var(--fz-lg);
   }

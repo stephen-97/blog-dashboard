@@ -9,6 +9,8 @@ const CSSVariables: RuleSet<object> = css`
       
       --h1: 30px;
       --h2: 24px;
+      
+      --responsive-value: 700px;
     }
 `;
 

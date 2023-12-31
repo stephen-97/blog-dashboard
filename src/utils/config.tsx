@@ -1,5 +1,5 @@
 import {ReactElement} from "react";
-
+export const responsiveValue = 700;
 export interface IRouteItem {
     itemName: string,
     routeName: string,
