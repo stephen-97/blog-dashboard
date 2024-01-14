@@ -9,8 +9,10 @@ const StyledHeader: IStyledComponent<any> = styled.header`
   grid-template-rows: 12% 88%;
   height: 100vh;
   padding: 0 10px;
-  width: 220px;
-  background-color: var(--dark-blue);
+  width: ${props => props.theme.dashboard_menu_desktop_width };
+  min-width: ${props => props.theme.dashboard_menu_desktop_width };
+
+  background-color: ${props => props.theme.mainColor};
   margin: 0;
   
   
@@ -23,7 +25,7 @@ const StyledHeader: IStyledComponent<any> = styled.header`
       border-radius: 100px;
     }
     .selected-link {
-      background-color: aliceblue;
+      background-color: ${props => props.theme.secondaryColor};
       color: #282c34;
     }
   }

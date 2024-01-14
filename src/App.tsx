@@ -25,21 +25,24 @@ const router = createBrowserRouter([
 
 const App = () => {
 
-  const styleTheming = {
-      responsiveValue: '700px',
-      bgColor: 'black'
-  }
+    const values = {
+        dashboard_menu_desktop_width: '14',
+        formSectionWidth:'35'
+    }
+    const styleTheming = {
+        responsiveValue: `${parseInt(values.formSectionWidth)+parseInt(values.dashboard_menu_desktop_width)}rem`,
+        mainColor: '#24242e',
+        secondaryColor: '#f2f2f0',
+        dashboard_menu_desktop_width: `${values.dashboard_menu_desktop_width}rem`,
+        formSectionWidth: `${values.formSectionWidth}rem`
+    }
 
-  return (
-    <>
-        <GlobalStyle />
-        <div>
-            <ThemeProvider theme={styleTheming}>
-                <RouterProvider router={router} />
-            </ThemeProvider>
-        </div>
-    </>
-  );
+    return (
+        <ThemeProvider theme={styleTheming}>
+            <GlobalStyle />
+            <RouterProvider router={router} />
+        </ThemeProvider>
+    );
 }
 
 export default App;

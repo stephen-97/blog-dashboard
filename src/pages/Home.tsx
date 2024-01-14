@@ -6,9 +6,10 @@ const StyledHome: IStyledComponent<any>  = styled.div`
   height: 100vh;
   width: 100vw;
   
-  >div {
-    background-color: red;
+  main {
+    margin-left: ${props => props.theme.dashboard_menu_desktop_width};
   }
+  
   @media (max-width: 480px) {
     font-size: var(--fz-lg);
   }
@@ -19,7 +20,7 @@ const Home = () => {
     return(
         <StyledHome>
             <Header />
-            <div>Hey</div>
+            <main className={'main'}>Hey</main>
         </StyledHome>
     )
 }
