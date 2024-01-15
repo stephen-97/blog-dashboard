@@ -8,7 +8,7 @@ const StyledTextArea: IStyledComponent<any> = styled.textarea`
     outline: none;
 `;
 
-interface StyledPragraphProps extends React.HtmlHTMLAttributes<HTMLTextAreaElement> {
+interface StyledPragraphProps extends React.HTMLProps<HTMLTextAreaElement> {
     title: string
 }
 const TextArea = ({title, ...props}: StyledPragraphProps) => {

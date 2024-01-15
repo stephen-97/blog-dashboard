@@ -4,6 +4,7 @@ import { BiPlusCircle } from "react-icons/bi";
 
 const StyledAddImages: IStyledComponent<any> = styled.div`
   display: flex;
+  width: 100%;
   justify-content: space-between;
   gap: 1rem;
   align-items: center;
@@ -17,7 +18,7 @@ const StyledAddImages: IStyledComponent<any> = styled.div`
     justify-content: center;
     align-items: center;
     flex: 1;
-    min-width: 4rem;
+    //min-width: 7rem;
     height: 100%;
     border-radius: var(--border-radius);
     cursor: pointer;

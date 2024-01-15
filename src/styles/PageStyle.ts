@@ -4,7 +4,9 @@ const StyledPage = styled.div`
   height: 100vh;
   width: 100vw;
   display: flex;
-  
+  background-color: ${props => props.theme.secondaryColor};
+
+
   main{
     padding: 1rem;
     margin-left: 0 

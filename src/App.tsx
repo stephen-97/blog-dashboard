@@ -27,7 +27,7 @@ const App = () => {
 
     const values = {
         dashboard_menu_desktop_width: '14',
-        formSectionWidth:'35'
+        formSectionWidth:'45'
     }
     const styleTheming = {
         responsiveValue: `${parseInt(values.formSectionWidth)+parseInt(values.dashboard_menu_desktop_width)}rem`,

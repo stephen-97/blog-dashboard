@@ -8,10 +8,10 @@ const StyledInput: IStyledComponent<any> = styled.input`
     border: 0.15rem solid ${props => props.theme.mainColor};
 `;
 
-interface StyledInputProps extends React.HtmlHTMLAttributes<HTMLInputElement> {
-    title: string
+interface StyledInputProps extends React.HTMLProps<HTMLInputElement> {
+
 }
-const Input = ({title, ...rest}: StyledInputProps) => {
+const Input = ({...rest}: StyledInputProps) => {
 
     return (
         <StyledFormInputStyle>
