@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import styled, {IStyledComponent} from "styled-components";
 import Header from "../components/Header";
 import StyledPage from "../styles/PageStyle";
@@ -6,7 +6,7 @@ import Input from "../components/form/Input";
 import TextArea from "../components/form/TextArea";
 import AddImages from "../components/form/AddImages";
 import {TAritcleContent} from "../utils/config";
-import {BiPlusCircle} from "react-icons/bi";
+import {BiPlusCircle, BiMinusCircle} from "react-icons/bi";
 
 
 const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
@@ -24,53 +24,77 @@ const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
     }
 
     .paragraph-form-container {
-      margin-bottom: 2rem;
-      background-color: deepskyblue;
-      border-radius: var(--border-radius);
       display: grid;
-      grid-template-columns: 4fr 4fr 1fr;
-      grid-template-rows: 1fr;
-      //gap: 1rem;
-      flex-direction: column;
+      margin-bottom: 4rem;
+      height: 25rem;
+      border-radius: var(--border-radius);
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(6, 1fr);
+      gap: 1rem;
+      
       > * {
         &:nth-child(1) {
-          grid-column-start: 1;
-          grid-column-end: 3;
+          grid-area: 1 / 1 / 5 / 6;
         }
         &:nth-child(2) {
-          grid-column-start: 1;
-          grid-column-end: 3;
+          grid-area: 5 / 1 / 7 / 6;
         }
-        &:nth-child(3) {
-          grid-column-start: 3;
-          grid-column-end: 3;
-          grid-row-start: 1;
-          grid-row-end: 3;
+        &:nth-child(3) { 
+          grid-area: 1 / 6 / 3 / 7;
+        }
+        &:nth-child(4) {
+          grid-area: 3 / 6 / 5 / 7;
+        }
+        &:nth-child(5) {
+          grid-area: 5 / 6 / 7 / 7;
         }
       }
-      .button-container {
+      
+      .paragraph-form-button {
         display: flex;
         justify-content: center;
         align-items: center;
-        button {
-          border-radius: var(--border-radius);
-          height: 4rem;
-          width: 4rem;
-          color: ${props => props.theme.secondaryColor};
-          svg {
-            height: 3rem;
-            width: 3rem;
-            color: ${props => props.theme.mainColor};
-        } 
+        //border: 2px solid ${props => props.theme.mainColor};
+        border-radius: var(--border-radius);
+        background-color: var(--light-gray);
+        cursor: pointer;
+        svg {
+          height: 3rem;
+          width: 3rem;
+          color: ${props => props.theme.mainColor};
+        }
       }
-    }
+      .icon-not-clickable {
+        svg {
+          color: var(--gray);
+        }
+      }
+      
+      .paragraph-number-container {
+        border: none;
+        font-size: 2.5rem;
+        cursor: inherit;
+        background-color: inherit;
+        &:hover {
+          background-color:inherit;
+        }
+      }
   }
 `;
 
+
 const CreateArticle = () => {
 
-    const [nbOfParagraph, setNumberOfParagraph] = useState<number>(1)
     const [paragraphData, setParagraphData] = useState<TAritcleContent[]>([{paragraph: '', images: []}])
+
+    const addParagraph = useCallback(() => {
+        setParagraphData([...paragraphData, {paragraph: '', images: []}])
+    }, [paragraphData])
+
+    const removeParagraph = useCallback((i: number) => {
+        setParagraphData(previous => previous.slice(i))
+    }, [paragraphData])
+
 
     return(
         <StyledPage>
@@ -83,9 +107,20 @@ const CreateArticle = () => {
                             <div key={i} className={'paragraph-form-container'}>
                                 <TextArea title={"Paragraphe"} placeholder={'Paragraphe'} />
                                 <AddImages />
-                                <div className={"button-container"}>
-                                    <button onClick={() => null}>
+                                <div className={"paragraph-form-button paragraph-number-container"}>
+                                    <strong>{i + 1}</strong>
+                                </div>
+                                <div className={"paragraph-form-button button-plus-container"}>
+                                    <button onClick={() => addParagraph()}>
                                         <BiPlusCircle className={'icon'} />
+                                    </button>
+                                </div>
+                                <div className={ i === 0 && paragraphData.length === 1 ?
+                                    "icon-not-clickable paragraph-form-button button-minus-container" :
+                                    "paragraph-form-button button-minus-container"
+                                }>
+                                    <button onClick={() => removeParagraph(i)}>
+                                        <BiMinusCircle className={'icon'} />
                                     </button>
                                 </div>
                             </div>
@@ -99,26 +134,3 @@ const CreateArticle = () => {
 
 
 export default CreateArticle;
-
-/**
- *  grid-template-columns: 1fr 1fr 1fr;
- *       grid-template-rows: 1fr 1fr;
- *       //gap: 1rem;
- *       flex-direction: column;
- *       > * {
- *         &:nth-child(1) {
- *           grid-column-start: 1;
- *           grid-column-end: 2;
- *         }
- *         &:nth-child(2) {
- *           grid-column-start: 1;
- *           grid-column-end: 2;
- *         }
- *         &:nth-child(3) {
- *           grid-column-start: 2;
- *           grid-column-end: 2;
- *           grid-row-start: 1;
- *           grid-row-end: 2;
- *         }
- *       }
- */

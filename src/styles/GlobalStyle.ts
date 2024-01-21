@@ -9,11 +9,19 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     scroll-behavior: smooth;
   }
-
+  
   *,
   *:before,
   *:after {
     box-sizing: inherit;
+  }
+  html, body {
+    position: relative;
+  }
+  
+  #root {
+    position: relative;
+    height: 100%;
   }
   
   h1, h2, h3, h4 {

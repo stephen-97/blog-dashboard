@@ -1,13 +1,15 @@
-import React, {createRef, RefObject, useRef} from "react";
+import React, {createRef, RefObject} from "react";
 import styled, {IStyledComponent} from "styled-components";
 import {routesItem} from "../utils/config";
 import {Link} from "react-router-dom";
 import menuIcon from "../assets/menuIcon.svg"
 
 const StyledHeader: IStyledComponent<any> = styled.header`
+  position: fixed;
+  height: 100%;
+  z-index: 1000;
   display: grid;
   grid-template-rows: 12% 88%;
-  height: 100vh;
   padding: 0 10px;
   width: ${props => props.theme.dashboard_menu_desktop_width };
   min-width: ${props => props.theme.dashboard_menu_desktop_width };

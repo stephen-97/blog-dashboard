@@ -8,6 +8,8 @@ const CSSVariables: RuleSet<object> = css`
       --dark-blue: #31304e;
       --dark-gray: #3e3e47;
       
+      --hover: #33333350;
+      
       --h1: 30px;
       --h2: 24px;
       

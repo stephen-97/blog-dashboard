@@ -8,7 +8,6 @@ const StyledAddImages: IStyledComponent<any> = styled.div`
   justify-content: space-between;
   gap: 1rem;
   align-items: center;
-  height: 7rem;
   
   .input-image-container {
     background-color: ${props => props.theme.mainColor};
