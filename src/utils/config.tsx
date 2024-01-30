@@ -6,7 +6,8 @@ export interface IRouteItem {
 }
 export type TAritcleContent =  {
     paragraph: string,
-    images: string[],
+    images: any,
+    //images: [any] | [],
 }
 export const routesItem: Array<IRouteItem>= [
     {itemName: 'Créer un article', routeName: 'create'},

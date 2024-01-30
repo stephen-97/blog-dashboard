@@ -1,6 +1,9 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled, {IStyledComponent} from "styled-components";
 import { BiPlusCircle } from "react-icons/bi";
+import {read} from "fs";
+import {TAritcleContent} from "../../utils/config";
+import {type} from "os";
 
 const StyledAddImages: IStyledComponent<any> = styled.div`
   display: flex;
@@ -40,16 +43,58 @@ const StyledAddImages: IStyledComponent<any> = styled.div`
 `;
 
 interface AddImagesProps extends React.HtmlHTMLAttributes<HTMLInputElement> {
-
+    imagesData : [any] | [],
+    setImage: React.Dispatch<any>,
+    paragraphIndex: number
 }
 
-const AddImages = ({ ...rest}: AddImagesProps) => {
+const AddImages = ({ paragraphIndex, imagesData, setImage,...rest}: AddImagesProps) => {
 
+
+    const getBase64 = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        let base64String: string  = ""
+        if(e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0]);
+            await new Promise(resolve => reader.onload = () => resolve);
+            base64String = reader.result as string;
+        }
+        return base64String
+    }
+
+    const addingNewImage = async (
+        indexToAddParagraphArray: number,
+        indexToAddImageArray: number,
+        array: [TAritcleContent],
+        base64NewImage: Promise <string>,
+        e: React.ChangeEvent<HTMLInputElement>,
+    ) =>  {
+        let base64String: string  = ""
+        if(e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0]);
+            base64String = await reader.result as string;
+        }
+        console.log(base64String)
+        const paragraphToModify = array[indexToAddParagraphArray];
+        const newImageArray = paragraphToModify.images.map((e: string, i: number) => i === indexToAddImageArray ? base64String : e);
+        const newParagraph = paragraphToModify['images'] = newImageArray;
+        return array.map((e, i) => indexToAddParagraphArray ? newParagraph : e);
+    }
+
+    console.log(imagesData)
     return (
         <StyledAddImages>
             {Array.from(Array(3), (e, i) => (
                 <div key={i} className={'input-image-container'}>
-                    <input type={"image"} alt={''} />
+                    <input
+                        type={"file"}
+                        alt={''}
+                        accept={"image/png"}
+                        onChange={(e) =>
+                            setImage((previous: any) => addingNewImage(paragraphIndex, i, previous, getBase64(e), e) )}
+                        //onChange={(e) => setImage((previous: any) => spliceWithoutMutating(i, handleChange(e), previous) )}
+                    />
                     <BiPlusCircle className={'icon'} />
                 </div>
             ))}
@@ -57,4 +102,8 @@ const AddImages = ({ ...rest}: AddImagesProps) => {
     )
 }
 
+/**
+ * onChange={(e) =>
+ *                             setImage((previous: any) => addingNewImage(paragraphIndex, i, previous, getBase64(e)) )}
+ */
 export default AddImages;

@@ -85,10 +85,10 @@ const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
 
 const CreateArticle = () => {
 
-    const [paragraphData, setParagraphData] = useState<TAritcleContent[]>([{paragraph: '', images: []}])
+    const [paragraphData, setParagraphData] = useState<TAritcleContent[]>([{paragraph: '', images: ["","",""]}])
 
     const addParagraph = useCallback(() => {
-        setParagraphData([...paragraphData, {paragraph: '', images: []}])
+        setParagraphData([...paragraphData, {paragraph: '', images: ["", "", ""]}])
     }, [paragraphData])
 
     const removeParagraph = useCallback((i: number) => {
@@ -96,6 +96,7 @@ const CreateArticle = () => {
     }, [paragraphData])
 
 
+    console.log(paragraphData)
     return(
         <StyledPage>
             <Header />
@@ -106,7 +107,7 @@ const CreateArticle = () => {
                         {paragraphData.map((e, i) => (
                             <div key={i} className={'paragraph-form-container'}>
                                 <TextArea title={"Paragraphe"} placeholder={'Paragraphe'} />
-                                <AddImages />
+                                <AddImages imagesData={paragraphData[i].images} setImage={setParagraphData} paragraphIndex={i}/>
                                 <div className={"paragraph-form-button paragraph-number-container"}>
                                     <strong>{i + 1}</strong>
                                 </div>
