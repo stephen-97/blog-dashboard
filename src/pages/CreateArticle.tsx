@@ -95,7 +95,6 @@ const CreateArticle = () => {
         setParagraphData(previous => previous.slice(i))
     }, [paragraphData])
 
-
     console.log(paragraphData)
     return(
         <StyledPage>

@@ -51,38 +51,40 @@ interface AddImagesProps extends React.HtmlHTMLAttributes<HTMLInputElement> {
 const AddImages = ({ paragraphIndex, imagesData, setImage,...rest}: AddImagesProps) => {
 
 
-    const getBase64 = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const getBase64 =  (e: React.ChangeEvent<HTMLInputElement>, callBack: Function) => {
         let base64String: string  = ""
         if(e.target.files && e.target.files[0]) {
             const reader = new FileReader();
             reader.readAsDataURL(e.target.files[0]);
-            await new Promise(resolve => reader.onload = () => resolve);
-            base64String = reader.result as string;
-        }
+            reader.onload = () => {
+                base64String = reader.result as string;
+                callBack(base64String)
+            }}
         return base64String
     }
 
-    const addingNewImage = async (
+    const addingNewImage = (
         indexToAddParagraphArray: number,
         indexToAddImageArray: number,
         array: [TAritcleContent],
-        base64NewImage: Promise <string>,
         e: React.ChangeEvent<HTMLInputElement>,
     ) =>  {
-        let base64String: string  = ""
-        if(e.target.files && e.target.files[0]) {
-            const reader = new FileReader();
-            reader.readAsDataURL(e.target.files[0]);
-            base64String = await reader.result as string;
-        }
-        console.log(base64String)
-        const paragraphToModify = array[indexToAddParagraphArray];
-        const newImageArray = paragraphToModify.images.map((e: string, i: number) => i === indexToAddImageArray ? base64String : e);
-        const newParagraph = paragraphToModify['images'] = newImageArray;
-        return array.map((e, i) => indexToAddParagraphArray ? newParagraph : e);
+        getBase64(e, (base64String: string | null) => {
+            if(base64String) {
+                return array.map((e, i) => {
+                    if(indexToAddParagraphArray === i ) {
+                        const newImageTab = e.images.map((e: string,i: number) => indexToAddImageArray === i ? base64String : e);
+                        let newParagraphObject = e;
+                        newParagraphObject['images'] = newImageTab;
+                        return newParagraphObject
+                    }
+                    return e
+                });
+            }
+        })
+        return array;
     }
 
-    console.log(imagesData)
     return (
         <StyledAddImages>
             {Array.from(Array(3), (e, i) => (
@@ -92,7 +94,7 @@ const AddImages = ({ paragraphIndex, imagesData, setImage,...rest}: AddImagesPro
                         alt={''}
                         accept={"image/png"}
                         onChange={(e) =>
-                            setImage((previous: any) => addingNewImage(paragraphIndex, i, previous, getBase64(e), e) )}
+                            setImage((previous: any) => addingNewImage(paragraphIndex, i, previous,  e) )}
                         //onChange={(e) => setImage((previous: any) => spliceWithoutMutating(i, handleChange(e), previous) )}
                     />
                     <BiPlusCircle className={'icon'} />
