@@ -45,10 +45,11 @@ const StyledAddImages: IStyledComponent<any> = styled.div`
 interface AddImagesProps extends React.HtmlHTMLAttributes<HTMLInputElement> {
     imagesData : [any] | [],
     setImage: React.Dispatch<any>,
-    paragraphIndex: number
+    paragraphIndex: number,
+    paragraphData: TAritcleContent[],
 }
 
-const AddImages = ({ paragraphIndex, imagesData, setImage,...rest}: AddImagesProps) => {
+const AddImages = ({ paragraphIndex, imagesData, setImage, paragraphData,...rest}: AddImagesProps) => {
 
 
     const getBase64 =  (e: React.ChangeEvent<HTMLInputElement>, callBack: Function) => {
@@ -59,19 +60,19 @@ const AddImages = ({ paragraphIndex, imagesData, setImage,...rest}: AddImagesPro
             reader.onload = () => {
                 base64String = reader.result as string;
                 callBack(base64String)
-            }}
-        return base64String
+            }
+        }
     }
 
     const addingNewImage = (
         indexToAddParagraphArray: number,
         indexToAddImageArray: number,
-        array: [TAritcleContent],
+        array: TAritcleContent[],
         e: React.ChangeEvent<HTMLInputElement>,
     ) =>  {
         getBase64(e, (base64String: string | null) => {
             if(base64String) {
-                return array.map((e, i) => {
+                setImage(array.map((e, i) => {
                     if(indexToAddParagraphArray === i ) {
                         const newImageTab = e.images.map((e: string,i: number) => indexToAddImageArray === i ? base64String : e);
                         let newParagraphObject = e;
@@ -79,10 +80,9 @@ const AddImages = ({ paragraphIndex, imagesData, setImage,...rest}: AddImagesPro
                         return newParagraphObject
                     }
                     return e
-                });
+                }));
             }
         })
-        return array;
     }
 
     return (
@@ -94,8 +94,7 @@ const AddImages = ({ paragraphIndex, imagesData, setImage,...rest}: AddImagesPro
                         alt={''}
                         accept={"image/png"}
                         onChange={(e) =>
-                            setImage((previous: any) => addingNewImage(paragraphIndex, i, previous,  e) )}
-                        //onChange={(e) => setImage((previous: any) => spliceWithoutMutating(i, handleChange(e), previous) )}
+                          addingNewImage(paragraphIndex, i, paragraphData,  e) }
                     />
                     <BiPlusCircle className={'icon'} />
                 </div>

@@ -103,10 +103,15 @@ const CreateArticle = () => {
                 <section id={'form-section'}>
                     <Input placeholder={"Titre de l'article"}/>
                     <section>
-                        {paragraphData.map((e, i) => (
+                        {paragraphData && paragraphData.map((e, i) => (
                             <div key={i} className={'paragraph-form-container'}>
                                 <TextArea title={"Paragraphe"} placeholder={'Paragraphe'} />
-                                <AddImages imagesData={paragraphData[i].images} setImage={setParagraphData} paragraphIndex={i}/>
+                                <AddImages
+                                    imagesData={paragraphData[i].images}
+                                    setImage={setParagraphData}
+                                    paragraphData={paragraphData}
+                                    paragraphIndex={i}
+                                />
                                 <div className={"paragraph-form-button paragraph-number-container"}>
                                     <strong>{i + 1}</strong>
                                 </div>
