@@ -109,7 +109,6 @@ const CreateArticle = () => {
                                 <AddImages
                                     imagesData={paragraphData[i].images}
                                     setImage={setParagraphData}
-                                    paragraphData={paragraphData}
                                     paragraphIndex={i}
                                 />
                                 <div className={"paragraph-form-button paragraph-number-container"}>
