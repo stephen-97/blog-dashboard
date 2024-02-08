@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {ChangeEvent, FormEvent, useCallback, useState} from "react";
 import styled, {IStyledComponent} from "styled-components";
 import Header from "../components/Header";
 import StyledPage from "../styles/PageStyle";
@@ -7,6 +7,7 @@ import TextArea from "../components/form/TextArea";
 import AddImages from "../components/form/AddImages";
 import {TAritcleContent} from "../utils/config";
 import {BiPlusCircle, BiMinusCircle} from "react-icons/bi";
+import {prettyFormat} from "@testing-library/react";
 
 
 const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
@@ -95,6 +96,39 @@ const CreateArticle = () => {
         setParagraphData(previous => previous.slice(i))
     }, [paragraphData])
 
+
+    const addingTextToParagraph = (event: ChangeEvent<HTMLTextAreaElement>, index: number) => {
+        setParagraphData((previousData: TAritcleContent[]) =>
+            previousData.map((e, i) => {
+                    if(i === index) {
+                        let newParagraphObject = e;
+                        newParagraphObject['paragraph'] = event.target.value;
+                        return newParagraphObject;
+                    }
+                    return e;
+                }
+            )
+        )
+    }
+
+    /**
+     *     const addingTextToParagraph = (event: FormEvent<HTMLTextAreaElement>, index: number) => {
+     *         setParagraphData((previousData: TAritcleContent[]) => {
+     *             previousData.map((e, i) =>
+     *                 i === index ? e['paragraph'] = event.target : e
+     *             )
+     *         })
+     *     }
+     *
+     * if(indexToAddParagraphArray === i ) {
+     *                         const newImageTab = e.images.map((e: string,i: number) => indexToAddImageArray === i ? base64String : e);
+     *                         let newParagraphObject = e;
+     *                         newParagraphObject['images'] = newImageTab;
+     *                         return newParagraphObject
+     *                     }
+     *                     return e
+     */
+
     console.log(paragraphData)
     return(
         <StyledPage>
@@ -105,7 +139,11 @@ const CreateArticle = () => {
                     <section>
                         {paragraphData && paragraphData.map((e, i) => (
                             <div key={i} className={'paragraph-form-container'}>
-                                <TextArea title={"Paragraphe"} placeholder={'Paragraphe'} />
+                                <TextArea
+                                    title={"Paragraphe"}
+                                    placeholder={'Paragraphe'}
+                                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => addingTextToParagraph(e, i) }
+                                />
                                 <AddImages
                                     imagesData={paragraphData[i].images}
                                     setImage={setParagraphData}

@@ -93,7 +93,6 @@ const AddImages = ({ paragraphIndex, imagesData, setImage,...rest}: AddImagesPro
         })
     }
 
-    const inputRef = createRef<HTMLInputElement>();
 
     const inputRefs = useMemo(() => {
         const inputTabRefs = [];
@@ -103,14 +102,6 @@ const AddImages = ({ paragraphIndex, imagesData, setImage,...rest}: AddImagesPro
         return inputTabRefs
     },  [imagesNumber])
 
-    const inputsRef2 =
-        [
-            createRef<HTMLInputElement>(),
-            createRef<HTMLInputElement>(),
-            createRef<HTMLInputElement>()
-        ]
-
-    console.log(imagesData)
     return (
         <StyledAddImages>
             {Array.from(Array(imagesNumber), (e, i) => (
@@ -126,7 +117,7 @@ const AddImages = ({ paragraphIndex, imagesData, setImage,...rest}: AddImagesPro
                         title={""}
                         type={"file"}
                         alt={''}
-                        accept={"image/png"}
+                        accept={"image/png, image/jpeg"}
                         placeholder={""}
                         onChange={(e) => addingNewImage(paragraphIndex, i,  e) }
                     />
