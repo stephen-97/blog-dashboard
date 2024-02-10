@@ -1,11 +1,11 @@
 import {styled} from "styled-components";
 
 const StyledPage = styled.div`
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   display: flex;
   position: relative;
-  background-color: ${props => props.theme.secondaryColor};
+  //background-color: ${props => props.theme.secondaryColor};
   
   main{
     padding: 1rem;

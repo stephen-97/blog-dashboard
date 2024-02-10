@@ -6,7 +6,6 @@ const GlobalStyle = createGlobalStyle`
   
   html {
     box-sizing: border-box;
-    width: 100%;
     scroll-behavior: smooth;
   }
   
@@ -17,11 +16,15 @@ const GlobalStyle = createGlobalStyle`
   }
   html, body {
     position: relative;
+    width: 100%;
+    min-height: 100%;
   }
-  
-  #root {
+  body {
     position: relative;
+  }
+  #root {
     height: 100%;
+    min-height: 100dvh;
   }
   
   h1, h2, h3, h4 {
