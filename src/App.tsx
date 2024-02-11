@@ -1,11 +1,11 @@
 import React from 'react'
-import {routesItem} from "./utils/config";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Home from "./pages/Home";
 import GlobalStyle from "./styles/GlobalStyle";
 import CreateArticle from "./pages/CreateArticle";
 import {ThemeProvider} from "styled-components";
-
+import { Provider} from "react-redux";
+import store from "./redux/store";
 
 const router = createBrowserRouter([
     {
@@ -38,10 +38,12 @@ const App = () => {
     }
 
     return (
-        <ThemeProvider theme={styleTheming}>
-            <GlobalStyle />
-            <RouterProvider router={router} />
-        </ThemeProvider>
+        <Provider store={store}>
+            <ThemeProvider theme={styleTheming}>
+                <GlobalStyle />
+                <RouterProvider router={router} />
+            </ThemeProvider>
+        </Provider>
     );
 }
 

@@ -8,7 +8,9 @@ import AddImages from "../components/form/AddImages";
 import {TAritcleContent} from "../utils/config";
 import {BiPlusCircle, BiMinusCircle} from "react-icons/bi";
 import ToggleButton from "../components/utility/ToggleButton";
-
+import {useDispatch, useSelector} from "react-redux";
+import {update} from "../redux/ArticleSlice";
+import {useAppDispatch, useAppSelector} from "../redux/store";
 
 const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
   width: 100%;
@@ -121,10 +123,14 @@ const CreateArticle = () => {
         )
     }
 
+    const dispatch = useAppDispatch()
+    const count = useAppSelector((state) => state.article)
+    console.log(count)
     return(
         <StyledPage>
             <Header />
             <StyledCreateArticlePage>
+                <div onClick={() => dispatch(update({ article: [{paragraph: '', images: ["", "a", ""]}]} ))}>CLICK HERE</div>
                 <div id={"button-plus-form-container"}>
                     <ToggleButton />
                     <section id={'form-section'}>
