@@ -4,6 +4,8 @@ import { BiPlusCircle } from "react-icons/bi";
 import {read} from "fs";
 import {TAritcleContent} from "../../utils/config";
 import {type} from "os";
+import {useAppDispatch, useAppSelector} from "../../redux/store";
+import {addNewImage} from "../../redux/ArticleSlice";
 
 const StyledAddImages: IStyledComponent<any> = styled.div`
   display: flex;
@@ -52,14 +54,15 @@ const StyledAddImages: IStyledComponent<any> = styled.div`
 `;
 
 interface AddImagesProps extends React.HtmlHTMLAttributes<HTMLInputElement> {
-    imagesData : string[],
-    setImage: React.Dispatch<any>,
     paragraphIndex: number,
 }
 
-const AddImages = ({ paragraphIndex, imagesData, setImage,...rest}: AddImagesProps) => {
+const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
 
     const imagesNumber = 3;
+
+    const paragraphData = useAppSelector((state) => state.article)
+    const dispatch = useAppDispatch()
 
     const getBase64 =  (e: React.ChangeEvent<HTMLInputElement>, callBack: Function) => {
         let base64String: string  = ""
@@ -80,15 +83,18 @@ const AddImages = ({ paragraphIndex, imagesData, setImage,...rest}: AddImagesPro
     ) =>  {
         getBase64(e, (base64String: string | null) => {
             if(base64String) {
-                setImage((previous: TAritcleContent []) => previous.map((e, i) => {
-                    if(indexToAddParagraphArray === i ) {
-                        const newImageTab = e.images.map((e: string,i: number) => indexToAddImageArray === i ? base64String : e);
-                        let newParagraphObject = e;
-                        newParagraphObject['images'] = newImageTab;
-                        return newParagraphObject
-                    }
-                    return e
-                }));
+                dispatch(addNewImage({indexParagraph: indexToAddParagraphArray, indexImage: indexToAddImageArray, base64: base64String}))
+                /**
+                 * setImage((previous: TAritcleContent []) => previous.map((e, i) => {
+                 *                     if(indexToAddParagraphArray === i ) {
+                 *                         const newImageTab = e.images.map((e: string,i: number) => indexToAddImageArray === i ? base64String : e);
+                 *                         let newParagraphObject = e;
+                 *                         newParagraphObject['images'] = newImageTab;
+                 *                         return newParagraphObject
+                 *                     }
+                 *                     return e
+                 *                 }));
+                 */
             }
         })
     }
@@ -108,7 +114,7 @@ const AddImages = ({ paragraphIndex, imagesData, setImage,...rest}: AddImagesPro
                 <div
                     key={i}
                     className={'input-image-container'}
-                    style={imagesData[i] !== '' ? {backgroundImage: `url(${imagesData[i]})`} : {}}
+                    style={paragraphData[paragraphIndex]['images'][i] !== '' ? {backgroundImage: `url(${paragraphData[paragraphIndex]['images'][i]})`} : {}}
                 >
                     <button onClick={() => inputRefs[i].current?.click()}/>
                     <input

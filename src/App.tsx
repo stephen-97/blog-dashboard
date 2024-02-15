@@ -38,12 +38,12 @@ const App = () => {
     }
 
     return (
-        <Provider store={store}>
-            <ThemeProvider theme={styleTheming}>
-                <GlobalStyle />
+        <ThemeProvider theme={styleTheming}>
+            <GlobalStyle />
+            <Provider store={store}>
                 <RouterProvider router={router} />
-            </ThemeProvider>
-        </Provider>
+            </Provider>
+        </ThemeProvider>
     );
 }
 
