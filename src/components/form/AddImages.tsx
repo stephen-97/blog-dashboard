@@ -84,17 +84,6 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
         getBase64(e, (base64String: string | null) => {
             if(base64String) {
                 dispatch(addNewImage({indexParagraph: indexToAddParagraphArray, indexImage: indexToAddImageArray, base64: base64String}))
-                /**
-                 * setImage((previous: TAritcleContent []) => previous.map((e, i) => {
-                 *                     if(indexToAddParagraphArray === i ) {
-                 *                         const newImageTab = e.images.map((e: string,i: number) => indexToAddImageArray === i ? base64String : e);
-                 *                         let newParagraphObject = e;
-                 *                         newParagraphObject['images'] = newImageTab;
-                 *                         return newParagraphObject
-                 *                     }
-                 *                     return e
-                 *                 }));
-                 */
             }
         })
     }

@@ -75,7 +75,6 @@ const ArticleForm = ({...rest}: StyledArticleForm) => {
     const paragraphData = useAppSelector((state) => state.article)
     const dispatch = useAppDispatch()
 
-    console.log(paragraphData)
     return (
         <StyledArticleForm>
                 <Input placeholder={"Titre de l'article"}/>
@@ -86,6 +85,7 @@ const ArticleForm = ({...rest}: StyledArticleForm) => {
                                 title={"Paragraphe"}
                                 placeholder={'Paragraphe'}
                                 onChange={(e: ChangeEvent<HTMLTextAreaElement>) => dispatch(addingTextToParagraph({text :e.target.value, index: i})) }
+                                value={paragraphData[i]['paragraph']}
                             />
                             <AddImages paragraphIndex={i} />
                             <div className={"paragraph-form-button paragraph-number-container"}>

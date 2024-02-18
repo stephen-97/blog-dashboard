@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import styled, {IStyledComponent} from "styled-components";
 import Header from "../components/Header";
 import StyledPage from "../styles/PageStyle";
 import ToggleButton from "../components/utility/ToggleButton";
 import ArticleForm from "../components/view/ArticleForm";
+import ArticlePreview from "../components/view/ArticlePreview";
 
 const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
   width: 100%;
@@ -30,13 +31,20 @@ const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
 
 const CreateArticle = () => {
 
+    const  [isOnFormView, setIsOnFormView] = useState<boolean>(true);
+
+
     return(
         <StyledPage>
             <Header />
             <StyledCreateArticlePage>
                 <div id={"button-plus-form-container"}>
-                    <ToggleButton />
-                    <ArticleForm />
+                    <ToggleButton onClick={() => setIsOnFormView(prevState => !prevState)} />
+                    {isOnFormView ?
+                        <ArticleForm />
+                        :
+                        <ArticlePreview />
+                    }
                 </div>
             </StyledCreateArticlePage>
         </StyledPage>
