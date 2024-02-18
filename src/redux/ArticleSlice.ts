@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {TAritcleContent} from "../utils/config";
 import {ChangeEvent} from "react";
+import * as string_decoder from "string_decoder";
 
 export const ArticleSlice = createSlice({
     name: 'article',
@@ -28,6 +29,17 @@ export const ArticleSlice = createSlice({
                 }
                 return e
             })
+        },
+        removeImage: (state: TAritcleContent[], action: PayloadAction<{indexImage: number, indexParagraph: number}>) => {
+            state.map((e,i) =>  {
+                if(action.payload.indexParagraph === i) {
+                    const newImageTab = e.images.map((e: string, i: number) => action.payload.indexImage === i ? '' : e);
+                    let newParagraphObject = e;
+                    newParagraphObject['images'] = newImageTab;
+                    return newParagraphObject;
+                }
+                return e;
+            })
         }
     },
 })
@@ -38,6 +50,8 @@ export const {
     addParagraph,
     addingTextToParagraph,
     addNewImage,
-    removeParagraph } = ArticleSlice.actions
+    removeParagraph,
+    removeImage
+} = ArticleSlice.actions
 
 export default ArticleSlice.reducer

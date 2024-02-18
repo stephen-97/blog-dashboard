@@ -1,11 +1,10 @@
-import React, {createRef, useEffect, useMemo, useState} from "react";
+import React, {createRef, useCallback, useMemo} from "react";
 import styled, {IStyledComponent} from "styled-components";
 import { BiPlusCircle } from "react-icons/bi";
-import {read} from "fs";
-import {TAritcleContent} from "../../utils/config";
-import {type} from "os";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {addNewImage} from "../../redux/ArticleSlice";
+import { IoCloseOutline } from "react-icons/io5";
+import { FaImage } from "react-icons/fa";
+import {addNewImage, removeImage} from "../../redux/ArticleSlice";
 
 const StyledAddImages: IStyledComponent<any> = styled.div`
   display: flex;
@@ -34,21 +33,35 @@ const StyledAddImages: IStyledComponent<any> = styled.div`
     input {
       display: none;
     }
-    
-    button {
+
+    .button-add-image {
       height: 100%;
       width: 100%;
       background: transparent;
-      z-index: 100;
+      z-index: 0;
     }
     
-    .icon {
+    .button-rm-image {
+      height: 2rem;
+      position: absolute;
+      top: 0.4rem;
+      right: 0.4rem;
+      z-index: 2;
+      .icon-rm {
+        height: 2rem;
+        width: 2rem;
+      }
+    }
+    
+    .icon-add {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       height: 2rem;
       width: 2rem;
+      z-index: 0;
+      pointer-events: none;
     }
   }
 `;
@@ -88,6 +101,10 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
         })
     }
 
+    const removeAnImage = useCallback(( indexParagraph: number, indexImage: number) => {
+        dispatch(removeImage({indexImage: indexImage, indexParagraph: indexParagraph}))
+    },  [paragraphData])
+
 
     const inputRefs = useMemo(() => {
         const inputTabRefs = [];
@@ -97,6 +114,8 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
         return inputTabRefs
     },  [imagesNumber])
 
+
+
     return (
         <StyledAddImages>
             {Array.from(Array(imagesNumber), (e, i) => (
@@ -105,7 +124,10 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
                     className={'input-image-container'}
                     style={paragraphData[paragraphIndex]['images'][i] !== '' ? {backgroundImage: `url(${paragraphData[paragraphIndex]['images'][i]})`} : {}}
                 >
-                    <button onClick={() => inputRefs[i].current?.click()}/>
+                    <button className={"button-add-image"} onClick={() => inputRefs[i].current?.click()}></button>
+                    <button className={"button-rm-image"} onClick={() => removeAnImage(paragraphIndex, i)}>
+                        <IoCloseOutline className={'icon-rm'}/>
+                    </button>
                     <input
                         ref={inputRefs[i]}
                         className={'input'}
@@ -116,7 +138,7 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
                         placeholder={""}
                         onChange={(e) => addingNewImage(paragraphIndex, i,  e) }
                     />
-                    <BiPlusCircle className={'icon'} />
+                    {paragraphData[paragraphIndex]['images'][i] === '' && <FaImage className={'icon-add'} /> }
                 </div>
             ))}
         </StyledAddImages>
