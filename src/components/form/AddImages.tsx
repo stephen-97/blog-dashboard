@@ -125,9 +125,11 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
                     style={paragraphData[paragraphIndex]['images'][i] !== '' ? {backgroundImage: `url(${paragraphData[paragraphIndex]['images'][i]})`} : {}}
                 >
                     <button className={"button-add-image"} onClick={() => inputRefs[i].current?.click()}></button>
-                    <button className={"button-rm-image"} onClick={() => removeAnImage(paragraphIndex, i)}>
-                        <IoCloseOutline className={'icon-rm'}/>
-                    </button>
+                    {paragraphData[paragraphIndex]['images'][i] !== '' &&
+                        <button className={"button-rm-image"} onClick={() => removeAnImage(paragraphIndex, i)}>
+                            <IoCloseOutline className={'icon-rm'}/>
+                        </button>
+                    }
                     <input
                         ref={inputRefs[i]}
                         className={'input'}

@@ -8,18 +8,19 @@ import ArticlePreview from "../components/view/ArticlePreview";
 
 const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
   width: 100%;
-  height: 100%;
+  min-height: 100dvh;
   display: flex;
   justify-content: center;
   padding: 0;
+  background-color: #dfe0e3;
 
   #button-plus-form-container {
     display: flex;
-    gap: 2rem;
+    gap: 2rem;                                                    
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 55rem;
+    //max-width: 55rem;
   }
   
   @media (max-width: ${props => props.theme.responsiveValue}) {
