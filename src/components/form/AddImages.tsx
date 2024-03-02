@@ -78,13 +78,17 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
     const dispatch = useAppDispatch()
 
     const getBase64 =  (e: React.ChangeEvent<HTMLInputElement>, callBack: Function) => {
-        let base64String: string  = ""
+        //let base64String: string  = ""
         if(e.target.files && e.target.files[0]) {
             const reader = new FileReader();
             reader.readAsDataURL(e.target.files[0]);
             reader.onload = () => {
-                base64String = reader.result as string;
-                callBack(base64String)
+                const image = new Image();
+                image.src = reader.result as string;
+                image.onload= () => {
+                    //console.log(image.width, image.height)
+                    callBack(image.src ?? "")
+                }
             }
         }
     }

@@ -49,6 +49,15 @@ const GlobalStyle = createGlobalStyle`
     color: whitesmoke;
     cursor: pointer;
   }
+
+  label {
+    font-size: 1.5rem;
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: var(--dark-blue);
+    display: inline-block;
+  }
   
   input:not([type='image']), textarea {
     border: 2px solid ${props => props.theme.mainColor};

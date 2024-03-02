@@ -9,7 +9,7 @@ const StyledHeader: IStyledComponent<any> = styled.header`
   height: 100%;
   z-index: 1000;
   display: grid;
-  grid-template-rows: 12% 88%;
+  grid-template-rows: 6rem 1fr;
   padding: 0 10px;
   width: ${props => props.theme.dashboard_menu_desktop_width };
   min-width: ${props => props.theme.dashboard_menu_desktop_width };

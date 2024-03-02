@@ -1,10 +1,12 @@
 import { configureStore} from "@reduxjs/toolkit";
 import ArticleReducer from './ArticleSlice';
+import TagsSlice from './TagsSlice';
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 
 const store =configureStore({
     reducer: {
-        article: ArticleReducer
+        article: ArticleReducer,
+        tags: TagsSlice,
     },
 
 })
