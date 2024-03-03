@@ -28,7 +28,7 @@ const StyledAddImages: IStyledComponent<any> = styled.div`
     cursor: pointer;
     overflow: hidden;
     background-position: center;
-    background-size: 100%;
+    background-size: auto 100%;
 
     input {
       display: none;
