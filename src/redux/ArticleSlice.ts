@@ -18,9 +18,9 @@ export const ArticleSlice = createSlice({
                 return e;
             })
         },
-        removeParagraph: (state: TAritcleContent[], action: PayloadAction<{index: number}>) => state.slice(action.payload.index),
+        removeBlock: (state: TAritcleContent[], action: PayloadAction<{index: number}>) => state.filter((e, i) => i !== action.payload.index),
         addNewImage: (state: TAritcleContent[], action: PayloadAction<{indexParagraph: number, indexImage: number, base64: string}>) => {
-            state.map((e,i) => {
+            state.map((e: TAritcleContent, i) => {
                 if(action.payload.indexParagraph === i) {
                     const newImageTab = e.images.map((e: string, i: number) => action.payload.indexImage === i ? action.payload.base64 : e);
                     let newParagraphObject = e;
@@ -31,7 +31,7 @@ export const ArticleSlice = createSlice({
             })
         },
         removeImage: (state: TAritcleContent[], action: PayloadAction<{indexImage: number, indexParagraph: number}>) => {
-            state.map((e,i) =>  {
+            state.map((e: TAritcleContent,i) =>  {
                 if(action.payload.indexParagraph === i) {
                     const newImageTab = e.images.map((e: string, i: number) => action.payload.indexImage === i ? '' : e);
                     let newParagraphObject = e;
@@ -50,7 +50,7 @@ export const {
     addParagraph,
     addingTextToParagraph,
     addNewImage,
-    removeParagraph,
+    removeBlock,
     removeImage
 } = ArticleSlice.actions
 

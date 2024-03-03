@@ -14,6 +14,7 @@ const StyledToggleButton: IStyledComponent<any> = styled.div`
     font-weight: bold;
     color: #38404e;
     cursor: pointer;
+    font-size: 1.1rem;
   }
   label::before {
     content: '';

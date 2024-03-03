@@ -5,6 +5,7 @@ const StyledPage = styled.div`
   width: 100%;
   display: flex;
   position: relative;
+  background-color: darkgray;
   //background-color: ${props => props.theme.secondaryColor};
   
   main{
