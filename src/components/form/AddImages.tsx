@@ -86,7 +86,10 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
                 const image = new Image();
                 image.src = reader.result as string;
                 image.onload= () => {
-                    //console.log(image.width, image.height)
+                    if(image.width/image.height !== 1920/1080) {
+                        alert("Mauvais format image, l'aspect ratio doit être de 16:9");
+                        return
+                    }
                     callBack(image.src ?? "")
                 }
             }
@@ -140,7 +143,7 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
                         title={""}
                         type={"file"}
                         alt={''}
-                        accept={"image/png, image/jpeg"}
+                        accept={"image/png, image/jpeg, image/webp"}
                         placeholder={""}
                         onChange={(e) => addingNewImage(paragraphIndex, i,  e) }
                     />
@@ -151,8 +154,4 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
     )
 }
 
-/**
- * onChange={(e) =>
- *                             setImage((previous: any) => addingNewImage(paragraphIndex, i, previous, getBase64(e)) )}
- */
 export default AddImages;

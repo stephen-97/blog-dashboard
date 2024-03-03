@@ -3,6 +3,9 @@ import styled, {IStyledComponent} from "styled-components";
 import {routesItem} from "../utils/config";
 import {Link} from "react-router-dom";
 import menuIcon from "../assets/menuIcon.svg"
+import { IoIosCreate } from "react-icons/io";
+import {BiMinusCircle} from "react-icons/bi";
+import colors from "../styles/colors";
 
 const StyledHeader: IStyledComponent<any> = styled.header`
   position: fixed;
@@ -19,16 +22,24 @@ const StyledHeader: IStyledComponent<any> = styled.header`
   
   
   ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     .link {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
       padding: 0.8rem 0 0.8rem 15px;
       font-size: 1.2rem;
       cursor: pointer;
       border-radius: 100px;
-    }
-    .selected-link {
-      background-color: ${props => props.theme.secondaryColor};
-      color: #282c34;
+      svg {
+        transform: scale(1.25);
+      }
+      &:hover, &.selected-link {
+        background-color: ${props => props.theme.secondaryColor};
+        color: #282c34;
+      }
     }
   }
 
@@ -121,7 +132,8 @@ const Header = () => {
                             to={`/${elem.routeName}`}
                             className={`${pathname === '/' + elem.routeName ? 'link selected-link' : 'link'}`}
                         >
-                            {elem.routeName}
+                            {elem.icon}
+                            <span>{elem.routeName}</span>
                         </Link>
                     </li>
                 )}

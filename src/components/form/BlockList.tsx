@@ -4,8 +4,9 @@ import TextArea from "../form/TextArea";
 import AddImages from "../form/AddImages";
 import {BiMinusCircle, BiPlusCircle} from "react-icons/bi";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {addingTextToParagraph, addParagraph, removeBlock} from "../../redux/ArticleSlice";
+import {addBlock, onChangeParagraph, onChangeTitle, removeBlock} from "../../redux/ArticleSlice";
 import colors from "../../styles/colors";
+import Input from "./Input";
 
 const StyledBlockList: IStyledComponent<any> = styled.section`
  
@@ -22,10 +23,10 @@ const StyledBlockList: IStyledComponent<any> = styled.section`
       padding: 1rem 1rem 1rem 1rem;
       display: grid;
       //margin-bottom: 4rem;
-      height: 30rem;
+      height: 38rem;
       border-radius: var(--border-radius);
-      grid-template-columns: repeat(8, 1fr);
-      grid-template-rows: repeat(6, 1fr);
+      grid-template-columns: repeat(9, 1fr);
+      grid-template-rows: repeat(12, 1fr);
       gap: 1rem;
       &:hover {
         .button-plus-container,
@@ -37,19 +38,22 @@ const StyledBlockList: IStyledComponent<any> = styled.section`
 
       > * {
         &:nth-child(1) {
-          grid-area: 1 / 1 / 5 / 8;
+          grid-area: 1 / 1 / 3 / 9;
         }
         &:nth-child(2) {
-          grid-area: 5 / 1 / 7 / 8;
+          grid-area: 3 / 1 / 10 / 9;
         }
         &:nth-child(3) {
-          grid-area: 1 / 8 / 3 / 9;
+          grid-area: 10 / 1 / 13 / 9;
         }
         &:nth-child(4) {
-          grid-area: 3 / 8 / 5 / 9;
+          grid-area: 1 / 9 / 5 / 10;
         }
         &:nth-child(5) {
-          grid-area: 5 / 8 / 7 / 9;
+          grid-area: 5 / 9 / 9 / 10;
+        }
+        &:nth-child(6) {
+          grid-area: 9 / 9 / 13 / 10;
         }
       }
 
@@ -121,18 +125,24 @@ const BlockList = ({label,...rest}: StyledBlockListProps) => {
             <ul className={"paragraph-plus-images"}>
                 {paragraphData && paragraphData.map((e, i) => (
                     <li key={i} className={'paragraph-form-container'}>
+                        <Input
+                            label={""}
+                            placeholder={"Titre du block"}
+                            value={e['title']}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(onChangeTitle({title: e.target.value, index: i}))}
+                        />
                         <TextArea
                             title={"Paragraphe"}
                             placeholder={'Paragraphe'}
-                            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => dispatch(addingTextToParagraph({text :e.target.value, index: i})) }
-                            value={paragraphData[i]['paragraph']}
+                            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => dispatch(onChangeParagraph({text :e.target.value, index: i})) }
+                            value={e['paragraph']}
                         />
                         <AddImages paragraphIndex={i} />
                         <div className={"paragraph-form-button paragraph-number-container"}>
                             <strong>{i + 1}</strong>
                         </div>
                         <div className={"paragraph-form-button button-plus-container"}>
-                            <button onClick={() => AddBlockIsOk(i) ? dispatch(addParagraph()) : alert("Il faut ajouter du contenu avant de créer un nouveau block")}>
+                            <button onClick={() => AddBlockIsOk(i) ? dispatch(addBlock()) : alert("Il faut ajouter du contenu avant de créer un nouveau block")}>
                                 <BiPlusCircle className={'icon'} color={colors.blue}/>
                             </button>
                         </div>

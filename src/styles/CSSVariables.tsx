@@ -13,8 +13,9 @@ const CSSVariables: RuleSet<object> = css`
       
       --hover: #33333350;
       
-      --h1: 30px;
+      --h1: clamp(2rem, 0.75rem + 4vw, 3rem);
       --h2: 24px;
+      --h3: clamp(1.65rem, 1.2125rem + 1.4vw, 2rem);;
       
       --responsive-value: 700px;
       --border-radius: 0.8rem;
