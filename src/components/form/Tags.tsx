@@ -2,7 +2,7 @@ import React, {ChangeEvent, createRef, RefObject, useRef} from "react";
 import styled, {IStyledComponent} from "styled-components";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {toggle} from "../../redux/TagsSlice";
-import {addingTextToParagraph} from "../../redux/ArticleSlice";
+import {onChangeParagraph} from "../../redux/ArticleSlice";
 
 const StyledTags: IStyledComponent<any> = styled.div`
     ul {
@@ -35,7 +35,7 @@ const TextArea = ({label, ...props}: StyledPragraphProps) => {
 
     const tags = ["Aventure", "RPG", "Action", "Stratégie", "MOBA"];
 
-    //onChange={(e: ChangeEvent<HTMLTextAreaElement>) => dispatch(addingTextToParagraph({text :e.target.value, index: i})) }
+    //onChange={(e: ChangeEvent<HTMLTextAreaElement>) => dispatch(onChangeParagraph({text :e.target.value, index: i})) }
 
 
     return (

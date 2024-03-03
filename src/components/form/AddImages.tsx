@@ -144,7 +144,7 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
                         title={""}
                         type={"file"}
                         alt={''}
-                        accept={"image/png, image/jpeg"}
+                        accept={"image/png, image/jpeg, image/webp"}
                         placeholder={""}
                         onChange={(e) => addingNewImage(paragraphIndex, i,  e) }
                     />

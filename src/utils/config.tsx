@@ -11,6 +11,7 @@ export interface IRouteItem {
 export type TAritcleContent =  {
     paragraph: string,
     images: any,
+    title : string,
     //images: [any] | [],
 }
 export const routesItem: Array<IRouteItem>= [

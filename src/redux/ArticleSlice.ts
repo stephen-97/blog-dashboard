@@ -1,15 +1,22 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {TAritcleContent} from "../utils/config";
-import {ChangeEvent} from "react";
-import * as string_decoder from "string_decoder";
 
 export const ArticleSlice = createSlice({
     name: 'article',
-    initialState: [{paragraph: '', images: ["","",""]}],
+    initialState: [{paragraph: '', images: ["","",""], title: ""}],
     reducers: {
         update: (state: TAritcleContent[], action: PayloadAction<{ article: TAritcleContent[]}>) => action.payload.article,
-        addParagraph: (state: TAritcleContent[]) => [...state,  {paragraph: '', images: ["", "", ""]}],
-        addingTextToParagraph: (state: TAritcleContent[], action: PayloadAction<{text: string, index: number}>) => {
+        addBlock: (state: TAritcleContent[]) => [...state,  {paragraph: '', images: ["", "", ""], title: ""}],
+        onChangeTitle: (state: TAritcleContent[], action: PayloadAction<{title: string, index: number}>) => {
+            state.map((e: TAritcleContent, i: number) => {
+                if (i === action.payload.index) {
+                    e['title'] = action.payload.title;
+                    return e;
+                }
+                return e;
+            })
+        },
+        onChangeParagraph: (state: TAritcleContent[], action: PayloadAction<{text: string, index: number}>) => {
             state.map((e: TAritcleContent, i: number) => {
                 if (i === action.payload.index) {
                     e['paragraph'] = action.payload.text;
@@ -47,8 +54,9 @@ export const ArticleSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
     update,
-    addParagraph,
-    addingTextToParagraph,
+    addBlock,
+    onChangeTitle,
+    onChangeParagraph,
     addNewImage,
     removeBlock,
     removeImage

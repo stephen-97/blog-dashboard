@@ -5,8 +5,22 @@ import {articleFunctions} from "../../utils/functions";
 
 const StyledArticlePreview: IStyledComponent<any> = styled.section`
   background-color: darkgray;
-  width: 100%;
+  display: block;
+  flex-direction: column;
+  width: min(60rem, 100%);
+  
+  > * {
+    width: 100%;
+    flex: 1;
+    display: block;
+    text-align: center;
+  }
 
+  #no-paragraph-informative {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    color: var(--dark-blue)
+  }
   .image-container {
     display: flex;
     flex-direction: row;
@@ -16,7 +30,6 @@ const StyledArticlePreview: IStyledComponent<any> = styled.section`
       overflow: hidden;
       padding: 0 0.3rem;
       img {
-        height: 100%;
         width: 100%;
         border-radius: var(--border-radius);
       }
@@ -75,12 +88,16 @@ const ArticlePreview = ({...rest}: StyledInputProps) => {
         return <p key={indexBlock * block.length + indexParagraph}>{paragraph}</p>
     }
 
+
     return (
         <StyledArticlePreview>
-            {convertParagraphData.length > 0 &&
-             convertParagraphData.map((block, i) =>
-                block.map((paragraph, j) => renderParagraph(i, j, block, paragraph))
-            )}
+            {convertParagraphData[0][0].length > 0 || paragraphData[0].images.reduce((acc, elem) => acc + elem.length, 0) > 0 ?
+                 convertParagraphData.map((block, i) =>
+                    block.map((paragraph, j) => renderParagraph(i, j, block, paragraph))
+                )
+                :
+                <div id={"no-paragraph-informative"}>Aucuns paragraphe remplis</div>
+            }
         </StyledArticlePreview>
     )
 }
