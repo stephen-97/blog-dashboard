@@ -86,7 +86,11 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
                 const image = new Image();
                 image.src = reader.result as string;
                 image.onload= () => {
-                    //console.log(image.width, image.height)
+                    console.log(image.width, image.height, image.width/image.height)
+                    if((image.width/image.height < 1.3) || (image.width/image.height > 2)) {
+                        alert("Mauvais format image");
+                        return
+                    }
                     callBack(image.src ?? "")
                 }
             }
@@ -151,8 +155,4 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
     )
 }
 
-/**
- * onChange={(e) =>
- *                             setImage((previous: any) => addingNewImage(paragraphIndex, i, previous, getBase64(e)) )}
- */
 export default AddImages;
