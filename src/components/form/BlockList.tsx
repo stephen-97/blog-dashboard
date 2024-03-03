@@ -128,13 +128,14 @@ const BlockList = ({label,...rest}: StyledBlockListProps) => {
                         <Input
                             label={""}
                             placeholder={"Titre du block"}
+                            value={e['title']}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(onChangeTitle({title: e.target.value, index: i}))}
                         />
                         <TextArea
                             title={"Paragraphe"}
                             placeholder={'Paragraphe'}
                             onChange={(e: ChangeEvent<HTMLTextAreaElement>) => dispatch(onChangeParagraph({text :e.target.value, index: i})) }
-                            value={paragraphData[i]['paragraph']}
+                            value={e['paragraph']}
                         />
                         <AddImages paragraphIndex={i} />
                         <div className={"paragraph-form-button paragraph-number-container"}>

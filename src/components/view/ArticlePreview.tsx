@@ -6,14 +6,23 @@ import {articleFunctions} from "../../utils/functions";
 const StyledArticlePreview: IStyledComponent<any> = styled.section`
   background-color: darkgray;
   display: block;
-  flex-direction: column;
   width: min(60rem, 100%);
+  padding: 0.5rem 0;
+  
+  h1 {
+    text-transform: uppercase;
+    font-size: var(--h1);
+    margin-bottom: 2rem;
+  }
+  h3 {
+    font-size: var(--h3);
+    margin-bottom: 1rem;
+  }
   
   > * {
     width: 100%;
     flex: 1;
     display: block;
-    text-align: center;
   }
 
   #no-paragraph-informative {
@@ -26,7 +35,6 @@ const StyledArticlePreview: IStyledComponent<any> = styled.section`
     flex-direction: row;
     justify-content: center;
     .capsule-image {
-      max-height: 30rem;
       overflow: hidden;
       padding: 0 0.3rem;
       img {
@@ -35,10 +43,7 @@ const StyledArticlePreview: IStyledComponent<any> = styled.section`
       }
     }
   }
-  ul:has(li:nth-child(4):last-child) {
-    outline: 1px solid blue;
-    display: none;
-  }
+
 
   li:first-child:nth-last-child(1),
   li:first-child:nth-last-child(1) ~ li {
@@ -62,6 +67,8 @@ interface StyledInputProps extends React.HTMLProps<HTMLInputElement> {
 }
 const ArticlePreview = ({...rest}: StyledInputProps) => {
     const paragraphData = useAppSelector((state) => state.article)
+    const title = useAppSelector((state) => state.articleTitle)
+
 
     const convertParagraphData: string[][] = useMemo(() =>
         paragraphData.map((e,i) => e.paragraph.split('\n'))
@@ -71,6 +78,7 @@ const ArticlePreview = ({...rest}: StyledInputProps) => {
         if(indexParagraph === block.length - 1) {
             return (
                 <React.Fragment key={indexBlock * block.length + indexParagraph}>
+                    <h3>{paragraphData[indexBlock].title}</h3>
                     <p>{paragraph}</p>
                     {articleFunctions.dataImageIsNotEmpty(paragraphData[indexBlock].images) &&
                         <ul className={"image-container"}>
@@ -91,6 +99,7 @@ const ArticlePreview = ({...rest}: StyledInputProps) => {
 
     return (
         <StyledArticlePreview>
+            <h1>{title}</h1>
             {convertParagraphData[0][0].length > 0 || paragraphData[0].images.reduce((acc, elem) => acc + elem.length, 0) > 0 ?
                  convertParagraphData.map((block, i) =>
                     block.map((paragraph, j) => renderParagraph(i, j, block, paragraph))

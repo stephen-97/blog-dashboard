@@ -24,7 +24,6 @@ const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
   }
   
   @media (max-width: ${props => props.theme.responsiveValue}) {
-      align-items: center;
       width: 100%;
   }
 `;

@@ -86,9 +86,8 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
                 const image = new Image();
                 image.src = reader.result as string;
                 image.onload= () => {
-                    console.log(image.width, image.height, image.width/image.height)
-                    if((image.width/image.height < 1.3) || (image.width/image.height > 2)) {
-                        alert("Mauvais format image");
+                    if(image.width/image.height !== 1920/1080) {
+                        alert("Mauvais format image, l'aspect ratio doit être de 16:9");
                         return
                     }
                     callBack(image.src ?? "")

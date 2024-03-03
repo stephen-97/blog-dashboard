@@ -13,6 +13,7 @@ const StyledArticleForm: IStyledComponent<any> = styled.section`
   
   .input-title {
     width: 50%;
+    font-weight: bolder;
   }
   .form-item {
     margin-bottom: 2rem;
