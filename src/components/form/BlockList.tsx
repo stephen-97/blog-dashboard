@@ -1,12 +1,13 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useState} from "react";
 import styled, {IStyledComponent} from "styled-components";
 import TextArea from "../form/TextArea";
 import AddImages from "../form/AddImages";
 import {BiMinusCircle, BiPlusCircle} from "react-icons/bi";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {addBlock, onChangeParagraph, onChangeTitle, removeBlock} from "../../redux/ArticleSlice";
+import {addBlock, onChangeParagraph, onChangeTitle, removeBlock, update} from "../../redux/ArticleSlice";
 import colors from "../../styles/colors";
 import Input from "./Input";
+import {Reorder} from "framer-motion";
 
 const StyledBlockList: IStyledComponent<any> = styled.section`
  
@@ -119,12 +120,18 @@ const BlockList = ({label,...rest}: StyledBlockListProps) => {
          */
     }
 
+    const handeOnDrop = (e: React.DragEvent) => {
+
+    }
+
+    const [items, setItems] = useState([1,2, 3])
+    //const [item, setItems] = useState(1,2,3,4)
     return (
         <StyledBlockList>
             <label>{label}</label>
-            <ul className={"paragraph-plus-images"}>
+            <Reorder.Group values={paragraphData} onReorder={(e) => dispatch(update({article: e}))} className={"paragraph-plus-images"}>
                 {paragraphData && paragraphData.map((e, i) => (
-                    <li key={i} className={'paragraph-form-container'}>
+                    <Reorder.Item drag value={e} key={e.index} className={'paragraph-form-container'}>
                         <Input
                             label={""}
                             placeholder={"Titre du block"}
@@ -156,9 +163,9 @@ const BlockList = ({label,...rest}: StyledBlockListProps) => {
                                 </button>
                             }
                         </div>
-                    </li>
+                    </Reorder.Item>
                 ))}
-            </ul>
+            </Reorder.Group>
         </StyledBlockList>
     )
 }

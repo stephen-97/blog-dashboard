@@ -9,6 +9,7 @@ export interface IRouteItem {
     icon: ReactElement,
 }
 export type TAritcleContent =  {
+    index: number,
     paragraph: string,
     images: any,
     title : string,
