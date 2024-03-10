@@ -9,6 +9,7 @@ import colors from "../../styles/colors";
 import Input from "./Input";
 import {Reorder} from "framer-motion";
 import {TAritcleContent} from "../../utils/config";
+import { RiCheckboxMultipleBlankFill } from "react-icons/ri";
 
 const StyledBlockList = styled.section<{$reOrderView: boolean}>`
  
@@ -124,6 +125,17 @@ const StyledBlockList = styled.section<{$reOrderView: boolean}>`
       height: 10rem !important;
     }
   }
+  
+  > label {
+    display: flex;
+    gap: 0.4rem;
+    button {
+      transition: 0.2s ease-in-out;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
 `;
 
 interface StyledBlockListProps extends React.HTMLProps<HTMLElement> {
@@ -149,45 +161,46 @@ const BlockList = ({label,...rest}: StyledBlockListProps) => {
          */
     }
 
-    const handeOnDrop = (e: React.DragEvent) => {
+    /**
+     * const [items, setItems] = useState<TAritcleContent[]>(
+     *         [
+     *             {
+     *                 index: 1,
+     *                 title: 'a',
+     *                 paragraph: "",
+     *                 images: ['', '', ''],
+     *             },
+     *
+     *             {
+     *                 index: 2,
+     *                 title: 'b',
+     *                 paragraph: "",
+     *                 images: ['', '', '']
+     *             },
+     *             {
+     *                 index: 3,
+     *                 title: 'b',
+     *                 paragraph: "",
+     *                 images: ['', '', '']
+     *             }
+     *             ,
+     *             {
+     *                 index: 4,
+     *                 title: 'b',
+     *                 paragraph: "",
+     *                 images: ['', '', '']
+     *             }
+     *     ])
+     */
 
-    }
-
-    const [items, setItems] = useState<TAritcleContent[]>(
-        [
-            {
-                index: 1,
-                title: 'a',
-                paragraph: "",
-                images: ['', '', ''],
-            },
-
-            {
-                index: 2,
-                title: 'b',
-                paragraph: "",
-                images: ['', '', '']
-            },
-            {
-                index: 3,
-                title: 'b',
-                paragraph: "",
-                images: ['', '', '']
-            }
-            ,
-            {
-                index: 4,
-                title: 'b',
-                paragraph: "",
-                images: ['', '', '']
-            }
-    ])
-
-    console.log(paragraphData)
     //const [item, setItems] = useState(1,2,3,4)
     return (
         <StyledBlockList $reOrderView={redOrderView}>
-            <label onClick={() => setReOrderView(prev => !prev)}>{label}</label>
+            <label>{label}
+                <button onClick={() => setReOrderView(prev => !prev)}>
+                    <RiCheckboxMultipleBlankFill />
+                </button>
+            </label>
             <Reorder.Group
                 values={paragraphData}
                 onReorder={(e) => dispatch(update({article: e}))}
@@ -196,14 +209,14 @@ const BlockList = ({label,...rest}: StyledBlockListProps) => {
             >
                 {paragraphData && paragraphData.map((e, i) => (
                     <Reorder.Item
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        value={e.index}
+                        value={e}
                         key={e.index}
                         dragListener={redOrderView}
                         className={'paragraph-form-container'}>
                         {redOrderView ?
-                            <div>Hey</div>
+                            <div>
+                                <h3>{e['title']}</h3>
+                            </div>
                             :
                             <>
                                 <Input
