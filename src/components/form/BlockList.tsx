@@ -1,29 +1,19 @@
-import React, {ChangeEvent, useState} from "react";
-import styled, {IStyledComponent} from "styled-components";
-import TextArea from "../form/TextArea";
-import AddImages from "../form/AddImages";
-import {BiMinusCircle, BiPlusCircle} from "react-icons/bi";
+import React, {useState} from "react";
+import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {addBlock, onChangeParagraph, onChangeTitle, removeBlock, update} from "../../redux/ArticleSlice";
-import colors from "../../styles/colors";
-import Input from "./Input";
+import { update} from "../../redux/ArticleSlice";
 import {Reorder} from "framer-motion";
-import {TAritcleContent} from "../../utils/config";
 import { RiCheckboxMultipleBlankFill } from "react-icons/ri";
+import Block from "./Block";
+import ToggleSwitch from "../utility/ToggleSwitch";
+import DragNDrop from "../../assets/dragNDrop.svg"
 
 const StyledBlockList = styled.section<{$reOrderView: boolean}>`
- 
-  
+
   .paragraph-plus-images {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(35rem, 0.5fr));
-    //flex-wrap: wrap;
     grid-gap: 2rem;
-
-    > * {
-      flex: 0 0 calc(50% - 2rem);
-    }
-
     .paragraph-form-container {
       background-color: var(--white);
       padding: 1rem;
@@ -34,6 +24,7 @@ const StyledBlockList = styled.section<{$reOrderView: boolean}>`
       grid-template-columns: repeat(9, 1fr);
       grid-template-rows: repeat(12, 1fr);
       gap: 1rem;
+      
 
       &:hover {
         .button-plus-container,
@@ -76,7 +67,6 @@ const StyledBlockList = styled.section<{$reOrderView: boolean}>`
           //border: 2px solid ${props => props.theme.mainColor};
         border-radius: var(--border-radius);
         //background-color: var(--light-gray);
-        cursor: pointer;
 
         svg {
           height: 3rem;
@@ -116,13 +106,73 @@ const StyledBlockList = styled.section<{$reOrderView: boolean}>`
     }
   }
 
-  .block-list-reorder {
-    display: flex !important;
-    flex-direction: column !important;
-    background-color: red;
-    .paragraph-form-container{
-      width: 40rem !important;
-      height: 10rem !important;
+  .toggle-button-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .block-list-reorder-container {
+    background-color: #282c34;
+    border-radius: var(--border-radius);
+    .reorder-container-title {
+      display: flex;
+      padding: 1rem 0;
+      justify-content: center;
+      img, svg {
+        height: 50px;
+        width: 50px;
+        color: white;
+      }
+    }
+    .block-list-reorder {
+      display: flex !important;
+      flex-direction: row !important;
+      padding: 1rem;
+      flex-wrap: wrap;
+      gap: 2rem;
+      .reorder-item{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex: 0 0 calc(33.333% - 3rem);
+        height: 10rem;
+        position: relative;
+        background-color: white;
+        border-radius: var(--border-radius-large);
+        overflow: hidden;
+        padding: 1rem;
+        margin-left: 1rem;
+        cursor: grab;
+
+        &:hover {
+          box-shadow: 0 0 15px 0 var(--white);
+        }
+        .item-reorder-content {
+          position: relative;
+          display: flex;
+          flex-direction: row;
+          height: 5rem;
+          align-items: center;
+          flex: 1;
+          h3 {
+            margin: 0;
+            padding: 0;
+            flex: 1;
+          }
+          button {
+            flex: 0.2;
+            svg {
+              transform: scale(2);
+              transform-origin: center;
+            }
+          }
+        }
+      }
     }
   }
   
@@ -141,120 +191,48 @@ const StyledBlockList = styled.section<{$reOrderView: boolean}>`
 interface StyledBlockListProps extends React.HTMLProps<HTMLElement> {
     label: string
 }
+
 const BlockList = ({label,...rest}: StyledBlockListProps) => {
 
     const paragraphData = useAppSelector((state) => state.article)
     const dispatch = useAppDispatch()
 
-    const [redOrderView, setReOrderView] = useState(false);
+    const [reOrderView, setReOrderView] = useState(false);
 
-    const AddBlockIsOk = (index: number): boolean => {
-        return true;
-        /**
-         * if(paragraphData[index].paragraph !== '')
-         *             return true
-         *         for(let i =0; i < paragraphData[index].images.length; i++) {
-         *             if(paragraphData[index].images[i] !== '')
-         *                 return true
-         *         }
-         *         return false;
-         */
+    //const [item, setItems] = useState([1,2,3,4])
+
+    const reOrder = (e: any) => {
+        dispatch(update({article: e}))
     }
 
-    /**
-     * const [items, setItems] = useState<TAritcleContent[]>(
-     *         [
-     *             {
-     *                 index: 1,
-     *                 title: 'a',
-     *                 paragraph: "",
-     *                 images: ['', '', ''],
-     *             },
-     *
-     *             {
-     *                 index: 2,
-     *                 title: 'b',
-     *                 paragraph: "",
-     *                 images: ['', '', '']
-     *             },
-     *             {
-     *                 index: 3,
-     *                 title: 'b',
-     *                 paragraph: "",
-     *                 images: ['', '', '']
-     *             }
-     *             ,
-     *             {
-     *                 index: 4,
-     *                 title: 'b',
-     *                 paragraph: "",
-     *                 images: ['', '', '']
-     *             }
-     *     ])
-     */
-
-    //const [item, setItems] = useState(1,2,3,4)
     return (
-        <StyledBlockList $reOrderView={redOrderView}>
-            <label>{label}
-                <button onClick={() => setReOrderView(prev => !prev)}>
-                    <RiCheckboxMultipleBlankFill />
-                </button>
+        <StyledBlockList $reOrderView={reOrderView}>
+            <label>
+                <span>{label}</span>
             </label>
-            <Reorder.Group
-                values={paragraphData}
-                onReorder={(e) => dispatch(update({article: e}))}
-                className={`paragraph-plus-images ${redOrderView ? 'block-list-reorder' : ''}`}
-                axis={"y"}
-            >
-                {paragraphData && paragraphData.map((e, i) => (
-                    <Reorder.Item
-                        value={e}
-                        key={e.index}
-                        dragListener={redOrderView}
-                        className={'paragraph-form-container'}>
-                        {redOrderView ?
-                            <div>
-                                <h3>{e['title']}</h3>
-                            </div>
-                            :
-                            <>
-                                <Input
-                                    label={""}
-                                    placeholder={"Titre du block"}
-                                    value={e['title']}
-                                    onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(onChangeTitle({title: e.target.value, index: i}))}
-                                />
-                                <TextArea
-                                    title={"Paragraphe"}
-                                    placeholder={'Paragraphe'}
-                                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => dispatch(onChangeParagraph({text :e.target.value, index: i})) }
-                                    value={e['paragraph']}
-                                />
-                                <AddImages paragraphIndex={i} />
-                                <div className={"paragraph-form-button paragraph-number-container"}>
-                                    <strong>{i + 1}</strong>
-                                </div>
-                                <div className={"paragraph-form-button button-plus-container"}>
-                                    <button onClick={() => AddBlockIsOk(i) ? dispatch(addBlock()) : alert("Il faut ajouter du contenu avant de créer un nouveau block")}>
-                                        <BiPlusCircle className={'icon'} color={colors.blue}/>
-                                    </button>
-                                </div>
-                                <div className={ i === 0 && paragraphData.length === 1 ?
-                                    "icon-not-clickable paragraph-form-button button-minus-container" :
-                                    "paragraph-form-button button-minus-container"
-                                }>
-                                    {i > 0  &&
-                                        <button onClick={() => i > 0 && dispatch(removeBlock({index: i})) }>
-                                            <BiMinusCircle className={colors.darkBlue} />
-                                        </button>
-                                    }
-                                </div>
-                            </>
-                        }
-                    </Reorder.Item>
-                ))}
-            </Reorder.Group>
+            <div className={"toggle-button-container"}>
+                <span>Mode réorganisation</span>
+                <ToggleSwitch
+                    selectedColor={getComputedStyle(document.documentElement).getPropertyValue('--dark-gray')}
+                    defaultColor={getComputedStyle(document.documentElement).getPropertyValue('--gray')}
+                    onClick={() => setReOrderView(prev => !prev)}
+                />
+            </div>
+            <div className={reOrderView ? 'block-list-reorder-container' : ''}>
+                {reOrderView && <div className={'reorder-container-title'}>
+                    <img src={DragNDrop} alt={"drag n drop icon"}/>
+                </div>}
+                <Reorder.Group
+                    values={paragraphData}
+                    onReorder={reOrder}
+                    axis={"y"}
+                    className={`paragraph-plus-images ${reOrderView ? 'block-list-reorder' : ''}`}
+                >
+                    {paragraphData && paragraphData.map((e, i) => (
+                        <Block i={i} e={e} reOrderView={reOrderView}  key={e.index}/>
+                    ))}
+                </Reorder.Group>
+            </div>
         </StyledBlockList>
     )
 }
