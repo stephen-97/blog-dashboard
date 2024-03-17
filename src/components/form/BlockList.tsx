@@ -7,7 +7,9 @@ import { RiCheckboxMultipleBlankFill } from "react-icons/ri";
 import Block from "./Block";
 import ToggleSwitch from "../utility/ToggleSwitch";
 import DragNDrop from "../../assets/dragNDrop.svg"
-
+import {Swiper, SwiperSlide} from "swiper/react";
+import ToggleButton2 from "../utility/ToggleButton2";
+import {TToggleButton} from "../../utils/config";
 const StyledBlockList = styled.section<{$reOrderView: boolean}>`
 
   .paragraph-plus-images {
@@ -18,7 +20,6 @@ const StyledBlockList = styled.section<{$reOrderView: boolean}>`
       background-color: var(--white);
       padding: 1rem;
       display: grid;
-      //margin-bottom: 4rem;
       height: 38rem;
       border-radius: var(--border-radius);
       grid-template-columns: repeat(9, 1fr);
@@ -116,13 +117,14 @@ const StyledBlockList = styled.section<{$reOrderView: boolean}>`
     margin-bottom: 1rem;
   }
   
-  .block-list-reorder-container {
+  .list-container {
     background-color: #282c34;
     border-radius: var(--border-radius);
+    padding: 1.5rem;
     .reorder-container-title {
-      display: flex;
       padding: 1rem 0;
-      justify-content: center;
+      color: var(--white);
+      font-size: var(--xlarge);
       img, svg {
         height: 50px;
         width: 50px;
@@ -148,9 +150,9 @@ const StyledBlockList = styled.section<{$reOrderView: boolean}>`
         padding: 1rem;
         margin-left: 1rem;
         cursor: grab;
-
+        
         &:hover {
-          box-shadow: 0 0 15px 0 var(--white);
+          box-shadow: 0 0 15rem 0 var(--white);
         }
         .item-reorder-content {
           position: relative;
@@ -166,6 +168,7 @@ const StyledBlockList = styled.section<{$reOrderView: boolean}>`
           }
           button {
             flex: 0.2;
+            cursor: grab;
             svg {
               transform: scale(2);
               transform-origin: center;
@@ -205,11 +208,14 @@ const BlockList = ({label,...rest}: StyledBlockListProps) => {
         dispatch(update({article: e}))
     }
 
+    const buttonsBlockList: TToggleButton[] = [
+        {title: "Défaut", callBack: () => null},
+        {title: "Réorganisation", callBack: () => null},
+        {title: "Détail", callBack: () => null},
+    ]
     return (
         <StyledBlockList $reOrderView={reOrderView}>
-            <label>
-                <span>{label}</span>
-            </label>
+            <label>{label}</label>
             <div className={"toggle-button-container"}>
                 <span>Mode réorganisation</span>
                 <ToggleSwitch
@@ -218,23 +224,42 @@ const BlockList = ({label,...rest}: StyledBlockListProps) => {
                     onClick={() => setReOrderView(prev => !prev)}
                 />
             </div>
-            <div className={reOrderView ? 'block-list-reorder-container' : ''}>
-                {reOrderView && <div className={'reorder-container-title'}>
-                    <img src={DragNDrop} alt={"drag n drop icon"}/>
-                </div>}
-                <Reorder.Group
-                    values={paragraphData}
-                    onReorder={reOrder}
-                    axis={"y"}
-                    className={`paragraph-plus-images ${reOrderView ? 'block-list-reorder' : ''}`}
-                >
-                    {paragraphData && paragraphData.map((e, i) => (
-                        <Block i={i} e={e} reOrderView={reOrderView}  key={e.index}/>
-                    ))}
-                </Reorder.Group>
+            <div className={'list-container'}>
+                <div className={'reorder-container-title'}>
+                    Mode d'affichage :
+                    <ToggleButton2 buttons={buttonsBlockList} />
+                </div>
+                        <Reorder.Group
+                            values={paragraphData}
+                            onReorder={reOrder}
+                            axis={"y"}
+                            className={`paragraph-plus-images ${reOrderView ? 'block-list-reorder' : ''}`}
+                        >
+                            {paragraphData && paragraphData.map((e, i) => (
+                                <Block i={i} e={e} reOrderView={reOrderView}  key={e.index}/>
+                            ))}
+                        </Reorder.Group>
             </div>
         </StyledBlockList>
     )
 }
 
 export default BlockList;
+
+
+/**
+ * <Reorder.Group
+ *                         values={paragraphData}
+ *                         onReorder={reOrder}
+ *                         axis={"y"}
+ *                         className={`paragraph-plus-images ${reOrderView ? 'block-list-reorder' : ''}`}
+ *                     >
+ *                         {paragraphData && paragraphData.map((e, i) => (
+ *                             <Block i={i} e={e} reOrderView={reOrderView}  key={e.index}/>
+ *                         ))}
+ *                     </Reorder.Group>
+ *
+ * {reOrderView && <div className={'reorder-container-title'}>
+ *                     <img src={DragNDrop} alt={"drag n drop icon"}/>
+ *                 </div>}
+ */

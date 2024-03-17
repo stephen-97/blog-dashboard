@@ -50,7 +50,7 @@ const Block = ({i, e, reOrderView}: BlockProps) => {
             {reOrderView ?
                 <div className={"item-reorder-content"}>
                     <h3>test du titre {e.index}</h3>
-                    <button onPointerDown={(e) => dragControls.start(e) }>
+                    <button >
                         <RiDraggable />
                     </button>
                 </div>

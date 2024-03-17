@@ -20,6 +20,8 @@ const CSSVariables: RuleSet<object> = css`
       --responsive-value: 700px;
       --border-radius: 0.8rem;
       --border-radius-large: 1.1rem;
+      
+      --xlarge: 1.2rem;
     }
 `;
 

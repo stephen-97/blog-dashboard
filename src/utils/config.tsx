@@ -15,6 +15,11 @@ export type TAritcleContent =  {
     title : string,
     //images: [any] | [],
 }
+export type TToggleButton = {
+    title: string;
+    callBack: Function;
+}
+
 export const routesItem: Array<IRouteItem>= [
     {itemName: 'Créer un article', routeName: 'create', icon: <IoIosCreate />},
     {itemName: 'Mes articles', routeName: 'articles', icon: <MdArticle />},
