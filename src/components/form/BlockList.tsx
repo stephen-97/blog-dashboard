@@ -123,8 +123,11 @@ const StyledBlockList = styled.section<{$reOrderView: boolean}>`
     padding: 1.5rem;
     .reorder-container-title {
       padding: 1rem 0;
-      color: var(--white);
-      font-size: var(--xlarge);
+      margin-bottom: 1rem;
+      label {
+        color: var(--white);
+        font-size: var(--xlarge);
+      }
       img, svg {
         height: 50px;
         width: 50px;
@@ -140,6 +143,7 @@ const StyledBlockList = styled.section<{$reOrderView: boolean}>`
       .reorder-item{
         display: flex;
         flex-direction: row;
+        transition: none !important;
         align-items: center;
         flex: 0 0 calc(33.333% - 3rem);
         height: 10rem;
@@ -202,43 +206,52 @@ const BlockList = ({label,...rest}: StyledBlockListProps) => {
 
     const [reOrderView, setReOrderView] = useState(false);
 
-    //const [item, setItems] = useState([1,2,3,4])
 
-    const reOrder = (e: any) => {
-        dispatch(update({article: e}))
-    }
+
+    type TBlockListView = 'default' | 'reorder' | 'info';
+
+    const [blockListView, setBlockListView] = useState<TBlockListView>('default');
+
 
     const buttonsBlockList: TToggleButton[] = [
-        {title: "Défaut", callBack: () => null},
-        {title: "Réorganisation", callBack: () => null},
-        {title: "Détail", callBack: () => null},
+        {title: "Défaut", callBack: () => setBlockListView('default')},
+        {title: "Réorganisation", callBack: () => setBlockListView('reorder')},
+        {title: "Détail", callBack: () => setBlockListView('info')},
     ]
+
     return (
         <StyledBlockList $reOrderView={reOrderView}>
             <label>{label}</label>
-            <div className={"toggle-button-container"}>
-                <span>Mode réorganisation</span>
-                <ToggleSwitch
-                    selectedColor={getComputedStyle(document.documentElement).getPropertyValue('--dark-gray')}
-                    defaultColor={getComputedStyle(document.documentElement).getPropertyValue('--gray')}
-                    onClick={() => setReOrderView(prev => !prev)}
-                />
-            </div>
             <div className={'list-container'}>
                 <div className={'reorder-container-title'}>
-                    Mode d'affichage :
+                    <label>Mode d'affichage :</label>
                     <ToggleButton2 buttons={buttonsBlockList} />
                 </div>
-                        <Reorder.Group
-                            values={paragraphData}
-                            onReorder={reOrder}
-                            axis={"y"}
-                            className={`paragraph-plus-images ${reOrderView ? 'block-list-reorder' : ''}`}
-                        >
-                            {paragraphData && paragraphData.map((e, i) => (
-                                <Block i={i} e={e} reOrderView={reOrderView}  key={e.index}/>
-                            ))}
-                        </Reorder.Group>
+                {
+                    {
+                        'default': <Reorder.Group
+                                        values={paragraphData}
+                                        onReorder={ e => dispatch(update({article: e}))}
+                                        axis={"y"}
+                                        className={`paragraph-plus-images`}
+                                    >
+                                        {paragraphData && paragraphData.map((e, i) => (
+                                            <Block i={i} e={e} reOrderView={false}  key={e.index}/>
+                                        ))}
+                                    </Reorder.Group>,
+                        'reorder': <Reorder.Group
+                                        values={paragraphData}
+                                        onReorder={e => dispatch(update({article: e}))}
+                                        axis={"y"}
+                                        className={`paragraph-plus-images block-list-reorder`}
+                                    >
+                                        {paragraphData && paragraphData.map((e, i) => (
+                                            <Block i={i} e={e} reOrderView  key={e.index}/>
+                                        ))}
+                                    </Reorder.Group>,
+                        'info': <div>Info</div>
+                    }[blockListView]
+                }
             </div>
         </StyledBlockList>
     )

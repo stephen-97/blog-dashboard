@@ -56,12 +56,16 @@ const ToggleButton2 = ({ buttons,...rest}: StyledToggleButtonProps) => {
 
     const [selectedButton, setSelectedButton] = useState(0);
 
+    const onClick = (i: number) => {
+        setSelectedButton(i);
+        buttons[i].callBack();
+    }
 
     return (
         <StyledToggleButton selectedButton={selectedButton}>
             <ul >
                 {buttons.map(({callBack, title}, i) =>
-                        <button onClick={() => setSelectedButton(i)} className={selectedButton === i ? 'selected' : ''} >{title}</button>
+                    <button onClick={() => onClick(i)} className={selectedButton === i ? 'selected' : ''} >{title}</button>
                 )}
             </ul>
         </StyledToggleButton>
