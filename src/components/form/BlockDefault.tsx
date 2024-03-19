@@ -9,14 +9,106 @@ import AddImages from "./AddImages";
 import {BiMinusCircle, BiPlusCircle} from "react-icons/bi";
 import colors from "../../styles/colors";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
+import styled, {IStyledComponent} from "styled-components";
 
-interface BlockProps extends React.HTMLProps<HTMLElement> {
+
+
+const StyledBlockDefault = styled.li`
+    background-color: var(--white);
+    padding: 1rem;
+    display: grid;
+    height: 38rem;
+    border-radius: var(--border-radius);
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    gap: 1rem;
+
+
+    &:hover {
+      .button-plus-container,
+      .button-minus-container,
+      .paragraph-number-container {
+        visibility: visible;
+      }
+    }
+
+    > * {
+      &:nth-child(1) {
+        grid-area: 1 / 1 / 3 / 9;
+      }
+
+      &:nth-child(2) {
+        grid-area: 3 / 1 / 10 / 9;
+      }
+
+      &:nth-child(3) {
+        grid-area: 10 / 1 / 13 / 9;
+      }
+
+      &:nth-child(4) {
+        grid-area: 1 / 9 / 5 / 10;
+      }
+
+      &:nth-child(5) {
+        grid-area: 5 / 9 / 9 / 10;
+      }
+
+      &:nth-child(6) {
+        grid-area: 9 / 9 / 13 / 10;
+      }
+    }
+
+    .paragraph-form-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+        //border: 2px solid ${props => props.theme.mainColor};
+      border-radius: var(--border-radius);
+      //background-color: var(--light-gray);
+
+      svg {
+        height: 3rem;
+        width: 3rem;
+        color: ${props => props.theme.mainColor};
+      }
+    }
+
+    .button-plus-container {
+      svg {
+        color: var(--blue);
+      }
+    }
+
+    .button-minus-container {
+      svg {
+        color: var(--red);
+      }
+    }
+
+    .icon-not-clickable {
+      svg {
+        color: var(--gray);
+      }
+    }
+
+    .paragraph-number-container {
+      border: none;
+      font-size: 2.5rem;
+      cursor: inherit;
+      background-color: inherit;
+
+      &:hover {
+        background-color: inherit;
+      }
+    }
+`;
+
+interface BlockDefaultProps extends React.HTMLProps<HTMLLIElement> {
     i: number,
     e: any,
-    reOrderView: boolean,
 }
 
-const Block = ({i, e, reOrderView}: BlockProps) => {
+const BlockDefault = ({i, e, ...rest}: BlockDefaultProps) => {
 
     const paragraphData = useAppSelector((state) => state.article)
     const dispatch = useAppDispatch()
@@ -34,28 +126,9 @@ const Block = ({i, e, reOrderView}: BlockProps) => {
          */
     }
 
-    const dragControls = useDragControls()
-    const y = useMotionValue(0);
-    const boxShadow = useRaisedShadow(y);
-
 
     return (
-        <Reorder.Item
-            value={e}
-            dragListener={true}
-            drag
-            style={{ boxShadow, y }}
-            dragControls={dragControls}
-            className={reOrderView ? 'reorder-item' :'paragraph-form-container'}>
-            {reOrderView ?
-                <div className={"item-reorder-content"}>
-                    <h3>test du titre {e.index}</h3>
-                    <button >
-                        <RiDraggable />
-                    </button>
-                </div>
-                :
-                <>
+        <StyledBlockDefault {...rest}>
                     <Input
                         label={""}
                         placeholder={"Titre du block"}
@@ -87,10 +160,8 @@ const Block = ({i, e, reOrderView}: BlockProps) => {
                             </button>
                         }
                     </div>
-                </>
-            }
-        </Reorder.Item>
+        </StyledBlockDefault>
     )
 }
 
-export default Block
+export default BlockDefault
