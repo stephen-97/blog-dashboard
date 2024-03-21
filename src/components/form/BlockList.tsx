@@ -3,18 +3,111 @@ import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import { update} from "../../redux/ArticleSlice";
 import {Reorder} from "framer-motion";
-import BlockReorder from "./BlockReorder";
+import { RiCheckboxMultipleBlankFill } from "react-icons/ri";
+import Block from "./Block";
+import ToggleSwitch from "../utility/ToggleSwitch";
+import DragNDrop from "../../assets/dragNDrop.svg"
+import {Swiper, SwiperSlide} from "swiper/react";
 import ToggleButton2 from "../utility/ToggleButton2";
 import {TToggleButton} from "../../utils/config";
+import BlockReorder from "./BlockReorder";
 import BlockDefault from "./BlockDefault";
-
-
+import BlockListInfo from "./BlockListInfo";
 const StyledBlockList = styled.section<{$reOrderView: boolean}>`
 
   .paragraph-plus-images {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(35rem, 0.5fr));
     grid-gap: 2rem;
+    .paragraph-form-container {
+      background-color: var(--white);
+      padding: 1rem;
+      display: grid;
+      height: 38rem;
+      border-radius: var(--border-radius);
+      grid-template-columns: repeat(9, 1fr);
+      grid-template-rows: repeat(12, 1fr);
+      gap: 1rem;
+      
+
+      &:hover {
+        .button-plus-container,
+        .button-minus-container,
+        .paragraph-number-container {
+          visibility: visible;
+        }
+      }
+
+      > * {
+        &:nth-child(1) {
+          grid-area: 1 / 1 / 3 / 9;
+        }
+
+        &:nth-child(2) {
+          grid-area: 3 / 1 / 10 / 9;
+        }
+
+        &:nth-child(3) {
+          grid-area: 10 / 1 / 13 / 9;
+        }
+
+        &:nth-child(4) {
+          grid-area: 1 / 9 / 5 / 10;
+        }
+
+        &:nth-child(5) {
+          grid-area: 5 / 9 / 9 / 10;
+        }
+
+        &:nth-child(6) {
+          grid-area: 9 / 9 / 13 / 10;
+        }
+      }
+
+      .paragraph-form-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+          //border: 2px solid ${props => props.theme.mainColor};
+        border-radius: var(--border-radius);
+        //background-color: var(--light-gray);
+
+        svg {
+          height: 3rem;
+          width: 3rem;
+          color: ${props => props.theme.mainColor};
+        }
+      }
+
+      .button-plus-container {
+        svg {
+          color: var(--blue);
+        }
+      }
+
+      .button-minus-container {
+        svg {
+          color: var(--red);
+        }
+      }
+
+      .icon-not-clickable {
+        svg {
+          color: var(--gray);
+        }
+      }
+
+      .paragraph-number-container {
+        border: none;
+        font-size: 2.5rem;
+        cursor: inherit;
+        background-color: inherit;
+
+        &:hover {
+          background-color: inherit;
+        }
+      }
+    }
   }
 
   .toggle-button-container {
@@ -50,6 +143,9 @@ const StyledBlockList = styled.section<{$reOrderView: boolean}>`
       padding: 1rem;
       flex-wrap: wrap;
       gap: 2rem;
+      .reorder-item {
+        flex: 0 0 calc(33.333% - 3rem);
+      }
     }
   }
   
@@ -99,22 +195,24 @@ const BlockList = ({label,...rest}: StyledBlockListProps) => {
                 </div>
                 {
                     {
-                        'default': <ul className={`paragraph-plus-images`}>
-                                        {paragraphData && paragraphData.map((e, i) => (
-                                            <BlockDefault i={i} e={e} />
-                                        ))}
-                                    </ul>,
+                        'default': <ul
+                            className={"paragraph-plus-images"}
+                        >
+                            {paragraphData && paragraphData.map((e, i) => (
+                                <BlockDefault i={i} e={e}  key={e.index}/>
+                            ))}
+                        </ul>,
                         'reorder': <Reorder.Group
-                                        values={paragraphData}
-                                        onReorder={e => dispatch(update({article: e}))}
-                                        axis={"y"}
-                                        className={`paragraph-plus-images block-list-reorder`}
-                                    >
-                                        {paragraphData && paragraphData.map((e, i) => (
-                                            <BlockReorder i={i} e={e} />
-                                        ))}
-                                    </Reorder.Group>,
-                        'info': <div>Info</div>
+                            values={paragraphData}
+                            onReorder={e => dispatch(update({article: e}))}
+                            axis={"y"}
+                            className={`block-list-reorder`}
+                        >
+                            {paragraphData && paragraphData.map((e, i) => (
+                                <BlockReorder i={i} e={e}  key={e.index}/>
+                            ))}
+                        </Reorder.Group>,
+                        'info': <BlockListInfo/>
                     }[blockListView]
                 }
             </div>
@@ -123,21 +221,3 @@ const BlockList = ({label,...rest}: StyledBlockListProps) => {
 }
 
 export default BlockList;
-
-
-/**
- * <Reorder.Group
- *                         values={paragraphData}
- *                         onReorder={reOrder}
- *                         axis={"y"}
- *                         className={`paragraph-plus-images ${reOrderView ? 'block-list-reorder' : ''}`}
- *                     >
- *                         {paragraphData && paragraphData.map((e, i) => (
- *                             <BlockReorder i={i} e={e} reOrderView={reOrderView}  key={e.index}/>
- *                         ))}
- *                     </Reorder.Group>
- *
- * {reOrderView && <div className={'reorder-container-title'}>
- *                     <img src={DragNDrop} alt={"drag n drop icon"}/>
- *                 </div>}
- */

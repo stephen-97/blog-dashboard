@@ -13,6 +13,20 @@ interface BlockReorderProps extends React.HTMLProps<HTMLElement> {
 
 
 const StyledBlockReorder = styled.div`
+    display: flex;
+    flex-direction: row;
+    transition: none !important;
+    align-items: center;
+    height: 10rem;
+    position: relative;
+    background-color: white;
+    border-radius: var(--border-radius-large);
+    overflow: hidden;
+    padding: 1rem;
+    margin-left: 1rem;
+    cursor: grab;
+
+    .item-reorder-content {
       position: relative;
       display: flex;
       flex-direction: row;
@@ -32,25 +46,10 @@ const StyledBlockReorder = styled.div`
           transform-origin: center;
         }
       }
+    }
 `
 
 const BlockReorder = ({i, e}: BlockReorderProps) => {
-
-    const paragraphData = useAppSelector((state) => state.article)
-    const dispatch = useAppDispatch()
-
-    const AddBlockIsOk = (index: number): boolean => {
-        return true;
-        /**
-         * if(paragraphData[index].paragraph !== '')
-         *             return true
-         *         for(let i =0; i < paragraphData[index].images.length; i++) {
-         *             if(paragraphData[index].images[i] !== '')
-         *                 return true
-         *         }
-         *         return false;
-         */
-    }
 
     const dragControls = useDragControls()
     const y = useMotionValue(0);
@@ -64,7 +63,7 @@ const BlockReorder = ({i, e}: BlockReorderProps) => {
             drag
             style={{ boxShadow, y }}
             dragControls={dragControls}
-            className={'reOrderView paragraph-form-container'}>
+            className={' reorder-item'}>
                 <StyledBlockReorder>
                     <h3>test du titre {e.index}</h3>
                     <button >
