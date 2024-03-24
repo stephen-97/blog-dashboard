@@ -1,15 +1,13 @@
-import {Reorder, useDragControls, useMotionValue} from "framer-motion";
-import {useRaisedShadow} from "../../hooks/useRaisedShadow";
-import {RiDraggable} from "react-icons/ri";
+
 import Input from "./Input";
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {addBlock, onChangeParagraph, onChangeTitle, removeBlock} from "../../redux/ArticleSlice";
 import TextArea from "./TextArea";
 import AddImages from "./AddImages";
 import {BiMinusCircle, BiPlusCircle} from "react-icons/bi";
 import colors from "../../styles/colors";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import styled, {IStyledComponent} from "styled-components";
+import styled from "styled-components";
 
 
 

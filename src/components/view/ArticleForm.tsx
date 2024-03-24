@@ -5,6 +5,8 @@ import Tags from "../form/Tags";
 import BlockList from "../form/BlockList";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {onChangeArticleTitle} from "../../redux/ArticleTitleSlice";
+import MainImage from "../form/MainImage";
+import SubmitButton from "../form/SubmitButton";
 
 
 const StyledArticleForm: IStyledComponent<any> = styled.section`
@@ -32,18 +34,30 @@ const ArticleForm = ({...rest}: StyledArticleForm) => {
     //                            onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(onChangeTitle({title: e.target.value, index: i}))}
     return (
         <StyledArticleForm>
-                <Input
-                    label={"Titre de l'article"}
-                    placeholder={"Titre de l'article"}
-                    className={'input-title form-item'}
-                    value={title}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(onChangeArticleTitle({title: e.target.value}))}
-                />
-                <Tags
-                    label={'Types de jeux'}
-                    className={'form-item'}
-                />
-                <BlockList label={"Liste des paragraphes"}/>
+            <Input
+                label={"Titre de l'article"}
+                placeholder={"Titre de l'article"}
+                className={'input-title form-item'}
+                value={title}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(onChangeArticleTitle({title: e.target.value}))}
+            />
+            <Tags
+                label={'Types de jeux'}
+                className={'form-item'}
+            />
+            <MainImage
+                label={"Image principale"}
+                className={'form-item'}
+            />
+            <BlockList
+                label={"Liste des paragraphes"}
+                className={'form-item'}
+            />
+            <SubmitButton
+                value={'Soumettre'}
+                type={'submit'}
+                title={'Soumettre '}
+            />
         </StyledArticleForm>
     )
 }

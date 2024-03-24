@@ -24,3 +24,5 @@ export const routesItem: Array<IRouteItem>= [
     {itemName: 'Créer un article', routeName: 'create', icon: <IoIosCreate />},
     {itemName: 'Mes articles', routeName: 'articles', icon: <MdArticle />},
 ];
+
+export const allowedImages = 'image/png, image/jpeg, image/webp';

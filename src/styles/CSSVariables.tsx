@@ -22,6 +22,7 @@ const CSSVariables: RuleSet<object> = css`
       --border-radius-large: 1.1rem;
       
       --xlarge: 1.2rem;
+      --xxlarge: 1.3rem;
     }
 `;
 

@@ -23,16 +23,7 @@ const StyledBlockReorder = styled.div`
     border-radius: var(--border-radius-large);
     overflow: hidden;
     padding: 1rem;
-    margin-left: 1rem;
     cursor: grab;
-
-    .item-reorder-content {
-      position: relative;
-      display: flex;
-      flex-direction: row;
-      height: 5rem;
-      align-items: center;
-      flex: 1;
       h3 {
         margin: 0;
         padding: 0;
@@ -46,7 +37,6 @@ const StyledBlockReorder = styled.div`
           transform-origin: center;
         }
       }
-    }
 `
 
 const BlockReorder = ({i, e}: BlockReorderProps) => {

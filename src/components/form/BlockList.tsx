@@ -140,7 +140,6 @@ const StyledBlockList = styled.section<{$reOrderView: boolean}>`
     .block-list-reorder {
       display: flex !important;
       flex-direction: row !important;
-      padding: 1rem;
       flex-wrap: wrap;
       gap: 2rem;
       .reorder-item {
@@ -165,7 +164,7 @@ interface StyledBlockListProps extends React.HTMLProps<HTMLElement> {
     label: string
 }
 
-const BlockList = ({label,...rest}: StyledBlockListProps) => {
+const BlockList = ({label, ...props}: StyledBlockListProps) => {
 
     const paragraphData = useAppSelector((state) => state.article)
     const dispatch = useAppDispatch()
@@ -186,7 +185,7 @@ const BlockList = ({label,...rest}: StyledBlockListProps) => {
     ]
 
     return (
-        <StyledBlockList $reOrderView={reOrderView}>
+        <StyledBlockList $reOrderView={reOrderView} {...props}>
             <label>{label}</label>
             <div className={'list-container'}>
                 <div className={'reorder-container-title'}>

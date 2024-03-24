@@ -25,7 +25,7 @@ const StyledTags: IStyledComponent<any> = styled.div`
     }
 `;
 
-interface StyledPragraphProps extends React.HTMLProps<HTMLTextAreaElement> {
+interface StyledPragraphProps extends React.HTMLProps<HTMLDivElement> {
     label: string
 }
 const TextArea = ({label, ...props}: StyledPragraphProps) => {

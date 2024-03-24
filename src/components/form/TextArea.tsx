@@ -1,7 +1,5 @@
-import React, {createRef, RefObject, useRef} from "react";
+import React from "react";
 import styled, {IStyledComponent} from "styled-components";
-import StyledFormInputStyle from "../../styles/FormInputStyle";
-
 const StyledTextArea: IStyledComponent<any> = styled.textarea`
     width: 100%;
     outline: none;
