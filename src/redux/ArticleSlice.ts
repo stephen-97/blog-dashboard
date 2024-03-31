@@ -3,10 +3,10 @@ import {TAritcleContent} from "../utils/config";
 
 export const ArticleSlice = createSlice({
     name: 'article',
-    initialState: [{paragraph: '', images: ["","",""], title: ""}],
+    initialState: [{index: 1, paragraph: '', images: ["","",""], title: ""}],
     reducers: {
         update: (state: TAritcleContent[], action: PayloadAction<{ article: TAritcleContent[]}>) => action.payload.article,
-        addBlock: (state: TAritcleContent[]) => [...state,  {paragraph: '', images: ["", "", ""], title: ""}],
+        addBlock: (state: TAritcleContent[]) => [...state,  {index: state.length+1,paragraph: '', images: ["", "", ""], title: ""}],
         onChangeTitle: (state: TAritcleContent[], action: PayloadAction<{title: string, index: number}>) => {
             state.map((e: TAritcleContent, i: number) => {
                 if (i === action.payload.index) {

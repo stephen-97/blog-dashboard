@@ -25,7 +25,7 @@ const StyledTags: IStyledComponent<any> = styled.div`
     }
 `;
 
-interface StyledPragraphProps extends React.HTMLProps<HTMLTextAreaElement> {
+interface StyledPragraphProps extends React.HTMLProps<HTMLDivElement> {
     label: string
 }
 const TextArea = ({label, ...props}: StyledPragraphProps) => {
@@ -43,7 +43,7 @@ const TextArea = ({label, ...props}: StyledPragraphProps) => {
             <label>{label}</label>
             <ul>
                 {tags.map((e, i) =>
-                    <li>
+                    <li key={i}>
                         <button
                             className={tagsData.includes(e) ? "selected" : ""}
                             onClick={() => dispatch(toggle({tag: e}))}

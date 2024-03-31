@@ -3,12 +3,14 @@ import ArticleReducer from './ArticleSlice';
 import TagsSlice from './TagsSlice';
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import ArticleTitleSlice from "./ArticleTitleSlice";
+import ArticleMainImageSlice from "./ArticleMainImage";
 
 const store =configureStore({
     reducer: {
         article: ArticleReducer,
         tags: TagsSlice,
         articleTitle: ArticleTitleSlice,
+        articleMainImage: ArticleMainImageSlice,
     },
 
 })

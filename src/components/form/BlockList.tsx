@@ -1,33 +1,35 @@
-import React, {ChangeEvent} from "react";
-import styled, {IStyledComponent} from "styled-components";
-import TextArea from "../form/TextArea";
-import AddImages from "../form/AddImages";
-import {BiMinusCircle, BiPlusCircle} from "react-icons/bi";
+import React, {useState} from "react";
+import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {addBlock, onChangeParagraph, onChangeTitle, removeBlock} from "../../redux/ArticleSlice";
-import colors from "../../styles/colors";
-import Input from "./Input";
+import { update} from "../../redux/ArticleSlice";
+import {Reorder} from "framer-motion";
+import { RiCheckboxMultipleBlankFill } from "react-icons/ri";
+import Block from "./Block";
+import ToggleSwitch from "../utility/ToggleSwitch";
+import DragNDrop from "../../assets/dragNDrop.svg"
+import {Swiper, SwiperSlide} from "swiper/react";
+import ToggleButton2 from "../utility/ToggleButton2";
+import {TToggleButton} from "../../utils/config";
+import BlockReorder from "./BlockReorder";
+import BlockDefault from "./BlockDefault";
+import BlockListInfo from "./BlockListInfo";
+const StyledBlockList = styled.section<{$reOrderView: boolean}>`
 
-const StyledBlockList: IStyledComponent<any> = styled.section`
- 
   .paragraph-plus-images {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(35rem,0.5fr));
-    //flex-wrap: wrap;
+    grid-template-columns: repeat(auto-fit, minmax(35rem, 0.5fr));
     grid-gap: 2rem;
-    > * { 
-      flex: 0 0  calc(50% - 2rem);
-    }
     .paragraph-form-container {
       background-color: var(--white);
-      padding: 1rem 1rem 1rem 1rem;
+      padding: 1rem;
       display: grid;
-      //margin-bottom: 4rem;
       height: 38rem;
       border-radius: var(--border-radius);
       grid-template-columns: repeat(9, 1fr);
       grid-template-rows: repeat(12, 1fr);
       gap: 1rem;
+      
+
       &:hover {
         .button-plus-container,
         .button-minus-container,
@@ -40,18 +42,23 @@ const StyledBlockList: IStyledComponent<any> = styled.section`
         &:nth-child(1) {
           grid-area: 1 / 1 / 3 / 9;
         }
+
         &:nth-child(2) {
           grid-area: 3 / 1 / 10 / 9;
         }
+
         &:nth-child(3) {
           grid-area: 10 / 1 / 13 / 9;
         }
+
         &:nth-child(4) {
           grid-area: 1 / 9 / 5 / 10;
         }
+
         &:nth-child(5) {
           grid-area: 5 / 9 / 9 / 10;
         }
+
         &:nth-child(6) {
           grid-area: 9 / 9 / 13 / 10;
         }
@@ -64,101 +71,150 @@ const StyledBlockList: IStyledComponent<any> = styled.section`
           //border: 2px solid ${props => props.theme.mainColor};
         border-radius: var(--border-radius);
         //background-color: var(--light-gray);
-        cursor: pointer;
+
         svg {
           height: 3rem;
           width: 3rem;
           color: ${props => props.theme.mainColor};
         }
       }
+
       .button-plus-container {
         svg {
           color: var(--blue);
         }
       }
+
       .button-minus-container {
         svg {
           color: var(--red);
         }
       }
+
       .icon-not-clickable {
         svg {
           color: var(--gray);
         }
       }
+
       .paragraph-number-container {
         border: none;
         font-size: 2.5rem;
         cursor: inherit;
         background-color: inherit;
+
         &:hover {
-          background-color:inherit;
+          background-color: inherit;
         }
       }
+    }
+  }
+
+  .toggle-button-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .list-container {
+    background-color: #282c34;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    .reorder-container-title {
+      padding: 1rem 0;
+      margin-bottom: 1rem;
+      label {
+        color: var(--white);
+        font-size: var(--xlarge);
+      }
+      img, svg {
+        height: 50px;
+        width: 50px;
+        color: white;
+      }
+    }
+    .block-list-reorder {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: wrap;
+      gap: 2rem;
+      .reorder-item {
+        flex: 0 0 calc(33.333% - 3rem);
+      }
+    }
+  }
+  
+  > label {
+    display: flex;
+    gap: 0.4rem;
+    button {
+      transition: 0.2s ease-in-out;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
   }
 `;
 
 interface StyledBlockListProps extends React.HTMLProps<HTMLElement> {
     label: string
 }
-const BlockList = ({label,...rest}: StyledBlockListProps) => {
+
+const BlockList = ({label, ...props}: StyledBlockListProps) => {
 
     const paragraphData = useAppSelector((state) => state.article)
     const dispatch = useAppDispatch()
 
-    const AddBlockIsOk = (index: number): boolean => {
-        return true;
-        /**
-         * if(paragraphData[index].paragraph !== '')
-         *             return true
-         *         for(let i =0; i < paragraphData[index].images.length; i++) {
-         *             if(paragraphData[index].images[i] !== '')
-         *                 return true
-         *         }
-         *         return false;
-         */
-    }
+    const [reOrderView, setReOrderView] = useState(false);
+
+
+
+    type TBlockListView = 'default' | 'reorder' | 'info';
+
+    const [blockListView, setBlockListView] = useState<TBlockListView>('default');
+
+
+    const buttonsBlockList: TToggleButton[] = [
+        {title: "Défaut", callBack: () => setBlockListView('default')},
+        {title: "Réorganisation", callBack: () => setBlockListView('reorder')},
+        {title: "Détail", callBack: () => setBlockListView('info')},
+    ]
 
     return (
-        <StyledBlockList>
+        <StyledBlockList $reOrderView={reOrderView} {...props}>
             <label>{label}</label>
-            <ul className={"paragraph-plus-images"}>
-                {paragraphData && paragraphData.map((e, i) => (
-                    <li key={i} className={'paragraph-form-container'}>
-                        <Input
-                            label={""}
-                            placeholder={"Titre du block"}
-                            value={e['title']}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(onChangeTitle({title: e.target.value, index: i}))}
-                        />
-                        <TextArea
-                            title={"Paragraphe"}
-                            placeholder={'Paragraphe'}
-                            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => dispatch(onChangeParagraph({text :e.target.value, index: i})) }
-                            value={e['paragraph']}
-                        />
-                        <AddImages paragraphIndex={i} />
-                        <div className={"paragraph-form-button paragraph-number-container"}>
-                            <strong>{i + 1}</strong>
-                        </div>
-                        <div className={"paragraph-form-button button-plus-container"}>
-                            <button onClick={() => AddBlockIsOk(i) ? dispatch(addBlock()) : alert("Il faut ajouter du contenu avant de créer un nouveau block")}>
-                                <BiPlusCircle className={'icon'} color={colors.blue}/>
-                            </button>
-                        </div>
-                        <div className={ i === 0 && paragraphData.length === 1 ?
-                            "icon-not-clickable paragraph-form-button button-minus-container" :
-                            "paragraph-form-button button-minus-container"
-                        }>
-                            {i > 0  &&
-                                <button onClick={() => i > 0 && dispatch(removeBlock({index: i})) }>
-                                    <BiMinusCircle className={colors.darkBlue} />
-                                </button>
-                            }
-                        </div>
-                    </li>
-                ))}
-            </ul>
+            <div className={'list-container'}>
+                <div className={'reorder-container-title'}>
+                    <label>Mode d'affichage :</label>
+                    <ToggleButton2 buttons={buttonsBlockList} />
+                </div>
+                {
+                    {
+                        'default': <ul
+                            className={"paragraph-plus-images"}
+                        >
+                            {paragraphData && paragraphData.map((e, i) => (
+                                <BlockDefault i={i} e={e}  key={e.index}/>
+                            ))}
+                        </ul>,
+                        'reorder': <Reorder.Group
+                            values={paragraphData}
+                            onReorder={e => dispatch(update({article: e}))}
+                            axis={"y"}
+                            className={`block-list-reorder`}
+                        >
+                            {paragraphData && paragraphData.map((e, i) => (
+                                <BlockReorder i={i} e={e}  key={e.index}/>
+                            ))}
+                        </Reorder.Group>,
+                        'info': <BlockListInfo/>
+                    }[blockListView]
+                }
+            </div>
         </StyledBlockList>
     )
 }
