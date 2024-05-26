@@ -46,7 +46,7 @@ const ArticleForm = ({...rest}: StyledArticleForm) => {
                 className={'form-item'}
             />
             <MainImage
-                label={"Image principale"}
+                label={"Image principale et secondaire"}
                 className={'form-item'}
             />
             <BlockList
