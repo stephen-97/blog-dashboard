@@ -7,7 +7,8 @@ import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {onChangeArticleTitle} from "../../redux/ArticleTitleSlice";
 import MainImage from "../form/MainImage";
 import SubmitButton from "../form/SubmitButton";
-
+import ArticleGameTags from "../form/ArticleGameTags";
+import ArticleThemes from "../form/ArticleThemes";
 
 const StyledArticleForm: IStyledComponent<any> = styled.section`
   min-width: 100%;
@@ -30,7 +31,16 @@ const ArticleForm = ({...rest}: StyledArticleForm) => {
     const dispatch = useAppDispatch()
     const title = useAppSelector((state) => state.articleTitle)
 
+    //data: string[],
+    //     add: any,
+    //     remove: any
 
+    /**
+     * <Tags
+     *                 label={'Types de jeux'}
+     *                 className={'form-item'}
+     *             />
+     */
     //                            onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(onChangeTitle({title: e.target.value, index: i}))}
     return (
         <StyledArticleForm>
@@ -41,10 +51,15 @@ const ArticleForm = ({...rest}: StyledArticleForm) => {
                 value={title}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(onChangeArticleTitle({title: e.target.value}))}
             />
-            <Tags
+            <ArticleGameTags
                 label={'Types de jeux'}
                 className={'form-item'}
             />
+            <ArticleThemes
+                label={'Thèmes abordés'}
+                className={'form-item'}
+            />
+
             <MainImage
                 label={"Image principale et secondaire"}
                 className={'form-item'}

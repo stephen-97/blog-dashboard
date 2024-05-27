@@ -4,6 +4,8 @@ import TagsSlice from './TagsSlice';
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import ArticleTitleSlice from "./ArticleTitleSlice";
 import ArticleMainImagesSlice from "./ArticleMainImages";
+import ArticleThemes from "./ArticleThemesSlice";
+import ArticleGameTagsSlice from "./ArticleGameTagsSlice";
 
 const store =configureStore({
     reducer: {
@@ -11,6 +13,8 @@ const store =configureStore({
         tags: TagsSlice,
         articleTitle: ArticleTitleSlice,
         articleMainImages: ArticleMainImagesSlice,
+        articleThemes: ArticleThemes,
+        articleGameTags: ArticleGameTagsSlice
     },
 
 })

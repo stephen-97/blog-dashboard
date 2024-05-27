@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import styled, {IStyledComponent} from "styled-components";
 import {TToggleButton} from "../../utils/config";
 
-const StyledToggleButton = styled.div<{selectedButton: number}>`
+const StyledToggleButton = styled.div<{$selectedButton: number}>`
   ul {
     position: relative;
     height: 3rem;
@@ -22,7 +22,7 @@ const StyledToggleButton = styled.div<{selectedButton: number}>`
     position: absolute;
     width: 33.333%;
     height: 100%;
-    left: ${ props => `${props.selectedButton * 33.333}%`};
+    left: ${ props => `${props.$selectedButton * 33.333}%`};
     background: white;
     border-radius: var(--border-radius);
     transition: all 0.3s;
@@ -62,10 +62,10 @@ const ToggleButton2 = ({ buttons,...rest}: StyledToggleButtonProps) => {
     }
 
     return (
-        <StyledToggleButton selectedButton={selectedButton}>
+        <StyledToggleButton $selectedButton={selectedButton}>
             <ul >
                 {buttons.map(({callBack, title}, i) =>
-                    <button onClick={() => onClick(i)} className={selectedButton === i ? 'selected' : ''} >{title}</button>
+                    <button key={i} onClick={() => onClick(i)} className={selectedButton === i ? 'selected' : ''} >{title}</button>
                 )}
             </ul>
         </StyledToggleButton>
