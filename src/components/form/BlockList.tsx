@@ -13,6 +13,7 @@ import {TToggleButton} from "../../utils/config";
 import BlockReorder from "./BlockReorder";
 import BlockDefault from "./BlockDefault";
 import BlockListInfo from "./BlockListInfo";
+import ImagesBlock from "./SwiperBlock";
 const StyledBlockList = styled.section<{$reOrderView: boolean}>`
 
   .paragraph-plus-images {
@@ -184,6 +185,15 @@ const BlockList = ({label, ...props}: StyledBlockListProps) => {
         {title: "Détail", callBack: () => setBlockListView('info')},
     ]
 
+    /**
+     * 'default': <ul
+     *                             className={"paragraph-plus-images"}
+     *                         >
+     *                             {paragraphData && paragraphData.map((e, i) => (
+     *                                 <BlockDefault i={i} e={e}  key={e.index}/>
+     *                             ))}
+     *                         </ul>,
+     */
     return (
         <StyledBlockList $reOrderView={reOrderView} {...props}>
             <label>{label}</label>
@@ -192,13 +202,14 @@ const BlockList = ({label, ...props}: StyledBlockListProps) => {
                     <label>Mode d'affichage :</label>
                     <ToggleButton2 buttons={buttonsBlockList} />
                 </div>
+
                 {
                     {
                         'default': <ul
                             className={"paragraph-plus-images"}
                         >
                             {paragraphData && paragraphData.map((e, i) => (
-                                <BlockDefault i={i} e={e}  key={e.index}/>
+                                <ImagesBlock i={i} e={e}  key={e.index}/>
                             ))}
                         </ul>,
                         'reorder': <Reorder.Group
