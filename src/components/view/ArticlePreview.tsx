@@ -29,11 +29,11 @@ const StyledArticlePreview: IStyledComponent<any> = styled.section`
       font-size: var(--h3);
       margin-bottom: 1rem;
     }
-    .image-container {
+    ul {
       display: flex;
       flex-direction: row;
       justify-content: center;
-      .capsule-image {
+      li {
         overflow: hidden;
         padding: 0 0.3rem;
         img {
@@ -41,22 +41,21 @@ const StyledArticlePreview: IStyledComponent<any> = styled.section`
           border-radius: var(--border-radius);
         }
       }
-    }
 
+        li:first-child:nth-last-child(1),
+        li:first-child:nth-last-child(1) ~ li {
+            width: 100%;
+        }
 
-    li:first-child:nth-last-child(1),
-    li:first-child:nth-last-child(1) ~ li {
-      width: 100%;
-    }
+        li:first-child:nth-last-child(2),
+        li:first-child:nth-last-child(2) ~ li {
+            width: 50%;
+        }
 
-    li:first-child:nth-last-child(2),
-    li:first-child:nth-last-child(2) ~ li {
-      width: 50%;
-    }
-
-    li:first-child:nth-last-child(3),
-    li:first-child:nth-last-child(3) ~ li {
-      width: 33.333%;
+        li:first-child:nth-last-child(3),
+        li:first-child:nth-last-child(3) ~ li {
+            width: 33.333%;
+        }
     }
   }
   
@@ -93,7 +92,7 @@ const ArticlePreview = ({...rest}: StyledInputProps) => {
                     <ul>
                         {e.images.map((image, i) =>
                             <li key={i} className={"capsule-image"}>
-                                <img alt={""} src={e.images[0]}/>
+                                <img alt={""} src={image}/>
                             </li>
                         )}
                     </ul>
