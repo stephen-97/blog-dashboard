@@ -1,14 +1,6 @@
 
 import Input from "./Input";
 import React, {ChangeEvent, createRef, useCallback, useMemo} from "react";
-import {
-    addBlock,
-    addNewImage,
-    onChangeParagraph,
-    onChangeTitle,
-    removeBlock,
-    removeImage
-} from "../../redux/ArticleSlice";
 import TextArea from "./TextArea";
 import AddImages from "./AddImages";
 import {BiMinusCircle, BiPlusCircle} from "react-icons/bi";
@@ -135,22 +127,6 @@ const ImagesBlock = ({i, e, ...rest}: SwiperBlockProps) => {
         }
     }
 
-    const addingNewImage = (
-        indexToAddParagraphArray: number,
-        indexToAddImageArray: number,
-        e: React.ChangeEvent<HTMLInputElement>,
-    ) =>  {
-        getBase64(e, (base64String: string | null) => {
-            if(base64String) {
-                dispatch(addNewImage({indexParagraph: indexToAddParagraphArray, indexImage: indexToAddImageArray, base64: base64String}))
-            }
-        })
-    }
-
-
-    const removeAnImage = useCallback(( indexParagraph: number, indexImage: number) => {
-        //dispatch(removeImage({indexImage: indexImage, indexParagraph: indexParagraph}))
-    },  [paragraphData])
 
     return (
         <StyledImagesBlock {...rest}>

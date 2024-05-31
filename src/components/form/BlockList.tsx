@@ -4,7 +4,6 @@ import {useAppDispatch, useAppSelector} from "../../redux/store";
 import { update} from "../../redux/ArticleSlice";
 import {Reorder} from "framer-motion";
 import { RiCheckboxMultipleBlankFill } from "react-icons/ri";
-import Block from "./Block";
 import ToggleSwitch from "../utility/ToggleSwitch";
 import DragNDrop from "../../assets/dragNDrop.svg"
 import {Swiper, SwiperSlide} from "swiper/react";
@@ -194,6 +193,9 @@ const BlockList = ({label, ...props}: StyledBlockListProps) => {
      *                             ))}
      *                         </ul>,
      */
+
+
+    //                                <ImagesBlock i={i} e={e}  key={i}/>
     return (
         <StyledBlockList $reOrderView={reOrderView} {...props}>
             <label>{label}</label>
@@ -209,7 +211,7 @@ const BlockList = ({label, ...props}: StyledBlockListProps) => {
                             className={"paragraph-plus-images"}
                         >
                             {paragraphData && paragraphData.map((e, i) => (
-                                <ImagesBlock i={i} e={e}  key={e.index}/>
+                                <BlockDefault i={i} e={e}  key={i}/>
                             ))}
                         </ul>,
                         'reorder': <Reorder.Group
@@ -219,7 +221,7 @@ const BlockList = ({label, ...props}: StyledBlockListProps) => {
                             className={`block-list-reorder`}
                         >
                             {paragraphData && paragraphData.map((e, i) => (
-                                <BlockReorder i={i} e={e}  key={e.index}/>
+                                <BlockReorder i={i} e={e}  key={i}/>
                             ))}
                         </Reorder.Group>,
                         'info': <BlockListInfo/>

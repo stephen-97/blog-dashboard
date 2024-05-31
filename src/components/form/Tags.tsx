@@ -1,8 +1,7 @@
-import React, {ChangeEvent, createRef, RefObject, useRef} from "react";
+import React from "react";
 import styled, {IStyledComponent} from "styled-components";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {toggle} from "../../redux/TagsSlice";
-import {onChangeParagraph} from "../../redux/ArticleSlice";
 
 const StyledTags: IStyledComponent<any> = styled.div`
     ul {

@@ -3,6 +3,7 @@ import styled, {IStyledComponent} from "styled-components";
 import { useAppSelector} from "../../redux/store";
 import {articleFunctions} from "../../utils/functions";
 import { BiMessageError } from "react-icons/bi";
+import {TArticleContent, TArticleTextImage} from "../../utils/config";
 
 const StyledArticlePreview: IStyledComponent<any> = styled.section`
   display: block;
@@ -15,7 +16,7 @@ const StyledArticlePreview: IStyledComponent<any> = styled.section`
     display: block;
   }
 
-  .blocks-section {
+  .text-image-section {
     background-color: darkgray;
     border-radius: var(--border-radius);
     padding: 0.5rem;
@@ -77,15 +78,61 @@ interface StyledInputProps extends React.HTMLProps<HTMLInputElement> {
 
 }
 const ArticlePreview = ({...rest}: StyledInputProps) => {
-    const paragraphData = useAppSelector((state) => state.article)
+    const blockData = useAppSelector((state) => state.article)
     const title = useAppSelector((state) => state.articleTitle)
 
 
-    const convertParagraphData: string[][] = useMemo(() =>
-        paragraphData.map((e,i) => e.paragraph.split('\n'))
-    , [paragraphData])
 
-    const renderParagraph = (indexBlock: number, indexParagraph: number, block: string[], paragraph: string) => {
+    const renderBlockTextImage = (indexBlock: number, e: TArticleTextImage) => {
+        console.log(e.images[0])
+        return (
+            <div className={'text-image-section'} key={indexBlock}>
+                <h3>{e.title}</h3>
+                <p>{e.paragraph}</p>
+                {e.images.length > 0 &&
+                    <ul>
+                        {e.images.map((image, i) =>
+                            <li key={i} className={"capsule-image"}>
+                                <img alt={""} src={e.images[0]}/>
+                            </li>
+                        )}
+                    </ul>
+                }
+            </div>
+        )
+    }
+
+
+    return (
+        <StyledArticlePreview>
+            <h1>{title}</h1>
+            {blockData.map((e, i) => renderBlockTextImage(i, e as TArticleTextImage))}
+        </StyledArticlePreview>
+    )
+}
+
+export default ArticlePreview;
+
+/*
+{convertParagraphData[0][0].length > 0 || paragraphData[0].images.reduce((acc, elem) => acc + elem.length, 0) > 0 ?
+                <div className={"blocks-section"}>
+                    <h1>{title}</h1>
+
+                    {convertParagraphData.map((block, i) =>
+                        block.map((paragraph, j) => renderBlock(i, j, block, paragraph))
+                    )}
+                </div>
+                :
+                <div id={"no-blocks-section"}>
+                    <BiMessageError className={'no-blocks-error-icon'}/>
+                    <span>Aucuns contenus de cet article n'a été remplis pour le moment.</span>
+                </div>
+            }
+
+
+
+            const renderBlock = (indexBlock: number, indexParagraph: number, block: string[], paragraph: string) => {
+
         if(indexParagraph === block.length - 1) {
             return (
                 <React.Fragment key={indexBlock * block.length + indexParagraph}>
@@ -106,27 +153,4 @@ const ArticlePreview = ({...rest}: StyledInputProps) => {
         }
         return <p key={indexBlock * block.length + indexParagraph}>{paragraph}</p>
     }
-
-
-    return (
-        <StyledArticlePreview>
-            {convertParagraphData[0][0].length > 0 || paragraphData[0].images.reduce((acc, elem) => acc + elem.length, 0) > 0 ?
-                <div className={"blocks-section"}>
-                    <h1>{title}</h1>
-
-                    {convertParagraphData.map((block, i) =>
-                        block.map((paragraph, j) => renderParagraph(i, j, block, paragraph))
-                    )}
-                </div>
-                :
-                <div id={"no-blocks-section"}>
-                    <BiMessageError className={'no-blocks-error-icon'}/>
-                    <span>Aucuns contenus de cet article n'a été remplis pour le moment.</span>
-                </div>
-            }
-        </StyledArticlePreview>
-    )
-}
-
-export default ArticlePreview;
-
+ */

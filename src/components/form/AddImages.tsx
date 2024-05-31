@@ -1,10 +1,11 @@
 import React, {createRef, useCallback, useMemo} from "react";
 import styled, {IStyledComponent} from "styled-components";
+import {onChangeTextImage} from "../../redux/ArticleSlice";
 import { BiPlusCircle } from "react-icons/bi";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import { IoCloseOutline } from "react-icons/io5";
 import { FaImage } from "react-icons/fa";
-import {addNewImage, removeImage} from "../../redux/ArticleSlice";
+import {TArticleTextImage} from "../../utils/config";
 
 const StyledAddImages: IStyledComponent<any> = styled.div`
   display: flex;
@@ -75,6 +76,7 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
     const imagesNumber = 3;
 
     const paragraphData = useAppSelector((state) => state.article)
+    const currentTextImage = paragraphData[paragraphIndex] as TArticleTextImage;
     const dispatch = useAppDispatch()
 
     const getBase64 =  (e: React.ChangeEvent<HTMLInputElement>, callBack: Function) => {
@@ -87,8 +89,8 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
                 image.src = reader.result as string;
                 image.onload= () => {
                     if(image.width/image.height !== 1920/1080) {
-                        alert("Mauvais format image, l'aspect ratio doit être de 16:9");
-                        return
+                        //alert("Mauvais format image, l'aspect ratio doit être de 16:9");
+                        //return
                     }
                     callBack(image.src ?? "")
                 }
@@ -97,20 +99,30 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
     }
 
     const addingNewImage = (
-        indexToAddParagraphArray: number,
-        indexToAddImageArray: number,
+        indexBlock: number,
+        indexImage: number,
         e: React.ChangeEvent<HTMLInputElement>,
     ) =>  {
         getBase64(e, (base64String: string | null) => {
             if(base64String) {
-                dispatch(addNewImage({indexParagraph: indexToAddParagraphArray, indexImage: indexToAddImageArray, base64: base64String}))
+                let newTextImageObject = {...currentTextImage};
+                let dataImage = [...newTextImageObject['images']];
+                dataImage[indexImage] = base64String;
+                newTextImageObject['images'] = dataImage;
+                console.log(dataImage)
+                dispatch(onChangeTextImage({textImage: newTextImageObject, index: indexBlock}));
             }
         })
     }
 
-    const removeAnImage = useCallback(( indexParagraph: number, indexImage: number) => {
-        dispatch(removeImage({indexImage: indexImage, indexParagraph: indexParagraph}))
+
+
+    const removeAnImage = useCallback(( indexBlock: number, indexImage: number) => {
+        let newTextImageObject = {...currentTextImage};
+        newTextImageObject['images'][indexImage] = '';
+        dispatch(onChangeTextImage({textImage: newTextImageObject, index: indexBlock}));
     },  [paragraphData])
+
 
 
     const inputRefs = useMemo(() => {
@@ -129,10 +141,10 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
                 <div
                     key={i}
                     className={'input-image-container'}
-                    style={paragraphData[paragraphIndex]['images'][i] !== '' ? {backgroundImage: `url(${paragraphData[paragraphIndex]['images'][i]})`} : {}}
+                    style={currentTextImage['images'][i] !== '' ? {backgroundImage: `url(${paragraphData[paragraphIndex]['images'][i]})`} : {}}
                 >
                     <button className={"button-add-image"} onClick={() => inputRefs[i].current?.click()}></button>
-                    {paragraphData[paragraphIndex]['images'][i] !== '' &&
+                    {currentTextImage['images'][i] !== '' &&
                         <button className={"button-rm-image"} onClick={() => removeAnImage(paragraphIndex, i)}>
                             <IoCloseOutline className={'icon-rm'}/>
                         </button>
@@ -147,11 +159,11 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
                         placeholder={""}
                         onChange={(e) => addingNewImage(paragraphIndex, i,  e) }
                     />
-                    {paragraphData[paragraphIndex]['images'][i] === '' && <FaImage className={'icon-add'} /> }
+                    {currentTextImage['images'][i] === '' && <FaImage className={'icon-add'} /> }
                 </div>
             ))}
         </StyledAddImages>
     )
 }
 
-export default AddImages;
+export default React.memo(AddImages);

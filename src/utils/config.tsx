@@ -9,19 +9,20 @@ export interface IRouteItem {
     icon: ReactElement,
 }
 export type TArticleTextImage =  {
-    index: number,
-    paragraph: string,
-    images: any,
-    title : string,
     type: string,
+    paragraph: string,
+    images: string[],
+    title : string,
     //images: [any] | [],
 }
 export type TArticleMultipleImages =  {
-    index: number,
     type: string,
     title : string,
-    images: any,
+    images: string[],
 }
+
+export type TArticleContent = TArticleTextImage | TArticleMultipleImages;
+
 export type TToggleButton = {
     title: string;
     callBack: Function;
