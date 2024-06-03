@@ -25,7 +25,6 @@ export const ArticleSlice = createSlice({
     },
 })
 
-// Action creators are generated for each case reducer function
 export const {
     update,
     addBlockTextImage,

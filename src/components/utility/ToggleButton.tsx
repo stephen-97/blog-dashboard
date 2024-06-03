@@ -1,12 +1,13 @@
-import React from "react";
-import styled, {IStyledComponent} from "styled-components";
+import React, {useCallback,  useState} from "react";
+import styled from "styled-components";
+import {TToggleButton} from "../../utils/config";
 
-const StyledToggleButton: IStyledComponent<any> = styled.div`
-  label {
+const StyledToggleButton = styled.div<{$selectedButton: number; $nbOfButtons: number}>`
+  ul {
     position: relative;
     height: 3rem;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(${props => props.$nbOfButtons }, 1fr);
     width: fit-content;
     border: 0.2rem solid #38404e;
     border-radius: var(--border-radius);
@@ -16,68 +17,60 @@ const StyledToggleButton: IStyledComponent<any> = styled.div`
     cursor: pointer;
     font-size: 1.1rem;
   }
-  label::before {
+  ul::before {
     content: '';
     position: absolute;
-    width: 50%;
+    width: ${props => `${(1/props.$nbOfButtons)*100}%`};
+    //width: 33.333%;
     height: 100%;
-    left: 0;
+    left: ${ props => `${props.$selectedButton * ((1/props.$nbOfButtons)*100)}%`};
     background: white;
     border-radius: var(--border-radius);
     transition: all 0.3s;
   }
-  input {
-    margin: 0;
-    padding: 0;
-  }
-  input:checked + label::before {
-    left: 50%;
-  }
-  label div {
+  ul button {
     padding: 6px;
     text-align: center;
     z-index: 1;
   }
-  input {
-    display: block;
-    visibility: hidden;
-  }
-  input:checked + label div:first-child{
-    color: white;
-    transition: color 0.3s;
-  }
-  input:checked + label div:last-child{
-    color: #343434;
-    transition: color 0.3s;
-  }
-  input + label div:first-child{
-    color: #343434;
-    transition: color 0.3s;
-  }
-  input + label div:last-child{
-    color: white;
-    transition: color 0.3s;
-  }
-  label div {
+  ul button {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0 2rem;
   }
+  button {
+    height: 100%;
+    color: white;
+  }
+  .selected {
+    color: #343434 !important;
+  }
 `;
 
+
 interface StyledToggleButtonProps extends React.HTMLProps<HTMLInputElement> {
+    buttons: TToggleButton[];
 
 }
-const ToggleButton = ({...rest}: StyledToggleButtonProps) => {
+const ToggleButton = ({ buttons,...rest}: StyledToggleButtonProps) => {
+
+    const [selectedButton, setSelectedButton] = useState(0);
+
+    const onClick = useCallback((i: number) => {
+        setSelectedButton(i);
+        buttons[i].callBack();
+    }, [buttons])
+
+    console.log(buttons)
 
     return (
-        <StyledToggleButton>
-            <input type="checkbox" id="toggle" {...rest}/>
-            <label htmlFor={"toggle"}>
-                <div>Formulaire</div>
-                <div>Aperçu</div>
-            </label>
+        <StyledToggleButton $selectedButton={selectedButton} $nbOfButtons={buttons.length}>
+            <ul >
+                {buttons.map(({title}, i) =>
+                    <button onClick={() => onClick(i)} className={selectedButton === i ? 'selected' : ''} >{title}</button>
+                )}
+            </ul>
         </StyledToggleButton>
     )
 }

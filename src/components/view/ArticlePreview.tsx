@@ -1,9 +1,7 @@
 import React, {useMemo} from "react";
 import styled, {IStyledComponent} from "styled-components";
 import { useAppSelector} from "../../redux/store";
-import {articleFunctions} from "../../utils/functions";
-import { BiMessageError } from "react-icons/bi";
-import {TArticleContent, TArticleTextImage} from "../../utils/config";
+import {TArticleTextImage} from "../../utils/config";
 
 const StyledArticlePreview: IStyledComponent<any> = styled.section`
   display: block;
@@ -36,26 +34,26 @@ const StyledArticlePreview: IStyledComponent<any> = styled.section`
       li {
         overflow: hidden;
         padding: 0 0.3rem;
+        width: 1px;
         img {
           width: 100%;
           border-radius: var(--border-radius);
         }
       }
+      li:first-child:nth-last-child(1),
+      li:first-child:nth-last-child(1) ~ li {
+        width: 100%;
+      }
 
-        li:first-child:nth-last-child(1),
-        li:first-child:nth-last-child(1) ~ li {
-            width: 100%;
-        }
+      li:first-child:nth-last-child(2),
+      li:first-child:nth-last-child(2) ~ li {
+        width: 50%;
+      }
 
-        li:first-child:nth-last-child(2),
-        li:first-child:nth-last-child(2) ~ li {
-            width: 50%;
-        }
-
-        li:first-child:nth-last-child(3),
-        li:first-child:nth-last-child(3) ~ li {
-            width: 33.333%;
-        }
+      li:first-child:nth-last-child(3),
+      li:first-child:nth-last-child(3) ~ li {
+        width: 33.333%;
+      }
     }
   }
   
@@ -90,7 +88,7 @@ const ArticlePreview = ({...rest}: StyledInputProps) => {
                 <p>{e.paragraph}</p>
                 {e.images.length > 0 &&
                     <ul>
-                        {e.images.map((image, i) =>
+                        {e.images.filter(base64string => base64string.length > 0).map((image, i) =>
                             <li key={i} className={"capsule-image"}>
                                 <img alt={""} src={image}/>
                             </li>

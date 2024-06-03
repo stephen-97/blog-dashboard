@@ -59,7 +59,6 @@ const ArticleForm = ({...rest}: StyledArticleForm) => {
                 label={'Thèmes abordés'}
                 className={'form-item'}
             />
-
             <MainImage
                 label={"Image principale et secondaire"}
                 className={'form-item'}

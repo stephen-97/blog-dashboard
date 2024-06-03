@@ -5,6 +5,7 @@ import StyledPage from "../styles/PageStyle";
 import ToggleButton from "../components/utility/ToggleButton";
 import ArticleForm from "../components/view/ArticleForm";
 import ArticlePreview from "../components/view/ArticlePreview";
+import {TToggleButton} from "../utils/config";
 
 const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
   width: 100%;
@@ -31,7 +32,12 @@ const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
 
 const CreateArticle = () => {
 
-    const  [isOnFormView, setIsOnFormView] = useState<boolean>(true);
+    const  [isOnFormView, setIsOnFormView] = useState<string>('form');
+
+    const buttonsFullPageViewList: TToggleButton[] = [
+        {title: "Formulaire", callBack: () => setIsOnFormView('form')},
+        {title: "Réorganisation", callBack: () => setIsOnFormView('preview')},
+    ];
 
 
     return(
@@ -39,11 +45,12 @@ const CreateArticle = () => {
             <Header />
             <StyledCreateArticlePage>
                 <div id={"button-plus-form-container"}>
-                    <ToggleButton onClick={() => setIsOnFormView(prevState => !prevState)} />
-                    {isOnFormView ?
-                        <ArticleForm />
-                        :
-                        <ArticlePreview />
+                    <ToggleButton  buttons={buttonsFullPageViewList} />
+                    {
+                        {
+                            'form': <ArticleForm />,
+                            'preview': <ArticlePreview />
+                        }[isOnFormView]
                     }
                 </div>
             </StyledCreateArticlePage>

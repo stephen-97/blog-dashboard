@@ -109,7 +109,6 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
                 let dataImage = [...newTextImageObject['images']];
                 dataImage[indexImage] = base64String;
                 newTextImageObject['images'] = dataImage;
-                console.log(dataImage)
                 dispatch(onChangeTextImage({textImage: newTextImageObject, index: indexBlock}));
             }
         })
@@ -119,7 +118,9 @@ const AddImages = ({ paragraphIndex,...rest}: AddImagesProps) => {
 
     const removeAnImage = useCallback(( indexBlock: number, indexImage: number) => {
         let newTextImageObject = {...currentTextImage};
-        newTextImageObject['images'][indexImage] = '';
+        let dataImage = [...newTextImageObject['images']];
+        dataImage[indexImage] = '';
+        newTextImageObject['images'] = dataImage;
         dispatch(onChangeTextImage({textImage: newTextImageObject, index: indexBlock}));
     },  [paragraphData])
 
