@@ -2,7 +2,7 @@ import React, {ChangeEvent} from "react";
 import styled, {IStyledComponent} from "styled-components";
 import Input from "../form/Input";
 import Tags from "../form/Tags";
-import BlockList from "../form/BlockList";
+import BlocksListContainer from "../blocks/sections/BlocksListContainer";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {onChangeArticleTitle} from "../../redux/ArticleTitleSlice";
 import MainImage from "../form/MainImage";
@@ -63,7 +63,7 @@ const ArticleForm = ({...rest}: StyledArticleForm) => {
                 label={"Image principale et secondaire"}
                 className={'form-item'}
             />
-            <BlockList
+            <BlocksListContainer
                 label={"Liste des paragraphes"}
                 className={'form-item'}
             />

@@ -1,15 +1,12 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {update} from "../../redux/ArticleSlice";
+import {useAppDispatch, useAppSelector} from "../../../redux/store";
+import {update} from "../../../redux/ArticleSlice";
 import {Reorder} from "framer-motion";
-import ToggleButton from "../utility/ToggleButton";
-import {TToggleButton} from "../../utils/config";
-import BlockReorder from "./BlockReorder";
-import TextImagesBlock from "./TextImagesBlock";
+import ToggleButton from "../../utility/ToggleButton";
+import {TToggleButton} from "../../../utils/config";
+import BlockReorder from "../types/BlockReorder";
 import BlockListInfo from "./BlockListInfo";
-import ImagesBlock from "./ImagesBlock";
-import AddBlockView from "./AddBlockView";
 import BlocksListDefaultContainer from "./BlockListDefault";
 
 const StyledBlockListContainer = styled.section<{ $reOrderView: boolean }>`
@@ -210,7 +207,7 @@ const BlocksListContainer = ({label, ...props}: BlockListContainerProps) => {
     ]
 
     return (
-        <StyledBlockListContainer $reOrderView={reOrderView} {...props}>
+        <StyledBlockListContainer {...props} $reOrderView={reOrderView} {...props}>
             <label>{label}</label>
             <div className={'list-container'}>
                 <div className={'reorder-container-title'}>

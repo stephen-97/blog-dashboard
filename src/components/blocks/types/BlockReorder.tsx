@@ -1,8 +1,8 @@
 import {Reorder, useDragControls, useMotionValue} from "framer-motion";
-import {useRaisedShadow} from "../../hooks/useRaisedShadow";
+import {useRaisedShadow} from "../../../hooks/useRaisedShadow";
 import {RiDraggable} from "react-icons/ri";
 import React from "react";
-import {useAppDispatch, useAppSelector} from "../../redux/store";
+import {useAppDispatch, useAppSelector} from "../../../redux/store";
 import styled from "styled-components";
 
 

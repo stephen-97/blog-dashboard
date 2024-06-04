@@ -21,7 +21,6 @@ const StyledToggleButton = styled.div<{$selectedButton: number; $nbOfButtons: nu
     content: '';
     position: absolute;
     width: ${props => `${(1/props.$nbOfButtons)*100}%`};
-    //width: 33.333%;
     height: 100%;
     left: ${ props => `${props.$selectedButton * ((1/props.$nbOfButtons)*100)}%`};
     background: white;
@@ -62,13 +61,11 @@ const ToggleButton = ({ buttons,...rest}: StyledToggleButtonProps) => {
         buttons[i].callBack();
     }, [buttons])
 
-    console.log(buttons)
-
     return (
         <StyledToggleButton $selectedButton={selectedButton} $nbOfButtons={buttons.length}>
             <ul >
                 {buttons.map(({title}, i) =>
-                    <button onClick={() => onClick(i)} className={selectedButton === i ? 'selected' : ''} >{title}</button>
+                    <button key={i} onClick={() => onClick(i)} className={selectedButton === i ? 'selected' : ''} >{title}</button>
                 )}
             </ul>
         </StyledToggleButton>
