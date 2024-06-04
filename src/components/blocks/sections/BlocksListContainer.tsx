@@ -6,12 +6,13 @@ import {Reorder} from "framer-motion";
 import ToggleButton from "../utility/ToggleButton";
 import {TToggleButton} from "../../utils/config";
 import BlockReorder from "./BlockReorder";
-import BlockDefault from "./BlockDefault";
+import TextImagesBlock from "./TextImagesBlock";
 import BlockListInfo from "./BlockListInfo";
 import ImagesBlock from "./ImagesBlock";
 import AddBlockView from "./AddBlockView";
+import BlocksListDefaultContainer from "./BlockListDefault";
 
-const StyledBlockList = styled.section<{ $reOrderView: boolean }>`
+const StyledBlockListContainer = styled.section<{ $reOrderView: boolean }>`
 
     .paragraph-plus-images {
         display: grid;
@@ -186,17 +187,16 @@ const StyledBlockList = styled.section<{ $reOrderView: boolean }>`
     }
 `;
 
-interface StyledBlockListProps extends React.HTMLProps<HTMLElement> {
+interface BlockListContainerProps extends React.HTMLProps<HTMLElement> {
     label: string
 }
 
-const BlockList = ({label, ...props}: StyledBlockListProps) => {
+const BlocksListContainer = ({label, ...props}: BlockListContainerProps) => {
 
     const paragraphData = useAppSelector((state) => state.article)
     const dispatch = useAppDispatch()
 
     const [reOrderView, setReOrderView] = useState(false);
-    const [openAddBlockView, setOpenAddBlockView] = useState<boolean>(false)
 
     type TBlockListView = 'default' | 'reorder' | 'info';
 
@@ -210,7 +210,7 @@ const BlockList = ({label, ...props}: StyledBlockListProps) => {
     ]
 
     return (
-        <StyledBlockList $reOrderView={reOrderView} {...props}>
+        <StyledBlockListContainer $reOrderView={reOrderView} {...props}>
             <label>{label}</label>
             <div className={'list-container'}>
                 <div className={'reorder-container-title'}>
@@ -220,21 +220,7 @@ const BlockList = ({label, ...props}: StyledBlockListProps) => {
 
                 {
                     {
-                        'default': <>
-                            <ul className={"paragraph-plus-images"}>
-                                {paragraphData && paragraphData.map((e, i) => (
-                                    <BlockDefault i={i} e={e}/>
-                                ))}
-                                <li className={'add-block-item'}>
-                                    <button
-                                        className={'add-block-button'}
-                                        onClick={() => setOpenAddBlockView(true)}
-                                    >
-                                        Ajouter un block
-                                    </button>
-                                </li>
-                            </ul>
-                        </>,
+                        'default': <BlocksListDefaultContainer/>,
                         'reorder': <Reorder.Group
                             values={paragraphData}
                             onReorder={e => dispatch(update({article: e}))}
@@ -249,9 +235,8 @@ const BlockList = ({label, ...props}: StyledBlockListProps) => {
                     }[blockListView]
                 }
             </div>
-            {openAddBlockView && <AddBlockView openViewState={{ state: openAddBlockView, set: setOpenAddBlockView}}/>}
-        </StyledBlockList>
+        </StyledBlockListContainer>
     )
 }
 
-export default BlockList;
+export default React.memo(BlocksListContainer);

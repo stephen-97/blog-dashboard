@@ -1,8 +1,8 @@
-import Input from "./Input";
+import Input from "../form/Input";
 import React, {ChangeEvent} from "react";
 import {onChangeTextImage, removeBlock, addBlockTextImage} from "../../redux/ArticleSlice";
-import TextArea from "./TextArea";
-import AddImages from "./AddImages";
+import TextArea from "../form/TextArea";
+import AddImages from "../form/AddImages";
 import {BiMinusCircle, BiPlusCircle} from "react-icons/bi";
 import colors from "../../styles/colors";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
@@ -105,7 +105,7 @@ interface BlockDefaultProps extends React.HTMLProps<HTMLLIElement> {
     e: any,
 }
 
-const BlockDefault = ({i, e, ...rest}: BlockDefaultProps) => {
+const TextImagesBlock = ({i, e, ...rest}: BlockDefaultProps) => {
 
     const blockList = useAppSelector((state) => state.article)
     const currentTextImage = blockList[i] as TArticleTextImage;
@@ -169,4 +169,4 @@ const BlockDefault = ({i, e, ...rest}: BlockDefaultProps) => {
     )
 }
 
-export default BlockDefault
+export default React.memo(TextImagesBlock);
