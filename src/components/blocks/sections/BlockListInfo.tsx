@@ -1,6 +1,6 @@
 import React, {} from "react";
-import styled, {IStyledComponent} from "styled-components";
-import {useAppDispatch, useAppSelector} from "../../redux/store";
+import styled from "styled-components";
+import { useAppSelector} from "../../../redux/store";
 
 const StyledBlockListinfo = styled.div`
   .section {

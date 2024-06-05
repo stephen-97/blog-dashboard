@@ -3,14 +3,20 @@ import ArticleReducer from './ArticleSlice';
 import TagsSlice from './TagsSlice';
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import ArticleTitleSlice from "./ArticleTitleSlice";
-import ArticleMainImageSlice from "./ArticleMainImage";
+import ArticleMainImagesSlice from "./ArticleMainImages";
+import ArticleThemes from "./ArticleThemesSlice";
+import ArticleGameTagsSlice from "./ArticleGameTagsSlice";
+import ArticleConclusionSlice from "./ArticleConclusionsSlice";
 
 const store =configureStore({
     reducer: {
         article: ArticleReducer,
         tags: TagsSlice,
         articleTitle: ArticleTitleSlice,
-        articleMainImage: ArticleMainImageSlice,
+        articleMainImages: ArticleMainImagesSlice,
+        articleThemes: ArticleThemes,
+        articleGameTags: ArticleGameTagsSlice,
+        articleConclusion: ArticleConclusionSlice,
     },
 
 })

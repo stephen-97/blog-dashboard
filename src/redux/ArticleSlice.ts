@@ -1,65 +1,46 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {TAritcleContent} from "../utils/config";
+import {TArticleTextImage, TArticleMultipleImages} from "../utils/config";
+import {TArticleContent} from "../utils/config";
+
+const initialState: TArticleContent[] = [{type: 'TextImages', paragraph: '', images: ["","",""], title: ""}]
 
 export const ArticleSlice = createSlice({
     name: 'article',
-    initialState: [{index: 1, paragraph: '', images: ["","",""], title: ""}],
+    initialState,
     reducers: {
-        update: (state: TAritcleContent[], action: PayloadAction<{ article: TAritcleContent[]}>) => action.payload.article,
-        addBlock: (state: TAritcleContent[]) => [...state,  {index: state.length+1,paragraph: '', images: ["", "", ""], title: ""}],
-        onChangeTitle: (state: TAritcleContent[], action: PayloadAction<{title: string, index: number}>) => {
-            state.map((e: TAritcleContent, i: number) => {
-                if (i === action.payload.index) {
-                    e['title'] = action.payload.title;
-                    return e;
-                }
-                return e;
-            })
-        },
-        onChangeParagraph: (state: TAritcleContent[], action: PayloadAction<{text: string, index: number}>) => {
-            state.map((e: TAritcleContent, i: number) => {
-                if (i === action.payload.index) {
-                    e['paragraph'] = action.payload.text;
-                    return e;
-                }
-                return e;
-            })
-        },
-        removeBlock: (state: TAritcleContent[], action: PayloadAction<{index: number}>) => state.filter((e, i) => i !== action.payload.index),
-        addNewImage: (state: TAritcleContent[], action: PayloadAction<{indexParagraph: number, indexImage: number, base64: string}>) => {
-            state.map((e: TAritcleContent, i) => {
-                if(action.payload.indexParagraph === i) {
-                    const newImageTab = e.images.map((e: string, i: number) => action.payload.indexImage === i ? action.payload.base64 : e);
-                    let newParagraphObject = e;
-                    newParagraphObject['images'] = newImageTab;
-                    return newParagraphObject
+        update: (state: TArticleContent[], action: PayloadAction<{ article: TArticleContent[]}>) => action.payload.article,
+        addBlockTextImage: (state: TArticleContent[]) => [...state,  {type: 'TextImages',index: state.length+1,paragraph: '', images: ["", "", ""], title: ""}],
+        addBlockMultipleImages: (state: TArticleContent[]) => [...state, {type: 'MultipleImages',index: state.length+1, images: [], title: ""}],
+        onChangeTextImage: (state: TArticleContent[], action: PayloadAction<{ textImage: TArticleTextImage, index: number }>) =>
+            state.map((e: TArticleContent, i: number) => {
+                if(i === action.payload.index) {
+                    return action.payload.textImage
                 }
                 return e
             })
-        },
-        removeImage: (state: TAritcleContent[], action: PayloadAction<{indexImage: number, indexParagraph: number}>) => {
-            state.map((e: TAritcleContent,i) =>  {
-                if(action.payload.indexParagraph === i) {
-                    const newImageTab = e.images.map((e: string, i: number) => action.payload.indexImage === i ? '' : e);
-                    let newParagraphObject = e;
-                    newParagraphObject['images'] = newImageTab;
-                    return newParagraphObject;
+        ,
+        onChangeMultipleImage: (state: TArticleContent[], action: PayloadAction<{ multipleImages: TArticleMultipleImages, index: number }>) =>
+            state.map((e: TArticleContent, i: number) => {
+                if(i === action.payload.index) {
+                    console.log("HERE", action.payload.multipleImages)
+                    return action.payload.multipleImages
+                    //return e
                 }
-                return e;
+                return e
             })
-        }
+        ,
+        removeBlock: (state: TArticleContent[], action: PayloadAction<{index: number}>) => state.filter((e, i) => i !== action.payload.index),
+
     },
 })
 
-// Action creators are generated for each case reducer function
 export const {
     update,
-    addBlock,
-    onChangeTitle,
-    onChangeParagraph,
-    addNewImage,
+    addBlockTextImage,
+    addBlockMultipleImages,
+    onChangeTextImage,
+    onChangeMultipleImage,
     removeBlock,
-    removeImage
 } = ArticleSlice.actions
 
 export default ArticleSlice.reducer

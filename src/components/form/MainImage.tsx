@@ -1,39 +1,52 @@
 import React, {createRef} from "react";
 import styled, {IStyledComponent} from "styled-components";
 import { FaPlusCircle } from "react-icons/fa";
-import {addNewMainImage} from "../../redux/ArticleMainImage";
+import {addNewSecondMainImage, addNewFirstMainImage} from "../../redux/ArticleMainImages";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-
 
 const StyledMainImage: IStyledComponent<any> = styled.div`
   
   label {
     display: block;
   }
-  .mainImage-input-container {
-    position: relative;
-    display: inline-block;
-    button {
-      height: 6rem;
-      width: 6rem;
-      border-radius: 100px;
-      background-color: red;
-      background-position: center;
-      background-size: auto 100%;
-    }
+  .main-second-image-container {
+    display: flex;
+    gap: 1rem;
+    .mainImage-input-container {
+      position: relative;
+      display: flex;
+      align-items: end;
+      button {
+        height: 6rem;
+        width: 6rem;
+        border-radius: 100px;
+        background-color: #282c34;
+        background-position: center;
+        background-size: auto 100%;
+      }
 
-    input {
-      display: none;
-    }
+      input {
+        display: none;
+      }
 
-    svg {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      height: 1.5rem;
-      width: auto;
-      background-color: var(--white);
-      border-radius: 20rem;
+      svg {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        height: 1.5rem;
+        width: auto;
+        background-color: var(--white);
+        border-radius: 20rem;
+      }
+      &.secondImage {
+        button {
+          height: 4rem;
+          width: 4rem;
+          border-radius: 100px;
+          background-position: center;
+          background-size: auto 100%;
+        }
+      }
     } 
   }
 `;
@@ -44,8 +57,9 @@ interface StyledMainImageProps extends React.HTMLProps<HTMLDivElement> {
 const TextArea = ({label, ...props}: StyledMainImageProps) => {
 
     const inputMainImageRef = createRef<HTMLInputElement>();
+    const inputSecondImageRef = createRef<HTMLInputElement>()
     const dispatch = useAppDispatch()
-    const mainImageBase64: string = useAppSelector((state) => state.articleMainImage)
+    const mainImagesBase64 = useAppSelector((state) => state.articleMainImages)
 
 
     const getBase64 =  (e: React.ChangeEvent<HTMLInputElement>, callBack: Function) => {
@@ -63,10 +77,18 @@ const TextArea = ({label, ...props}: StyledMainImageProps) => {
         }
     }
 
-    const addingMainImage = (e: React.ChangeEvent<HTMLInputElement>) =>  {
+    const addingFirstMainImage = (e: React.ChangeEvent<HTMLInputElement>) =>  {
         getBase64(e, (image: HTMLImageElement) => {
             if(image) {
-                dispatch(addNewMainImage({ base64: image.src}))
+                dispatch(addNewFirstMainImage({ base64: image.src}))
+            }
+        })
+    }
+
+    const addingSecondMainImage = (e: React.ChangeEvent<HTMLInputElement>) =>  {
+        getBase64(e, (image: HTMLImageElement) => {
+            if(image) {
+                dispatch(addNewSecondMainImage({ base64: image.src}))
             }
         })
     }
@@ -74,26 +96,46 @@ const TextArea = ({label, ...props}: StyledMainImageProps) => {
     return (
         <StyledMainImage {...props}>
             <label form={"mainImage"}>{label}</label>
-            <div className={'mainImage-input-container'}>
-                <button
-                    className={"button-add-image"}
-                    onClick={() => inputMainImageRef.current?.click()}
-                    style={mainImageBase64 !== '' ? {backgroundImage: `url(${mainImageBase64})`} : {}}
-                />
-                <input
-                    ref={inputMainImageRef}
-                    type={'file'}
-                    id={"mainImage"}
-                    name={"mainImage"}
-                    accept={"image/png, image/jpeg, image/webp"}
-                    alt={''}
-                    placeholder={""}
-                    onChange={(e) => addingMainImage(e)}
-                />
-                <FaPlusCircle />
+            <div className={"main-second-image-container"}>
+                <div className={'mainImage-input-container firstImage'}>
+                    <button
+                        className={"button-add-image"}
+                        onClick={() => inputMainImageRef.current?.click()}
+                        style={mainImagesBase64.firstMainImage !== '' ? {backgroundImage: `url(${mainImagesBase64.firstMainImage})`} : {}}
+                    />
+                    <input
+                        ref={inputMainImageRef}
+                        type={'file'}
+                        id={"mainImage"}
+                        name={"mainImage"}
+                        accept={"image/png, image/jpeg, image/webp"}
+                        alt={''}
+                        placeholder={""}
+                        onChange={(e) => addingFirstMainImage(e)}
+                    />
+                    <FaPlusCircle />
+                </div>
+                <div className={'mainImage-input-container secondImage'}>
+                    <button
+                        className={"button-add-image"}
+                        onClick={() => inputSecondImageRef.current?.click()}
+                        style={mainImagesBase64.firstMainImage !== '' ? {backgroundImage: `url(${mainImagesBase64.secondMainImage})`} : {}}
+                    />
+                    <input
+                        ref={inputSecondImageRef}
+                        type={'file'}
+                        id={"mainImage"}
+                        name={"mainImage"}
+                        accept={"image/png, image/jpeg, image/webp"}
+                        alt={''}
+                        placeholder={""}
+                        onChange={(e) => addingSecondMainImage(e)}
+                    />
+                    <FaPlusCircle />
+                </div>
             </div>
         </StyledMainImage>
     )
 }
 
-export default TextArea;
+export default React.memo(TextArea);

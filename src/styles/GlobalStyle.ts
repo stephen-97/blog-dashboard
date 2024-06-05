@@ -58,7 +58,9 @@ const GlobalStyle = createGlobalStyle`
     color: var(--dark-blue);
     display: inline-block;
   }
-  
+  input {
+    width: min(100vw, 30rem);
+  }
   input:not([type='image']), textarea {
     border: 2px solid ${props => props.theme.mainColor};
     outline: none;
@@ -76,6 +78,12 @@ const GlobalStyle = createGlobalStyle`
     font: inherit;
     cursor: pointer;
     outline: inherit;
+  }
+  
+  button, a {
+    &:focus-visible {
+      outline: 2px solid #61dafb;
+    }
   }
 `;
 

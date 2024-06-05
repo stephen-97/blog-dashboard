@@ -18,6 +18,7 @@ const CSSVariables: RuleSet<object> = css`
       --h3: clamp(1.65rem, 1.2125rem + 1.4vw, 2rem);;
       
       --responsive-value: 700px;
+      --border-radius-s: 0.5rem;
       --border-radius: 0.8rem;
       --border-radius-large: 1.1rem;
       

@@ -8,13 +8,21 @@ export interface IRouteItem {
     routeName: string,
     icon: ReactElement,
 }
-export type TAritcleContent =  {
-    index: number,
+export type TArticleTextImage =  {
+    type: string,
     paragraph: string,
-    images: any,
+    images: string[],
     title : string,
     //images: [any] | [],
 }
+export type TArticleMultipleImages =  {
+    type: string,
+    title : string,
+    images: string[],
+}
+
+export type TArticleContent = TArticleTextImage | TArticleMultipleImages;
+
 export type TToggleButton = {
     title: string;
     callBack: Function;

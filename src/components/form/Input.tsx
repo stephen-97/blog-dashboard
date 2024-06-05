@@ -9,13 +9,13 @@ const StyledInput: IStyledComponent<any> = styled.input`
 `;
 
 interface StyledInputProps extends React.HTMLProps<HTMLInputElement> {
-    label: string
+    label?: string
 }
 const Input = ({label,...rest}: StyledInputProps) => {
 
     return (
         <StyledFormInputStyle>
-            <label>{label}</label>
+            {label && <label>{label}</label>}
             <StyledInput {...rest}>
 
             </StyledInput>
