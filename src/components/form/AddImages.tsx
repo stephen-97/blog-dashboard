@@ -12,7 +12,7 @@ const StyledAddImages: IStyledComponent<any> = styled.div`
     width: 100%;
     justify-content: space-between;
     gap: 1rem;
-    flex: 0.7;
+    //flex: 0.7;
 
     ul {
         display: flex;
@@ -28,7 +28,7 @@ const StyledAddImages: IStyledComponent<any> = styled.div`
             justify-content: center;
             align-items: center;
             flex: 1;
-            height: 100%;
+            height: 9rem;
             border-radius: var(--border-radius);
             cursor: pointer;
             overflow: hidden;

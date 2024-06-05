@@ -49,14 +49,14 @@ const BlocksListDefaultContainer = ({label, ...props}: BlockListContainerProps) 
         <>
             <StyledBlockListDefaultContainer>
                 {paragraphData && paragraphData.map((e, i) => (
-                    <>
+                    <React.Fragment key={i}>
                         {
                             {
                                 'TextImages': <TextImagesBlock i={i} e={e} className={'block'}/>,
                                 'MultipleImages': <ImagesBlock i={i} e={e} className={'block'}/>,
                             }[e.type]
                         }
-                    </>
+                    </React.Fragment>
                 ))}
             </StyledBlockListDefaultContainer>
             <StyledButtonAddBlock onClick={() => setOpenAddBlockView(true)}>Ajouter un block</StyledButtonAddBlock>

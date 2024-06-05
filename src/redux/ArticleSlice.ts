@@ -10,8 +10,7 @@ export const ArticleSlice = createSlice({
     reducers: {
         update: (state: TArticleContent[], action: PayloadAction<{ article: TArticleContent[]}>) => action.payload.article,
         addBlockTextImage: (state: TArticleContent[]) => [...state,  {type: 'TextImages',index: state.length+1,paragraph: '', images: ["", "", ""], title: ""}],
-        addBlockMultipleImages: (state: TArticleContent[]) => [...state, {type: 'MultipleImages',index: state.length+1, images: [""], title: ""}],
-
+        addBlockMultipleImages: (state: TArticleContent[]) => [...state, {type: 'MultipleImages',index: state.length+1, images: [], title: ""}],
         onChangeTextImage: (state: TArticleContent[], action: PayloadAction<{ textImage: TArticleTextImage, index: number }>) =>
             state.map((e: TArticleContent, i: number) => {
                 if(i === action.payload.index) {
@@ -23,7 +22,9 @@ export const ArticleSlice = createSlice({
         onChangeMultipleImage: (state: TArticleContent[], action: PayloadAction<{ multipleImages: TArticleMultipleImages, index: number }>) =>
             state.map((e: TArticleContent, i: number) => {
                 if(i === action.payload.index) {
+                    console.log("HERE", action.payload.multipleImages)
                     return action.payload.multipleImages
+                    //return e
                 }
                 return e
             })

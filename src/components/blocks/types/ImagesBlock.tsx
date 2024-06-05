@@ -1,10 +1,12 @@
-import React, {createRef, useMemo, useState} from "react";
+import React, {ChangeEvent, createRef, useCallback, useMemo} from "react";
 import {useAppDispatch, useAppSelector} from "../../../redux/store";
 import styled from "styled-components";
-import {onChangeMultipleImage, removeBlock} from "../../../redux/ArticleSlice";
+import {onChangeMultipleImage, onChangeTextImage, removeBlock} from "../../../redux/ArticleSlice";
 import BlockTitle from "../extra/BlockTitle";
 import {FaImage} from "react-icons/fa";
 import {TArticleMultipleImages} from "../../../utils/config";
+import Input from "../../form/Input";
+import {IoCloseOutline} from "react-icons/io5";
 
 
 const StyledImagesBlock = styled.li`
@@ -16,13 +18,15 @@ const StyledImagesBlock = styled.li`
 
     ul {
         display: grid;
-        //grid-template-columns: repeat(auto-fit, minmax(40%, 0.5fr));
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: repeat(6, 1fr);
+        grid-template-columns: repeat(3, 0.333fr);
+        grid-template-rows: repeat(10, 1fr);
         //background-color: #61dafb;
+        //grid-template-columns: repeat(6, 1fr);
+        //grid-template-rows: repeat(2, 1fr);
         gap: 1rem;
         flex: 1;
-
+        
+        /**
         .input-image-container:nth-of-type(1) {
             grid-area: 1 / 1 / 3 / 3;
         }
@@ -46,6 +50,35 @@ const StyledImagesBlock = styled.li`
         .input-image-container:nth-of-type(6) {
             grid-area: 5 / 3 / 7 / 5;
         }
+         */
+
+        
+        /**
+        .input-image-container:nth-of-type(1) {
+            grid-area: 1 / 1 / 2 / 3;
+        }
+
+        .input-image-container:nth-of-type(2) {
+            grid-area: 1 / 3 / 2 / 5;
+        }
+
+        .input-image-container:nth-of-type(3) {
+            grid-area: 1 / 5 / 2 / 7;
+        }
+
+        .input-image-container:nth-of-type(4) {
+            grid-area: 2 / 1 / 3 / 3;
+        }
+
+        .input-image-container:nth-of-type(5) {
+            grid-area: 2 / 3 / 3 / 5;
+        }
+        
+        .input-image-container:nth-of-type(6) {
+            grid-area: 2 / 5 / 3 / 7;
+        }
+         */
+        
 
         .input-image-container {
             background-color: ${props => props.theme.mainColor};
@@ -54,11 +87,12 @@ const StyledImagesBlock = styled.li`
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 9rem;
             border-radius: var(--border-radius);
             cursor: pointer;
             overflow: hidden;
             background-position: center;
-            background-size: auto 100%;
+            background-size: cover;
 
             input {
                 display: none;
@@ -97,15 +131,18 @@ const StyledImagesBlock = styled.li`
         }
 
         .add-input-image-container {
-            background-color: gray;
+            background-color: #24242e;
             //border: 3px black dashed;
 
             button {
+                position: relative;
                 background-color: transparent;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 gap: 1rem;
+                width: 100%;
+                height: 100%;
 
                 &:before {
                     content: '';
@@ -114,11 +151,6 @@ const StyledImagesBlock = styled.li`
                     left: 0;
                     width: 100%;
                     height: 100%;
-                }
-
-                span {
-                    font-weight: 700;
-                    font-size: 1.125rem;
                 }
             }
         }
@@ -133,7 +165,6 @@ interface SwiperBlockProps extends React.HTMLProps<HTMLLIElement> {
 
 const ImagesBlock = ({i, e, ...rest}: SwiperBlockProps) => {
 
-    const imagesNumber = 9;
     const blocksData = useAppSelector((state) => state.article)
     const currentSliderImage = blocksData[i] as TArticleMultipleImages;
 
@@ -156,7 +187,6 @@ const ImagesBlock = ({i, e, ...rest}: SwiperBlockProps) => {
 
 
     const getBase64 = (e: React.ChangeEvent<HTMLInputElement>, callBack: Function) => {
-        //let base64String: string  = ""
         if (e.target.files && e.target.files[0]) {
             const reader = new FileReader();
             reader.readAsDataURL(e.target.files[0]);
@@ -173,20 +203,28 @@ const ImagesBlock = ({i, e, ...rest}: SwiperBlockProps) => {
             }
         }
     }
-
-    const [tab, setTab] = useState<string[]>([])
-
-
     const inputRefs = useMemo(() => {
         const inputTabRefs = [];
         const blockImageLength = blocksData[i].images.length ? blocksData[i].images.length : 0;
-        if(blocksData) {
-            for (let i = 0; i < blocksData[i].images.length + 1; i++) {
+        if (blocksData) {
+            for (let i = 0; i <= blockImageLength; i++) {
                 inputTabRefs.push(createRef<HTMLInputElement>())
             }
         }
         return inputTabRefs
-    }, [imagesNumber, blocksData])
+    }, [blocksData])
+
+    const onChange = (param: 'title', value: any) => {
+        let newSliderImageObject = {...currentSliderImage};
+        newSliderImageObject[param] = value;
+        dispatch(onChangeMultipleImage({multipleImages: newSliderImageObject, index: i}));
+    }
+
+    const removeAnImage = useCallback((indexBlock: number, indexImage: number) => {
+        let newSliderImageObject = {...currentSliderImage};
+        newSliderImageObject['images'] = [...newSliderImageObject['images']].splice(indexImage, 1)
+        dispatch(onChangeMultipleImage({multipleImages: newSliderImageObject, index: indexBlock}));
+    }, [blocksData])
 
     return (
         <StyledImagesBlock {...rest}>
@@ -195,50 +233,62 @@ const ImagesBlock = ({i, e, ...rest}: SwiperBlockProps) => {
                 index={i + 1}
                 setDeleteBlock={() => dispatch(removeBlock({index: i}))}
             />
+            <Input
+                placeholder={'Titre du block'}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => onChange('title', e.target.value)}
+            />
+            <h4>Ajouter des images au slider</h4>
             <ul>
-                {blocksData[i].images.map((e, i) =>
-                    <li key={i} className={'input-image-container'}>
+                {blocksData[i].images.map((e, j) =>
+                    <li
+                        key={j}
+                        className={'input-image-container'}
+                        style={{backgroundImage: `url(${e})`}}
+                    >
                         <div>
                             <button className={"button-add-image"}
-                                    onClick={() => inputRefs[i].current?.click()}></button>
+                                    onClick={() => inputRefs[j].current?.click()}></button>
                             <input
-                                ref={inputRefs[i]}
+                                ref={inputRefs[j]}
                                 className={'input'}
                                 title={""}
                                 type={"file"}
                                 alt={''}
                                 accept={"image/png, image/jpeg, image/webp"}
                                 placeholder={""}
+                                onChange={(e) => AddNewImageSlider(j, e)}
                             />
+                            <button className={"button-rm-image"} onClick={() => removeAnImage(i, j)}>
+                                <IoCloseOutline className={'icon-rm'}/>
+                            </button>
                         </div>
                     </li>
                 )}
-                <li className={'add-input-image-container input-image-container'}>
-                    <div>
-                        <button
-                            className={"button-add-image"}
-                            onClick={() => inputRefs[blocksData[i].images.length + 1].current?.click()}
-                        >
-                            <FaImage size={50}/>
-                            <span>Ajouter une image</span>
-                        </button>
-                        <input
-                            ref={inputRefs[blocksData[i].images.length + 1]}
-                            className={'input'}
-                            title={""}
-                            type={"file"}
-                            alt={''}
-                            accept={"image/png, image/jpeg, image/webp"}
-                            placeholder={""}
-                            onChange={(e) => AddNewImageSlider(i, e)}
-                        />
-                    </div>
-                </li>
+                {blocksData[i].images.length < 6 &&
+                    <li className={'add-input-image-container input-image-container'}>
+                        <div>
+                            <button
+                                className={"button-add-image"}
+                                onClick={() => inputRefs[blocksData[i].images.length].current?.click()}
+                            >
+                                <FaImage size={50}/>
+                            </button>
+                            <input
+                                ref={inputRefs[blocksData[i].images.length]}
+                                className={'input'}
+                                title={""}
+                                type={"file"}
+                                alt={''}
+                                accept={"image/png, image/jpeg, image/webp"}
+                                placeholder={""}
+                                onChange={(e) => AddNewImageSlider(i, e)}
+                            />
+                        </div>
+                    </li>
+                }
             </ul>
         </StyledImagesBlock>
     )
 }
 
 export default ImagesBlock
-
-//                        {paragraphData[paragraphIndex]['images'][i] === '' && <FaImage className={'icon-add'} /> }
