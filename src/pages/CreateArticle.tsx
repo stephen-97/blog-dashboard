@@ -36,7 +36,7 @@ const CreateArticle = () => {
 
     const buttonsFullPageViewList: TToggleButton[] = [
         {title: "Formulaire", callBack: () => setIsOnFormView('form')},
-        {title: "Réorganisation", callBack: () => setIsOnFormView('preview')},
+        {title: "Aperçu", callBack: () => setIsOnFormView('preview')},
     ];
 
 
@@ -59,4 +59,4 @@ const CreateArticle = () => {
 }
 
 
-export default CreateArticle;
+export default React.memo(CreateArticle);

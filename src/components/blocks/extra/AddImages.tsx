@@ -1,10 +1,11 @@
 import React, {createRef, useCallback, useMemo} from "react";
 import styled, {IStyledComponent} from "styled-components";
-import {onChangeTextImage} from "../../redux/ArticleSlice";
-import {useAppDispatch, useAppSelector} from "../../redux/store";
+import {onChangeTextImage} from "../../../redux/ArticleSlice";
+import {useAppDispatch, useAppSelector} from "../../../redux/store";
 import {IoCloseOutline} from "react-icons/io5";
 import {FaImage} from "react-icons/fa";
-import {TArticleTextImage} from "../../utils/config";
+import {TArticleTextImage} from "../../../utils/config";
+import {imageFunctions} from "../../../utils/functions";
 
 const StyledAddImages: IStyledComponent<any> = styled.div`
     display: flex;
@@ -12,7 +13,6 @@ const StyledAddImages: IStyledComponent<any> = styled.div`
     width: 100%;
     justify-content: space-between;
     gap: 1rem;
-    //flex: 0.7;
 
     ul {
         display: flex;
@@ -86,31 +86,13 @@ const AddImages = ({paragraphIndex, ...rest}: AddImagesProps) => {
     const currentTextImage = paragraphData[paragraphIndex] as TArticleTextImage;
     const dispatch = useAppDispatch()
 
-    const getBase64 = (e: React.ChangeEvent<HTMLInputElement>, callBack: Function) => {
-        //let base64String: string  = ""
-        if (e.target.files && e.target.files[0]) {
-            const reader = new FileReader();
-            reader.readAsDataURL(e.target.files[0]);
-            reader.onload = () => {
-                const image = new Image();
-                image.src = reader.result as string;
-                image.onload = () => {
-                    if (image.width / image.height !== 1920 / 1080) {
-                        //alert("Mauvais format image, l'aspect ratio doit être de 16:9");
-                        //return
-                    }
-                    callBack(image.src ?? "")
-                }
-            }
-        }
-    }
 
     const addingNewImage = (
         indexBlock: number,
         indexImage: number,
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        getBase64(e, (base64String: string | null) => {
+        imageFunctions.getBase64(e, (base64String: string | null) => {
             if (base64String) {
                 let newTextImageObject = {...currentTextImage};
                 let dataImage = [...newTextImageObject['images']];

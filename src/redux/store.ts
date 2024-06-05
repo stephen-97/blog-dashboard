@@ -6,6 +6,7 @@ import ArticleTitleSlice from "./ArticleTitleSlice";
 import ArticleMainImagesSlice from "./ArticleMainImages";
 import ArticleThemes from "./ArticleThemesSlice";
 import ArticleGameTagsSlice from "./ArticleGameTagsSlice";
+import ArticleConclusionSlice from "./ArticleConclusionsSlice";
 
 const store =configureStore({
     reducer: {
@@ -14,7 +15,8 @@ const store =configureStore({
         articleTitle: ArticleTitleSlice,
         articleMainImages: ArticleMainImagesSlice,
         articleThemes: ArticleThemes,
-        articleGameTags: ArticleGameTagsSlice
+        articleGameTags: ArticleGameTagsSlice,
+        articleConclusion: ArticleConclusionSlice,
     },
 
 })

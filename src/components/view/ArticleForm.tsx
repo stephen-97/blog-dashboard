@@ -9,6 +9,7 @@ import MainImage from "../form/MainImage";
 import SubmitButton from "../form/SubmitButton";
 import ArticleGameTags from "../form/ArticleGameTags";
 import ArticleThemes from "../form/ArticleThemes";
+import ArticleConclusion from "../form/ArticleConclusion";
 
 const StyledArticleForm: IStyledComponent<any> = styled.section`
   min-width: 100%;
@@ -64,7 +65,11 @@ const ArticleForm = ({...rest}: StyledArticleForm) => {
                 className={'form-item'}
             />
             <BlocksListContainer
-                label={"Liste des paragraphes"}
+                label={"Liste des blocks"}
+                className={'form-item'}
+            />
+            <ArticleConclusion
+                label={'Conclusion'}
                 className={'form-item'}
             />
             <SubmitButton

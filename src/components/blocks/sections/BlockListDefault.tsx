@@ -15,13 +15,12 @@ const StyledBlockListDefaultContainer = styled.ul`
     }
     .block {
         display: flex;
-        height: 40rem;
+        height: 42rem;
         padding: 1rem;
         flex-direction: column;
         background-color: var(--white);
         border-radius: var(--border-radius);
         gap: 1rem;
-
     }
 `;
 

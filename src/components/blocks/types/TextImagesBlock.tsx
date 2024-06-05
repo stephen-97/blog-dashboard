@@ -2,7 +2,7 @@ import Input from "../../form/Input";
 import React, {ChangeEvent} from "react";
 import {onChangeTextImage, removeBlock} from "../../../redux/ArticleSlice";
 import TextArea from "../../form/TextArea";
-import AddImages from "../../form/AddImages";
+import AddImages from "../extra/AddImages";
 import {useAppDispatch, useAppSelector} from "../../../redux/store";
 import styled from "styled-components";
 import {TArticleTextImage} from "../../../utils/config";
