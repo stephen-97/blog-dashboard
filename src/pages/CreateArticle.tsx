@@ -13,7 +13,7 @@ const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
   display: flex;
   justify-content: center;
   padding: 0;
-  background-color: #dfe0e3;
+  background-color: var(--light-gray-2);
 
   #button-plus-form-container {
     display: flex;

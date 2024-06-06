@@ -27,10 +27,7 @@ const StyledBlockListContainer = styled.section<{ $reOrderView: boolean }>`
         margin-bottom: 1rem;
     }
 
-    .list-container {
-        background-color: #282c34;
-        border-radius: var(--border-radius);
-        padding: 1.5rem;
+    .form-section-container {
 
         .reorder-container-title {
             padding: 1rem 0;
@@ -86,7 +83,7 @@ const BlocksListContainer = ({label, ...props}: BlockListContainerProps) => {
     return (
         <StyledBlockListContainer {...props} $reOrderView={reOrderView} {...props}>
             <label>{label}</label>
-            <div className={'list-container'}>
+            <section className={'form-section-container'}>
                 <div className={'reorder-container-title'}>
                     <label>Mode d'affichage :</label>
                     <ToggleButton buttons={buttonsBlockList}/>
@@ -108,7 +105,7 @@ const BlocksListContainer = ({label, ...props}: BlockListContainerProps) => {
                         'info': <BlockListInfo/>
                     }[blockListView]
                 }
-            </div>
+            </section>
         </StyledBlockListContainer>
     )
 }

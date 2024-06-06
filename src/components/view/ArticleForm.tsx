@@ -21,6 +21,11 @@ const StyledArticleForm: IStyledComponent<any> = styled.section`
   }
   .form-item {
     margin-bottom: 2rem;
+      .form-section-container {
+          background-color: #282c34;
+          border-radius: var(--border-radius);
+          padding: 1.5rem;
+      }
   }
 `;
 
@@ -32,17 +37,6 @@ const ArticleForm = ({...rest}: StyledArticleForm) => {
     const dispatch = useAppDispatch()
     const title = useAppSelector((state) => state.articleTitle)
 
-    //data: string[],
-    //     add: any,
-    //     remove: any
-
-    /**
-     * <Tags
-     *                 label={'Types de jeux'}
-     *                 className={'form-item'}
-     *             />
-     */
-    //                            onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(onChangeTitle({title: e.target.value, index: i}))}
     return (
         <StyledArticleForm>
             <Input
