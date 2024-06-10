@@ -1,37 +1,35 @@
 import React, {ChangeEvent} from "react";
 import styled, {IStyledComponent} from "styled-components";
-import Input from "../form/Input";
+import InputTextDefault from "../form/inputs/InputTextDefault";
 import Tags from "../form/Tags";
 import BlocksListContainer from "../blocks/sections/BlocksListContainer";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {onChangeArticleTitle} from "../../redux/ArticleTitleSlice";
 import MainImage from "../form/MainImage";
-import SubmitButton from "../form/SubmitButton";
+import SubmitButton from "../form/buttons/SubmitButton";
 import ArticleGameTags from "../form/ArticleGameTags";
 import ArticleThemes from "../form/ArticleThemes";
 import ArticleConclusion from "../form/ArticleConclusion";
 
 const StyledArticleForm: IStyledComponent<any> = styled.section`
-  min-width: 100%;
-  flex: 1;
-  
-  .input-title {
-    width: 50%;
-    font-weight: bolder;
-  }
-  .form-item {
-    margin-bottom: 2rem;
-      .form-section-container {
-          background-color: #282c34;
-          border-radius: var(--border-radius);
-          padding: 1.5rem;
-      }
-  }
+    min-width: 100%;
+    flex: 1;
+
+    .form-item {
+        margin-bottom: 2rem;
+
+        .form-section-container {
+            background-color: #282c34;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+        }
+    }
 `;
 
 interface StyledArticleForm extends React.HTMLProps<HTMLElement> {
 
 }
+
 const ArticleForm = ({...rest}: StyledArticleForm) => {
 
     const dispatch = useAppDispatch()
@@ -39,10 +37,10 @@ const ArticleForm = ({...rest}: StyledArticleForm) => {
 
     return (
         <StyledArticleForm>
-            <Input
+            <InputTextDefault
                 label={"Titre de l'article"}
                 placeholder={"Titre de l'article"}
-                className={'input-title form-item'}
+                className={'form-item'}
                 value={title}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(onChangeArticleTitle({title: e.target.value}))}
             />

@@ -5,7 +5,7 @@ import {onChangeMultipleImage, removeBlock} from "../../../redux/ArticleSlice";
 import BlockTitle from "../extra/BlockTitle";
 import {FaImage} from "react-icons/fa";
 import {TArticleMultipleImages} from "../../../utils/config";
-import Input from "../../form/Input";
+import InputTextDefault from "../../form/inputs/InputTextDefault";
 import {IoCloseOutline} from "react-icons/io5";
 import {imageFunctions} from "../../../utils/functions";
 
@@ -152,7 +152,7 @@ const ImagesBlock = ({i, e, ...rest}: SwiperBlockProps) => {
                 index={i + 1}
                 setDeleteBlock={() => dispatch(removeBlock({index: i}))}
             />
-            <Input
+            <InputTextDefault
                 placeholder={'Titre du block'}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => onChange('title', e.target.value)}
             />

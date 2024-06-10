@@ -1,6 +1,6 @@
 import React from "react";
 import styled, {IStyledComponent} from "styled-components";
-import StyledFormInputStyle from "../../styles/FormInputStyle";
+import StyledFormInputStyle from "../../../styles/FormInputStyle";
 
 const StyledSubmitButton: IStyledComponent<any> = styled.button`
     font-size: var(--xxlarge);
@@ -22,4 +22,4 @@ const SubmitButton = ({title,...rest}: StyledInputProps) => {
     )
 }
 
-export default SubmitButton;
+export default React.memo(SubmitButton);

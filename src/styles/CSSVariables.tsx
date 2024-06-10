@@ -26,6 +26,8 @@ const CSSVariables: RuleSet<object> = css`
 
         --xlarge: 1.2rem;
         --xxlarge: 1.3rem;
+        
+        --max-width-input: 50rem;
     }
 `;
 

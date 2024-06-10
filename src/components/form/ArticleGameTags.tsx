@@ -1,10 +1,9 @@
-import React, {useCallback, useState} from "react";
+import React, { useState} from "react";
 import styled, {IStyledComponent} from "styled-components";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {toggle} from "../../redux/TagsSlice";
 import {add, remove} from "../../redux/ArticleGameTagsSlice";
-import { RxCross2 } from "react-icons/rx";
-import { FaPlus } from "react-icons/fa";
+import InputAddTextItems from "./inputs/InputAddTextItems";
+import Tag from "./buttons/Tag";
 
 const StyledGameTags: IStyledComponent<any> = styled.div`
   display: flex;
@@ -35,29 +34,6 @@ const StyledGameTags: IStyledComponent<any> = styled.div`
     ul {
       display: flex;
       gap: 1rem;
-      li {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5rem;
-        background-color: var(--dark-gray);
-        color: var(--white);
-        padding: 0.5rem 1rem;
-        border-radius: var(--border-radius-s);
-        button {
-          display: flex;
-          align-items: end;
-        }
-        span {
-          display: flex;
-          padding: 0;
-          /:background-color: red;
-          vertical-align: center;
-          line-height: 0.9;
-          justify-content: center;
-          align-items: center;
-        }
-      }
     }
 `;
 
@@ -96,26 +72,14 @@ const ArticleGameTags = ({label, ...props}: GameTagsProps) => {
     return (
         <StyledGameTags {...props}>
             <label>{label}</label>
-            <div className={'input-container'}>
-                <input
-                    type={'text'}
-                    placeholder={'Ajouter un genre'}
-                    onChange={(e) => setTag(e.target.value)}
-                    onKeyDown={handleKeyPressAddTag}
-                    value={tag}
-                />
-                <button onClick={() => addGameTag()}>
-                    <FaPlus size={25} />
-                </button>
-            </div>
+            <InputAddTextItems
+                handlePress={handleKeyPressAddTag}
+                addButton={addGameTag}
+                itemTagsState={{state: tag, set: setTag}}
+            />
             <ul>
                 {articleGameTagsData.map((tagItem, i) =>
-                    <li key={i}>
-                        <span>{tagItem}</span>
-                        <button onClick={() => removeGameTag(tagItem)}>
-                            <RxCross2 />
-                        </button>
-                    </li>
+                    <Tag key={i} label={tagItem} remove={() => removeGameTag(tagItem)} />
                 )}
             </ul>
         </StyledGameTags>
@@ -123,3 +87,4 @@ const ArticleGameTags = ({label, ...props}: GameTagsProps) => {
 }
 
 export default React.memo(ArticleGameTags);
+

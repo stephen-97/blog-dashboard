@@ -1,7 +1,7 @@
-import Input from "../../form/Input";
+import InputTextDefault from "../../form/inputs/InputTextDefault";
 import React, {ChangeEvent} from "react";
 import {onChangeTextImage, removeBlock} from "../../../redux/ArticleSlice";
-import TextArea from "../../form/TextArea";
+import TextArea from "../../form/inputs/TextArea";
 import AddImages from "../extra/AddImages";
 import {useAppDispatch, useAppSelector} from "../../../redux/store";
 import styled from "styled-components";
@@ -12,7 +12,12 @@ import BlockTitle from "../extra/BlockTitle";
 const StyledTextImagesBlock = styled.li`
     
     .paragraph {
+        display: flex;
+        flex-direction: column;
         flex: 1;
+        textarea {
+            flex: 1;
+        }
     }
 
 `;
@@ -42,14 +47,13 @@ const TextImagesBlock = ({i, e, ...rest}: TextImagesBlockProps) => {
                 index={i+1}
                 setDeleteBlock={() =>  dispatch(removeBlock({index: i}))}
             />
-            <Input
+            <InputTextDefault
                 placeholder={"Titre du block"}
                 value={e['title']}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => onChange('title', e.target.value)}
             />
             <TextArea
                 className={'paragraph'}
-                title={"Paragraphe"}
                 placeholder={'Paragraphe'}
                 onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange('paragraph', e.target.value)}
                 value={e['paragraph']}

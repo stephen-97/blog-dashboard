@@ -36,13 +36,12 @@ const StyledTextAreaLabelBorder = styled.div`
 
 interface TextAreaLabelBorderProps extends React.HTMLProps<HTMLTextAreaElement> {
     label?: string,
-    className?: string,
 }
 
-const TextAreaLabelBorder = ({label, className, ...rest}: TextAreaLabelBorderProps) => {
+const TextAreaLabelBorder = ({label, ...rest}: TextAreaLabelBorderProps) => {
 
     return (
-        <StyledTextAreaLabelBorder className={className}>
+        <StyledTextAreaLabelBorder>
             <StyledTextArea {...rest} required={true}/>
             {label &&
                     <label>{label}</label>

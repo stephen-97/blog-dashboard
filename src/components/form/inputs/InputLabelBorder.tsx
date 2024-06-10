@@ -36,16 +36,16 @@ const StyledInputLabelBorder = styled.div`
 `;
 
 interface InputLabelBorderProps extends React.HTMLProps<HTMLInputElement> {
-    label?: string
+    label?: string,
+    classNameLabel?: string,
 }
 
-const InputLabelBorder = ({label, ...rest}: InputLabelBorderProps) => {
+const InputLabelBorder = ({label, classNameLabel, ...rest}: InputLabelBorderProps) => {
 
     return (
         <StyledInputLabelBorder>
-            <StyledInput {...rest} type={"text"} required={true}>
-            </StyledInput>
-            {label && <label>{label}</label>}
+            <StyledInput {...rest} type={"text"} required={true}/>
+            {label && <label className={classNameLabel ? classNameLabel : ''}>{label}</label>}
         </StyledInputLabelBorder>
     )
 }
