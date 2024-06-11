@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo} from "react";
 import styled from "styled-components";
-import {useAppDispatch} from "../../../redux/store";
-import {addBlockTextImage, addBlockMultipleImages} from "../../../redux/ArticleSlice";
+import {useAppDispatch} from "../../../../redux/store";
+import {addBlockTextImage, addBlockMultipleImages} from "../../../../redux/ArticleSlice";
 import { IoCloseOutline } from "react-icons/io5";
 
 

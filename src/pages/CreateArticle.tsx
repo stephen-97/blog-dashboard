@@ -13,7 +13,7 @@ const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
   display: flex;
   justify-content: center;
   padding: 0;
-  background-color: #dfe0e3;
+  background-color: var(--light-gray-2);
 
   #button-plus-form-container {
     display: flex;
@@ -21,7 +21,6 @@ const StyledCreateArticlePage: IStyledComponent<any> = styled.main`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    //max-width: 55rem;
   }
   
   @media (max-width: ${props => props.theme.responsiveValue}) {

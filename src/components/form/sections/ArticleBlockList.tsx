@@ -5,11 +5,11 @@ import {update} from "../../../redux/ArticleSlice";
 import {Reorder} from "framer-motion";
 import ToggleButton from "../../utility/ToggleButton";
 import {TToggleButton} from "../../../utils/config";
-import BlockReorder from "../types/BlockReorder";
-import BlockListInfo from "./BlockListInfo";
-import BlocksListDefaultContainer from "./BlockListDefault";
+import BlockReorder from "../blocks/types/BlockReorder";
+import BlockListInfo from "../blocks/sections/BlockListInfo";
+import BlocksListDefaultContainer from "../blocks/sections/BlockListDefault";
 
-const StyledBlockListContainer = styled.section<{ $reOrderView: boolean }>`
+const StyledArticleBlockList = styled.section<{ $reOrderView: boolean }>`
 
     .paragraph-plus-images {
         display: grid;
@@ -27,10 +27,7 @@ const StyledBlockListContainer = styled.section<{ $reOrderView: boolean }>`
         margin-bottom: 1rem;
     }
 
-    .list-container {
-        background-color: #282c34;
-        border-radius: var(--border-radius);
-        padding: 1.5rem;
+    .form-section-container {
 
         .reorder-container-title {
             padding: 1rem 0;
@@ -61,11 +58,11 @@ const StyledBlockListContainer = styled.section<{ $reOrderView: boolean }>`
     }
 `;
 
-interface BlockListContainerProps extends React.HTMLProps<HTMLElement> {
+interface ArticleBlockListProps extends React.HTMLProps<HTMLElement> {
     label: string
 }
 
-const BlocksListContainer = ({label, ...props}: BlockListContainerProps) => {
+const ArticleBlockList = ({label, ...props}: ArticleBlockListProps) => {
 
     const paragraphData = useAppSelector((state) => state.article)
     const dispatch = useAppDispatch()
@@ -84,9 +81,9 @@ const BlocksListContainer = ({label, ...props}: BlockListContainerProps) => {
     ]
 
     return (
-        <StyledBlockListContainer {...props} $reOrderView={reOrderView} {...props}>
+        <StyledArticleBlockList {...props} $reOrderView={reOrderView} {...props}>
             <label>{label}</label>
-            <div className={'list-container'}>
+            <section className={'form-section-container'}>
                 <div className={'reorder-container-title'}>
                     <label>Mode d'affichage :</label>
                     <ToggleButton buttons={buttonsBlockList}/>
@@ -108,9 +105,9 @@ const BlocksListContainer = ({label, ...props}: BlockListContainerProps) => {
                         'info': <BlockListInfo/>
                     }[blockListView]
                 }
-            </div>
-        </StyledBlockListContainer>
+            </section>
+        </StyledArticleBlockList>
     )
 }
 
-export default React.memo(BlocksListContainer);
+export default React.memo(ArticleBlockList);

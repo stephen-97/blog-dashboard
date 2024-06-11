@@ -34,8 +34,6 @@ const TextArea = ({label, ...props}: StyledPragraphProps) => {
 
     const tags = ["Aventure", "RPG", "Action", "Stratégie", "MOBA"];
 
-    //onChange={(e: ChangeEvent<HTMLTextAreaElement>) => dispatch(onChangeParagraph({text :e.target.value, index: i})) }
-
 
     return (
         <StyledTags {...props}>

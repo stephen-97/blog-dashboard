@@ -16,8 +16,11 @@ export const imageFunctions = {
                     if (image.width / image.height !== 1920 / 1080) {
                         //alert("Mauvais format image, l'aspect ratio doit être de 16:9");
                         //return
+                        //callBack(image.src)
                     }
-                    callBack(image.src ?? "")
+                    if(image) {
+                        callBack(image.src)
+                    }
                 }
             }
         }

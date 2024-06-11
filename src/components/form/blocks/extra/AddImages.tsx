@@ -1,11 +1,11 @@
 import React, {createRef, useCallback, useMemo} from "react";
 import styled, {IStyledComponent} from "styled-components";
-import {onChangeTextImage} from "../../../redux/ArticleSlice";
-import {useAppDispatch, useAppSelector} from "../../../redux/store";
+import {onChangeTextImage} from "../../../../redux/ArticleSlice";
+import {useAppDispatch, useAppSelector} from "../../../../redux/store";
 import {IoCloseOutline} from "react-icons/io5";
 import {FaImage} from "react-icons/fa";
-import {TArticleTextImage} from "../../../utils/config";
-import {imageFunctions} from "../../../utils/functions";
+import {TArticleTextImage} from "../../../../utils/config";
+import {imageFunctions} from "../../../../utils/functions";
 
 const StyledAddImages: IStyledComponent<any> = styled.div`
     display: flex;

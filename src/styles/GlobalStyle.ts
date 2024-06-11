@@ -58,8 +58,8 @@ const GlobalStyle = createGlobalStyle`
     color: var(--dark-blue);
     display: inline-block;
   }
-  input {
-    width: min(100vw, 30rem);
+  input, textarea {
+    max-width: var(--max-width-input) !important;
   }
   input:not([type='image']), textarea {
     border: 2px solid ${props => props.theme.mainColor};
