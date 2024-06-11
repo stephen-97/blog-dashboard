@@ -2,7 +2,7 @@ import React from "react";
 import styled, {IStyledComponent} from "styled-components";
 import {RxCross2} from "react-icons/rx";
 
-const StyledTag: IStyledComponent<any> = styled.li`
+const StyledTag  = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,7 +25,7 @@ const StyledTag: IStyledComponent<any> = styled.li`
     }
 `;
 
-interface TagProps extends React.HTMLProps<HTMLButtonElement> {
+interface TagProps extends React.HTMLProps<HTMLDivElement> {
     label: string,
     remove: () => void
 }
@@ -33,7 +33,7 @@ interface TagProps extends React.HTMLProps<HTMLButtonElement> {
 const Tag = ({...props}: TagProps) => {
 
     return (
-        <StyledTag {...props}>
+        <StyledTag{...props}>
             <span>{props.label}</span>
             <button onClick={props.remove}>
                 <RxCross2/>

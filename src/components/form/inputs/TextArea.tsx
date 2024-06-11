@@ -1,31 +1,31 @@
 import React from "react";
-import styled, {IStyledComponent} from "styled-components";
+import styled from "styled-components";
 
-const StyledTextArea  = styled.div`
+const StyledTextArea = styled.div`
     display: flex;
     flex-direction: column;
+
     textarea {
         width: 100%;
-        outline: none;   
+        outline: none;
         font-family: Arial;
         padding: 1rem;
     }
 `;
 
-interface StyledPragraphProps extends React.HTMLProps<HTMLTextAreaElement> {
+interface TextAreaProps extends React.HTMLProps<HTMLTextAreaElement> {
     label?: string,
-    className?: string,
+    classNameContainer?: string,
 }
-const TextArea = ({...props}: StyledPragraphProps) => {
+
+const TextArea = ({classNameContainer, label, ...props}: TextAreaProps) => {
 
     return (
-        <StyledTextArea className={props.className}>
-            {props.label && <label>{props.label}</label>}
-            <textarea {...props}>
-
-            </textarea>
+        <StyledTextArea className={classNameContainer}>
+            {label && <label>{label}</label>}
+            <textarea {...props}/>
         </StyledTextArea>
     )
 }
 
-export default TextArea;
+export default React.memo(TextArea);

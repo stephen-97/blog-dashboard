@@ -1,79 +1,55 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import TextArea from "./inputs/TextArea";
-import InputLabelBorder from "./inputs/InputLabelBorder";
-import TextAreaLabelBorder from "./inputs/TextAreaLabelBorder";
-import InputTextDefault from "./inputs/InputTextDefault";
-import InputAddTextItems from "./inputs/InputAddTextItems";
-import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {onChangeConclusion} from "../../redux/ArticleConclusionsSlice";
-import {add} from "../../redux/ArticleGameTagsSlice";
-import Tag from "./buttons/Tag";
+import TextArea from "../inputs/TextArea";
+import InputAddTextItems from "../inputs/InputAddTextItems";
+import {useAppDispatch, useAppSelector} from "../../../redux/store";
+import {onChangeConclusion} from "../../../redux/ArticleConclusionsSlice";
+import Tag from "../buttons/Tag";
 
 
 const StyledConclusion = styled.div`
     display: flex;
     flex-direction: column;
 
-    .conclusion-input {
-        height: 15rem;
-    }
-
-    .form-item {
-        margin-bottom: 2rem;
-    }
-
-    .input-label-border {
-        background-color: var(--white);
-
-        &:valid ~ label,
-        &:focus ~ label {
-            background-color: var(--dark-gray-2);
-            color: var(--white);
-            border-radius: var(--border-radius);
-        }
-    }
-    
     .text-area {
         label {
             color: var(--white);
         }
+
         textarea {
             height: 15rem;
-            border-color: var(--white);  
+            border-color: var(--white);
             color: var(--white);
         }
     }
 
-    .good-bad-points-container {
+    .good-points, .bad-points {
         display: flex;
-        padding: 1rem;
-        background-color: var(--white);
-        min-height: 20rem;
-        border-radius: var(--border-radius);
-        gap: 2rem;
-        @media (max-width: 1028px)  {
-            flex-direction: column;
+        flex-direction: column;
+
+        label, input {
+            color: var(--white) !important;
         }
 
-        > * {
-            flex: 1;
+        input {
+            border-color: var(--white);
         }
 
-        h3 {
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-
-        .good-points, .bad-points {
+        ul {
             display: flex;
             flex-direction: column;
-
-            ul {
+            align-items: start;
+            gap: 0.5rem;
+            color: var(--white);
+            li {
                 display: flex;
-                flex-direction: column;
-                align-items: start;
-                gap: 0.5rem;
+                justify-content: center;
+                align-items: center;
+                gap: 1rem;
+                .tag {
+                    background-color: var(--white);
+                    color: black;
+                }   
             }
         }
     }
@@ -149,44 +125,46 @@ const ArticleConclusion = ({label, ...rest}: ArticleConclusionProps) => {
             <section className={'form-section-container'}>
                 <TextArea
                     label={'Paragraphe'}
-                    className={'form-item text-area'}
+                    classNameContainer={'form-item text-area'}
                     placeholder={"écrivez votre dernier paragraphe "}
                 />
-                <div className={'good-bad-points-container'}>
-                    <div className={'good-points'}>
-                        <h3>Points positifs</h3>
-                        <InputAddTextItems
-                            className={'add-input-component'}
-                            label={'points positifs'}
-                            handlePress={handleKeyPressAddGoodPoint}
-                            addButton={addGoodPoint}
-                            itemTagsState={{state: goodPoint, set: setGoodPoint}}
-                        />
-                        {articleGameConclusion.conclusionGoodPoints.length > 0 &&
-                            <ul>
-                                {articleGameConclusion.conclusionGoodPoints.map((e, i) =>
-                                    <Tag remove={() => removePoint('good', e)} label={e}/>
-                                )}
-                            </ul>
-                        }
-                    </div>
-                    <div className={'bad-points'}>
-                        <h3>Points à retravailler</h3>
-                        <InputAddTextItems
-                            className={'add-input-component'}
-                            label={'points à améliorer'}
-                            handlePress={handleKeyPressAddBadPoint}
-                            addButton={addBadPoint}
-                            itemTagsState={{state: badPoint, set: setBadPoint}}
-                        />
-                        {articleGameConclusion.conclusionBadPoints.length > 0 &&
-                            <ul>
-                                {articleGameConclusion.conclusionBadPoints.map((e, i) =>
-                                    <Tag remove={() => removePoint('bad', e)} label={e}/>
-                                )}
-                            </ul>
-                        }
-                    </div>
+                <div className={'good-points form-item'}>
+                    <InputAddTextItems
+                        classNameContainer={'add-input-component'}
+                        label={'Points positifs'}
+                        handlePressKeyDown={handleKeyPressAddGoodPoint}
+                        adding={addGoodPoint}
+                        itemTagsState={{state: goodPoint, set: setGoodPoint}}
+                    />
+                    {articleGameConclusion.conclusionGoodPoints.length > 0 &&
+                        <ul>
+                            {articleGameConclusion.conclusionGoodPoints.map((e, i) =>
+                                <li key={i}>
+                                    <span>- </span>
+                                    <Tag className={'tag'} remove={() => removePoint('good', e)} label={e}/>
+                                </li>
+                            )}
+                        </ul>
+                    }
+                </div>
+                <div className={'bad-points form-item'}>
+                    <InputAddTextItems
+                        className={'add-input-component'}
+                        label={'Points à améliorer'}
+                        handlePressKeyDown={handleKeyPressAddBadPoint}
+                        adding={addBadPoint}
+                        itemTagsState={{state: badPoint, set: setBadPoint}}
+                    />
+                    {articleGameConclusion.conclusionBadPoints.length > 0 &&
+                        <ul>
+                            {articleGameConclusion.conclusionBadPoints.map((e, i) =>
+                                <li key={i}>
+                                    <span>- </span>
+                                    <Tag className={'tag'} key={i} remove={() => removePoint('bad', e)} label={e}/>
+                                </li>
+                            )}
+                        </ul>
+                    }
                 </div>
             </section>
         </StyledConclusion>
@@ -195,11 +173,3 @@ const ArticleConclusion = ({label, ...rest}: ArticleConclusionProps) => {
 
 
 export default React.memo(ArticleConclusion);
-
-/**
- *    <InputLabelBorder
- *                     label={"TEST"}
- *                     className={'form-item input-label-border'}
- *                 />
- *                 <TextAreaLabelBorder label={"Résumé conclusion"} className={'form-item input-label-border'}/>
- */

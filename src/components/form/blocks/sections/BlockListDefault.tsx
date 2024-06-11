@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import {useAppSelector} from "../../../redux/store";
+import {useAppSelector} from "../../../../redux/store";
 import TextImagesBlock from "../types/TextImagesBlock";
 import AddBlockView from "../extra/AddBlockView";
 import ImagesBlock from "../types/ImagesBlock";
@@ -21,6 +21,13 @@ const StyledBlockListDefaultContainer = styled.ul`
         background-color: var(--white);
         border-radius: var(--border-radius);
         gap: 1rem;
+    }
+
+    input, textarea {
+        border: 2px solid var(--dark-gray) !important;
+    }
+    label {
+        color: var(--dark-gray) !important;
     }
 `;
 

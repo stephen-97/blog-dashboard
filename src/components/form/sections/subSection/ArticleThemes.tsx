@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import styled, {IStyledComponent} from "styled-components";
-import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {add, remove} from "../../redux/ArticleThemesSlice";
-import Tag from "../form/buttons/Tag"
-import InputAddTextItems from "./inputs/InputAddTextItems";
+import {useAppDispatch, useAppSelector} from "../../../../redux/store";
+import {add, remove} from "../../../../redux/ArticleThemesSlice";
+import Tag from "../../buttons/Tag"
+import InputAddTextItems from "../../inputs/InputAddTextItems";
 
 const StyledArticleThemes: IStyledComponent<any> = styled.div`
     display: flex;
@@ -45,8 +45,8 @@ const ArticleThemes = ({label, ...props}: ArticleThemesProps) => {
         <StyledArticleThemes {...props}>
             <label>{label}</label>
             <InputAddTextItems
-                handlePress={handleKeyPressAddTheme}
-                addButton={addTheme}
+                handlePressKeyDown={handleKeyPressAddTheme}
+                adding={addTheme}
                 itemTagsState={{state: theme, set: setTheme}}
             />
             <ul>

@@ -1,5 +1,5 @@
 import React from "react";
-import styled, {IStyledComponent} from "styled-components";
+import styled from "styled-components";
 import StyledFormInputStyle from "../../../styles/FormInputStyle";
 
 const StyledInputTextDefault  = styled.input`

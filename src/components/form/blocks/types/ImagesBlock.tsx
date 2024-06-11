@@ -1,13 +1,13 @@
 import React, {ChangeEvent, createRef, useCallback, useMemo} from "react";
-import {useAppDispatch, useAppSelector} from "../../../redux/store";
+import {useAppDispatch, useAppSelector} from "../../../../redux/store";
 import styled from "styled-components";
-import {onChangeMultipleImage, removeBlock} from "../../../redux/ArticleSlice";
+import {onChangeMultipleImage, removeBlock} from "../../../../redux/ArticleSlice";
 import BlockTitle from "../extra/BlockTitle";
 import {FaImage} from "react-icons/fa";
-import {TArticleMultipleImages} from "../../../utils/config";
-import InputTextDefault from "../../form/inputs/InputTextDefault";
+import {TArticleMultipleImages} from "../../../../utils/config";
+import InputTextDefault from "../../inputs/InputTextDefault";
 import {IoCloseOutline} from "react-icons/io5";
-import {imageFunctions} from "../../../utils/functions";
+import {imageFunctions} from "../../../../utils/functions";
 
 
 const StyledImagesBlock = styled.li`
@@ -133,17 +133,17 @@ const ImagesBlock = ({i, e, ...rest}: SwiperBlockProps) => {
         return inputTabRefs
     }, [blocksData])
 
-    const onChange = (param: 'title', value: any) => {
+    const onChange = useCallback((param: 'title', value: any) => {
         let newSliderImageObject = {...currentSliderImage};
         newSliderImageObject[param] = value;
         dispatch(onChangeMultipleImage({multipleImages: newSliderImageObject, index: i}));
-    }
+    }, [currentSliderImage]);
 
     const removeAnImage = useCallback((indexBlock: number, indexImage: number) => {
         let newSliderImageObject = {...currentSliderImage};
         newSliderImageObject['images'] = [...newSliderImageObject['images']].filter((e, i) => i!==indexImage)
         dispatch(onChangeMultipleImage({multipleImages: newSliderImageObject, index: indexBlock}));
-    }, [blocksData])
+    }, [currentSliderImage])
 
     return (
         <StyledImagesBlock {...rest}>

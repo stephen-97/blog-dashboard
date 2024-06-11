@@ -1,17 +1,11 @@
-import React, {ChangeEvent} from "react";
-import styled, {IStyledComponent} from "styled-components";
-import InputTextDefault from "../form/inputs/InputTextDefault";
-import Tags from "../form/Tags";
-import BlocksListContainer from "../blocks/sections/BlocksListContainer";
-import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {onChangeArticleTitle} from "../../redux/ArticleTitleSlice";
-import MainImage from "../form/MainImage";
+import React from "react";
+import styled from "styled-components";
+import BlocksListContainer from "../form/sections/ArticleBlockList";
 import SubmitButton from "../form/buttons/SubmitButton";
-import ArticleGameTags from "../form/ArticleGameTags";
-import ArticleThemes from "../form/ArticleThemes";
-import ArticleConclusion from "../form/ArticleConclusion";
+import ArticleConclusion from "../form/sections/ArticleConclusion";
+import ArticleIntro from "../form/sections/AritcleIntro";
 
-const StyledArticleForm: IStyledComponent<any> = styled.section`
+const StyledArticleForm = styled.div`
     min-width: 100%;
     flex: 1;
 
@@ -22,38 +16,27 @@ const StyledArticleForm: IStyledComponent<any> = styled.section`
             background-color: #282c34;
             border-radius: var(--border-radius);
             padding: 1.5rem;
+
+            input, label {
+                color: var(--white);
+            }
+
+            input {
+                border-color: var(--white);
+            }
         }
     }
 `;
 
-interface StyledArticleForm extends React.HTMLProps<HTMLElement> {
+interface StyledArticleFormProps extends React.HTMLProps<HTMLElement> {
 
 }
 
-const ArticleForm = ({...rest}: StyledArticleForm) => {
-
-    const dispatch = useAppDispatch()
-    const title = useAppSelector((state) => state.articleTitle)
-
+const ArticleForm = ({...rest}: StyledArticleFormProps) => {
     return (
         <StyledArticleForm>
-            <InputTextDefault
-                label={"Titre de l'article"}
-                placeholder={"Titre de l'article"}
-                className={'form-item'}
-                value={title}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(onChangeArticleTitle({title: e.target.value}))}
-            />
-            <ArticleGameTags
-                label={'Types de jeux'}
-                className={'form-item'}
-            />
-            <ArticleThemes
-                label={'Thèmes abordés'}
-                className={'form-item'}
-            />
-            <MainImage
-                label={"Image principale et secondaire"}
+            <ArticleIntro
+                label={'Introduction'}
                 className={'form-item'}
             />
             <BlocksListContainer

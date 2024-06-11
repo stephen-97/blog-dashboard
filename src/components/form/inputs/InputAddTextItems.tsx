@@ -1,8 +1,13 @@
 import React from "react";
-import styled, {IStyledComponent} from "styled-components";
+import styled from "styled-components";
 import {FaPlus} from "react-icons/fa";
 
-const StyledInputAddTextItems: IStyledComponent<any> = styled.div`
+const StyledInputAddTextItems = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const StyledInput = styled.div`
     position: relative;
     display: inline-block;
     margin-bottom: 1rem;
@@ -30,27 +35,32 @@ const StyledInputAddTextItems: IStyledComponent<any> = styled.div`
 `;
 
 interface InputAddTextItemsProps extends React.HTMLProps<HTMLDivElement> {
-    handlePress: (e: React.KeyboardEvent<HTMLInputElement>) => void,
-    addButton: Function,
+    handlePressKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void,
+    adding: Function,
     itemTagsState: { state: string, set: React.Dispatch<string> },
     label?: string,
+    classNameContainer?: string;
 }
 
-const InputAddTextItems = ({...props}: InputAddTextItemsProps) => {
+const InputAddTextItems = ({handlePressKeyDown, adding, itemTagsState, label, classNameContainer, ...props}: InputAddTextItemsProps) => {
 
 
     return (
-        <StyledInputAddTextItems {...props}>
-            <input
-                type={'text'}
-                placeholder={'Ajouter un genre'}
-                onChange={(e) => props.itemTagsState.set(e.target.value)}
-                onKeyDown={props.handlePress}
-                value={props.itemTagsState.state}
-            />
-            <button onClick={() => props.addButton()}>
-                <FaPlus size={25}/>
-            </button>
+        <StyledInputAddTextItems className={classNameContainer} {...props}>
+            {label && <label>{label}</label>}
+            <StyledInput>
+                <input
+                    type={'text'}
+                    placeholder={'Ajouter un genre'}
+                    onChange={(e) => itemTagsState.set(e.target.value)}
+                    onKeyDown={handlePressKeyDown}
+                    value={itemTagsState.state}
+                />
+                <button onClick={() => adding
+                ()}>
+                    <FaPlus size={25}/>
+                </button>
+            </StyledInput>
         </StyledInputAddTextItems>
     )
 }

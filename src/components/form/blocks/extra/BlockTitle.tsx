@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {BiMinusCircle} from "react-icons/bi";
-import colors from "../../../styles/colors";
+import colors from "../../../../styles/colors";
 
 
 const StyledBlockTitle = styled.div`

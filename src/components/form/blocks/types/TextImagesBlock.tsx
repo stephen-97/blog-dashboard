@@ -1,17 +1,17 @@
-import InputTextDefault from "../../form/inputs/InputTextDefault";
-import React, {ChangeEvent} from "react";
-import {onChangeTextImage, removeBlock} from "../../../redux/ArticleSlice";
-import TextArea from "../../form/inputs/TextArea";
+import InputTextDefault from "../../inputs/InputTextDefault";
+import React, {ChangeEvent, useCallback} from "react";
+import {onChangeTextImage, removeBlock} from "../../../../redux/ArticleSlice";
+import TextArea from "../../inputs/TextArea";
 import AddImages from "../extra/AddImages";
-import {useAppDispatch, useAppSelector} from "../../../redux/store";
+import {useAppDispatch, useAppSelector} from "../../../../redux/store";
 import styled from "styled-components";
-import {TArticleTextImage} from "../../../utils/config";
+import {TArticleTextImage} from "../../../../utils/config";
 import BlockTitle from "../extra/BlockTitle";
 
 
 const StyledTextImagesBlock = styled.li`
-    
-    .paragraph {
+
+    .text-area-container {
         display: flex;
         flex-direction: column;
         flex: 1;
@@ -33,19 +33,19 @@ const TextImagesBlock = ({i, e, ...rest}: TextImagesBlockProps) => {
     const currentTextImage = blockList[i] as TArticleTextImage;
     const dispatch = useAppDispatch()
 
-    const onChange = (param: 'title' | 'paragraph', value: any) => {
+    const onChange = useCallback((param: 'title' | 'paragraph', value: any) => {
         let currentTextImageClone = {...currentTextImage};
         currentTextImageClone[param] = value;
         dispatch(onChangeTextImage({textImage: currentTextImageClone, index: i}));
-    }
+    }, [currentTextImage])
 
 
     return (
         <StyledTextImagesBlock {...rest}>
             <BlockTitle
                 title={'Texte + Images'}
-                index={i+1}
-                setDeleteBlock={() =>  dispatch(removeBlock({index: i}))}
+                index={i + 1}
+                setDeleteBlock={() => dispatch(removeBlock({index: i}))}
             />
             <InputTextDefault
                 placeholder={"Titre du block"}
@@ -53,7 +53,7 @@ const TextImagesBlock = ({i, e, ...rest}: TextImagesBlockProps) => {
                 onChange={(e: ChangeEvent<HTMLInputElement>) => onChange('title', e.target.value)}
             />
             <TextArea
-                className={'paragraph'}
+                classNameContainer={'text-area-container'}
                 placeholder={'Paragraphe'}
                 onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange('paragraph', e.target.value)}
                 value={e['paragraph']}

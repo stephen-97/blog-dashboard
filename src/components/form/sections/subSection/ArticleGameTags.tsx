@@ -1,9 +1,9 @@
 import React, { useState} from "react";
 import styled, {IStyledComponent} from "styled-components";
-import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {add, remove} from "../../redux/ArticleGameTagsSlice";
-import InputAddTextItems from "./inputs/InputAddTextItems";
-import Tag from "./buttons/Tag";
+import {useAppDispatch, useAppSelector} from "../../../../redux/store";
+import {add, remove} from "../../../../redux/ArticleGameTagsSlice";
+import InputAddTextItems from "../../inputs/InputAddTextItems";
+import Tag from "../../buttons/Tag";
 
 const StyledGameTags: IStyledComponent<any> = styled.div`
   display: flex;
@@ -71,15 +71,17 @@ const ArticleGameTags = ({label, ...props}: GameTagsProps) => {
 
     return (
         <StyledGameTags {...props}>
-            <label>{label}</label>
             <InputAddTextItems
-                handlePress={handleKeyPressAddTag}
-                addButton={addGameTag}
+                handlePressKeyDown={handleKeyPressAddTag}
+                adding={addGameTag}
                 itemTagsState={{state: tag, set: setTag}}
+                label={label}
             />
             <ul>
                 {articleGameTagsData.map((tagItem, i) =>
-                    <Tag key={i} label={tagItem} remove={() => removeGameTag(tagItem)} />
+                    <li key={i}>
+                        <Tag label={tagItem} remove={() => removeGameTag(tagItem)} />
+                    </li>
                 )}
             </ul>
         </StyledGameTags>
