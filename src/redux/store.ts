@@ -1,6 +1,5 @@
 import { configureStore} from "@reduxjs/toolkit";
 import ArticleReducer from './ArticleSlice';
-import TagsSlice from './TagsSlice';
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import ArticleTitleSlice from "./ArticleTitleSlice";
 import ArticleMainImagesSlice from "./ArticleMainImages";
@@ -11,7 +10,6 @@ import ArticleConclusionSlice from "./ArticleConclusionsSlice";
 const store =configureStore({
     reducer: {
         article: ArticleReducer,
-        tags: TagsSlice,
         articleTitle: ArticleTitleSlice,
         articleMainImages: ArticleMainImagesSlice,
         articleThemes: ArticleThemes,

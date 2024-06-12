@@ -24,6 +24,15 @@ const StyledArticleForm = styled.div`
             input {
                 border-color: var(--white);
             }
+            .tag {
+                background: var(--white);
+                color: var(--dark-gray);
+            }
+            .rounded-image-button {
+                button {
+                    background-color: var(--white);
+                }
+            }
         }
     }
 `;

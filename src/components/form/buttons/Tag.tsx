@@ -30,12 +30,12 @@ interface TagProps extends React.HTMLProps<HTMLDivElement> {
     remove: () => void
 }
 
-const Tag = ({...props}: TagProps) => {
+const Tag = ({label, remove, ...props}: TagProps) => {
 
     return (
-        <StyledTag{...props}>
-            <span>{props.label}</span>
-            <button onClick={props.remove}>
+        <StyledTag {...props} className={'tag'}>
+            <span>{label}</span>
+            <button onClick={remove}>
                 <RxCross2/>
             </button>
         </StyledTag>

@@ -1,6 +1,6 @@
 import React from "react";
 import styled, {IStyledComponent} from "styled-components";
-import Header from "../components/Header";
+import Header from "../components/layout/Header";
 
 const StyledHome: IStyledComponent<any>  = styled.div`
   height: 100vh;

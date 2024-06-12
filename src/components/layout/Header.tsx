@@ -1,11 +1,11 @@
 import React, {createRef, RefObject} from "react";
 import styled, {IStyledComponent} from "styled-components";
-import {routesItem} from "../utils/config";
+import {routesItem} from "../../utils/config";
 import {Link} from "react-router-dom";
-import menuIcon from "../assets/menuIcon.svg"
+import menuIcon from "../../assets/menuIcon.svg"
 import { IoIosCreate } from "react-icons/io";
 import {BiMinusCircle} from "react-icons/bi";
-import colors from "../styles/colors";
+import colors from "../../styles/colors";
 
 const StyledHeader: IStyledComponent<any> = styled.header`
   position: fixed;

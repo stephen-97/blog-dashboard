@@ -15,12 +15,6 @@ const StyledMainImage: IStyledComponent<any> = styled.div`
         display: flex;
         gap: 1.5rem;
 
-        .main-image, .second-image {
-            button {
-                background-color: var(--white);
-            }
-        }
-
         .second-image {
             button {
                 height: 4.5rem;

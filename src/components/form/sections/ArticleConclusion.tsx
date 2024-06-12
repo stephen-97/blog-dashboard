@@ -41,15 +41,12 @@ const StyledConclusion = styled.div`
             align-items: start;
             gap: 0.5rem;
             color: var(--white);
+
             li {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 gap: 1rem;
-                .tag {
-                    background-color: var(--white);
-                    color: black;
-                }   
             }
         }
     }

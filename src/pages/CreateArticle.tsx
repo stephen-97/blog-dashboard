@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import styled, {IStyledComponent} from "styled-components";
-import Header from "../components/Header";
+import Header from "../components/layout/Header";
 import StyledPage from "../styles/PageStyle";
 import ToggleButton from "../components/utility/ToggleButton";
 import ArticleForm from "../components/view/ArticleForm";

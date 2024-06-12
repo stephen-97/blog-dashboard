@@ -8,6 +8,10 @@ import InputAddTextItems from "../../inputs/InputAddTextItems";
 const StyledArticleThemes: IStyledComponent<any> = styled.div`
     display: flex;
     flex-direction: column;
+    ul {
+        display: flex;
+        gap: 1rem;
+    }
 `;
 
 interface ArticleThemesProps extends React.HTMLProps<HTMLDivElement> {
@@ -43,11 +47,11 @@ const ArticleThemes = ({label, ...props}: ArticleThemesProps) => {
 
     return (
         <StyledArticleThemes {...props}>
-            <label>{label}</label>
             <InputAddTextItems
                 handlePressKeyDown={handleKeyPressAddTheme}
                 adding={addTheme}
                 itemTagsState={{state: theme, set: setTheme}}
+                label={label}
             />
             <ul>
                 {themesData.map((tagItem, i) =>

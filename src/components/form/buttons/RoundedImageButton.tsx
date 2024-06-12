@@ -50,7 +50,7 @@ const RoundedImageButton = ({base64Image, onChangeImage, ...rest}: RoundedImageB
     const inputImageRef = createRef<HTMLInputElement>();
 
     return (
-        <StyledRoundedImageButton $base64Image={base64Image} {...rest}>
+        <StyledRoundedImageButton $base64Image={base64Image} {...rest} className={`rounded-image-button ${rest.className}`}>
             <button
                 className={"button-add-image"}
                 onClick={() => inputImageRef.current?.click()}
