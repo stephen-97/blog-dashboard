@@ -8,6 +8,7 @@ const StyledIntroArticle = styled.div`
     flex-direction: row;
     min-height: 500px;
     padding: 0 1rem;
+    margin-bottom: 2.5rem;
     @media only screen and (max-width: 1024px) {
         padding: 1rem;
     }
@@ -114,7 +115,6 @@ interface IntroArticleProps extends React.HTMLProps<HTMLDivElement> {
 
 const IntroPreview = (props: IntroArticleProps) => {
 
-    console.log(props.tagsList)
     return (
         <StyledIntroArticle {...props}>
             <aside>

@@ -19,6 +19,9 @@ const StyledTextImagesBlock = styled.li`
             flex: 1;
         }
     }
+    input, textarea {
+        color: black !important;
+    }
 
 `;
 

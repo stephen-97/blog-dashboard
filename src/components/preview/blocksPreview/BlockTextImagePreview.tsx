@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import styled from "styled-components";
 import {TArticleTextImage} from "../../../utils/config";
 
@@ -57,12 +57,21 @@ interface IntroArticleProps extends React.HTMLProps<HTMLDivElement> {
 }
 
 
-const BlockTextImagePreview = ({i, blockElem}: IntroArticleProps) => {
+const BlockTextImagePreview = ({i, blockElem, ...props}: IntroArticleProps) => {
+
+    const paragraphLines = useMemo(() =>
+            blockElem.paragraph.split('\n')
+        , [blockElem.paragraph])
+
 
     return (
-        <StyledBlockTextImagePreview key={i}>
+        <StyledBlockTextImagePreview key={i} {...props}>
             <h3>{blockElem.title}</h3>
-            <p>{blockElem.paragraph}</p>
+            <div>
+                {paragraphLines.map((e, i) =>
+                    <p key={i}>{e}</p>
+                )}
+            </div>
             {blockElem.images.length > 0 &&
                 <ul>
                     {blockElem.images.filter(base64string => base64string.length > 0).map((image, i) =>
