@@ -4,6 +4,7 @@ import {useAppSelector} from "../../redux/store";
 import {TArticleTextImage} from "../../utils/config";
 import IntroPreview from "../preview/IntroPreview";
 import BlocksPreview from "../preview/BlocksPreview";
+import ConclusionPreview from "../preview/ConclusionPreview";
 
 const StyledArticlePreview: IStyledComponent<any> = styled.section`
     display: block;
@@ -95,6 +96,7 @@ const ArticlePreview = ({...rest}: StyledInputProps) => {
     const articleMainImages = useAppSelector((state) => state.articleMainImages)
     const articleTags = useAppSelector((state) => state.articleGameTags);
     const articleThemes = useAppSelector((state) => state.articleThemes)
+    const articleConclusion = useAppSelector((state) => state.articleConclusion);
     // const title = useAppSelector((state) => state.articleTitle)
 
 
@@ -116,8 +118,10 @@ const ArticlePreview = ({...rest}: StyledInputProps) => {
         )
     }
 
-    const showIntro = (articleMainImages.firstMainImage.length > 0) && (articleTitle.length > 0)
-    const showBlockData = blockData.length > 0
+    //const showIntro = (articleMainImages.firstMainImage.length > 0) && (articleTitle.length > 0)
+    const showIntro = useMemo(() => (articleMainImages.firstMainImage.length > 0) && (articleTitle.length > 0), [articleMainImages, articleTitle])
+    const showBlockData = useMemo(() => blockData.length > 0, [blockData])
+    const showConclusion = useMemo(() => articleConclusion.conclusionText.length > 0 , [articleConclusion])
 
     return (
         <StyledArticlePreview>
@@ -132,6 +136,10 @@ const ArticlePreview = ({...rest}: StyledInputProps) => {
             {showBlockData &&
                 <BlocksPreview
                     blockData={blockData}
+                />
+            }
+            {showConclusion &&
+                <ConclusionPreview
                 />
             }
         </StyledArticlePreview>

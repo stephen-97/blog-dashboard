@@ -7,6 +7,14 @@ import BlockSliderImagePreview from "./blocksPreview/BlockSliderImagePreview";
 const StyledBlocksPreview = styled.div`
     .block-preview {
         margin-bottom: 3rem;
+      
+        h1  {
+          margin-bottom: 2rem;
+        }
+      
+        h2, h3, h4 {
+          margin-bottom: 1rem;
+        }
     }
 `
 interface IntroArticleProps extends React.HTMLProps<HTMLDivElement> {

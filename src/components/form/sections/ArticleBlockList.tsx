@@ -29,6 +29,10 @@ const StyledArticleBlockList = styled.section<{ $reOrderView: boolean }>`
 
     .form-section-container {
 
+          input, textarea {
+            color: black !important;
+          }
+
         .reorder-container-title {
             padding: 1rem 0;
             margin-bottom: 1rem;
