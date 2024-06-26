@@ -1,10 +1,12 @@
-import React, {useState} from "react";
+import React, {ChangeEvent, useCallback, useState} from "react";
 import styled from "styled-components";
 import TextArea from "../inputs/TextArea";
 import InputAddTextItems from "../inputs/InputAddTextItems";
 import {useAppDispatch, useAppSelector} from "../../../redux/store";
 import {onChangeConclusion} from "../../../redux/ArticleConclusionsSlice";
 import Tag from "../buttons/Tag";
+import {onChangeArticleTitle} from "../../../redux/ArticleTitleSlice";
+import conclusionPreview from "../../preview/ConclusionPreview";
 
 
 const StyledConclusion = styled.div`
@@ -116,6 +118,12 @@ const ArticleConclusion = ({label, ...rest}: ArticleConclusionProps) => {
     }
 
 
+    const onChangeConclusionText = useCallback((text: string) => {
+        let newConclusion = {...articleGameConclusion};
+        newConclusion['conclusionText'] = text;
+        dispatch(onChangeConclusion({articleConclusion: newConclusion}))
+    }, [articleGameConclusion.conclusionText])
+
     return (
         <StyledConclusion {...rest}>
             <label>{label}</label>
@@ -124,6 +132,8 @@ const ArticleConclusion = ({label, ...rest}: ArticleConclusionProps) => {
                     label={'Paragraphe'}
                     classNameContainer={'form-item text-area'}
                     placeholder={"écrivez votre dernier paragraphe "}
+                    value={articleGameConclusion.conclusionText}
+                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChangeConclusionText(e.target.value)}
                 />
                 <div className={'good-points form-item'}>
                     <InputAddTextItems
