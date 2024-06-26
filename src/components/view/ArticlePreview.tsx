@@ -7,82 +7,88 @@ import BlocksPreview from "../preview/BlocksPreview";
 import ConclusionPreview from "../preview/ConclusionPreview";
 
 const StyledArticlePreview: IStyledComponent<any> = styled.section`
-    display: block;
-    width: min(60rem, 100%);
-    background-color: darkgray;
+  display: block;
+  width: min(60rem, 100%);
+  //background-color: darkgray;
+
+  h1 {
+    font-size: var(--h1);
+  }
+
+  h2 {
+    font-size: var(--h2);
+  }
+
+  h3 {
+    font-size: var(--h3);
+  }
+  
+  p {
+    line-height: 2;
+  }
+
+
+  .text-image-section {
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
 
     h1 {
-        font-size: var(--h1);
+      text-transform: uppercase;
+      font-size: var(--h1);
+      margin-bottom: 2rem;
     }
-    h2 {
-        font-size: var(--h2);
-    }
+
     h3 {
-        font-size: var(--h3);
+      font-size: var(--h3);
+      margin-bottom: 1rem;
     }
 
+    ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
 
-    .text-image-section {
-        border-radius: var(--border-radius);
-        padding: 0.5rem;
+      li {
+        overflow: hidden;
+        padding: 0 0.3rem;
+        width: 1px;
 
-        h1 {
-            text-transform: uppercase;
-            font-size: var(--h1);
-            margin-bottom: 2rem;
+        img {
+          width: 100%;
+          border-radius: var(--border-radius);
         }
+      }
 
-        h3 {
-            font-size: var(--h3);
-            margin-bottom: 1rem;
-        }
+      li:first-child:nth-last-child(1),
+      li:first-child:nth-last-child(1) ~ li {
+        width: 100%;
+      }
 
-        ul {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
+      li:first-child:nth-last-child(2),
+      li:first-child:nth-last-child(2) ~ li {
+        width: 50%;
+      }
 
-            li {
-                overflow: hidden;
-                padding: 0 0.3rem;
-                width: 1px;
-
-                img {
-                    width: 100%;
-                    border-radius: var(--border-radius);
-                }
-            }
-
-            li:first-child:nth-last-child(1),
-            li:first-child:nth-last-child(1) ~ li {
-                width: 100%;
-            }
-
-            li:first-child:nth-last-child(2),
-            li:first-child:nth-last-child(2) ~ li {
-                width: 50%;
-            }
-
-            li:first-child:nth-last-child(3),
-            li:first-child:nth-last-child(3) ~ li {
-                width: 33.333%;
-            }
-        }
+      li:first-child:nth-last-child(3),
+      li:first-child:nth-last-child(3) ~ li {
+        width: 33.333%;
+      }
     }
+  }
 
-    #no-blocks-section {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        font-weight: bolder;
-        color: var(--dark-blue);
+  #no-blocks-section {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bolder;
+    color: var(--dark-blue);
 
-        .no-blocks-error-icon {
-            height: auto;
-            width: 20vw;
-        }
+    .no-blocks-error-icon {
+      height: auto;
+      width: 20vw;
     }
+  }
 `;
 
 interface StyledInputProps extends React.HTMLProps<HTMLInputElement> {
@@ -121,7 +127,7 @@ const ArticlePreview = ({...rest}: StyledInputProps) => {
     //const showIntro = (articleMainImages.firstMainImage.length > 0) && (articleTitle.length > 0)
     const showIntro = useMemo(() => (articleMainImages.firstMainImage.length > 0) && (articleTitle.length > 0), [articleMainImages, articleTitle])
     const showBlockData = useMemo(() => blockData.length > 0, [blockData])
-    const showConclusion = useMemo(() => articleConclusion.conclusionText.length > 0 , [articleConclusion])
+    const showConclusion = useMemo(() => articleConclusion.conclusionText.length > 0, [articleConclusion])
 
     return (
         <StyledArticlePreview>
@@ -139,8 +145,7 @@ const ArticlePreview = ({...rest}: StyledInputProps) => {
                 />
             }
             {showConclusion &&
-                <ConclusionPreview
-                />
+                <ConclusionPreview/>
             }
         </StyledArticlePreview>
     )
